@@ -1,0 +1,6 @@
+import {
+  "Charles67676767/MoonDhall" @dhall,
+  "moonbitlang/core/env",
+}
+
+pkgtype(kind: "executable")

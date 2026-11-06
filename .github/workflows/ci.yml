@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned MoonBit toolchain
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- '0.10.18+6c83a7f62'
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Toolchain version
+        run: moon version --all
+      - name: Check all backends
+        run: moon check --target all --deny-warn
+      - name: Build all backends
+        run: moon build --target all --deny-warn
+      - name: Test all backends
+        run: moon test --target all --deny-warn
+      - name: Run service example
+        run: moon run examples/services
+      - name: Check formatting and generated interfaces
+        run: |
+          moon info
+          moon fmt --check
+          git diff --exit-code
+      - name: CLI integration
+        run: python3 scripts/check_cli.py

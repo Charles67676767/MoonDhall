@@ -19,7 +19,7 @@ repository = "https://github.com/Charles67676767/MoonDhall"
 
 license = "Apache-2.0"
 
-keywords = ["dhall", "configuration", "interpreter", "typechecker"]
+keywords = [ "dhall", "configuration", "interpreter", "typechecker" ]
 
 preferred_target = "wasm-gc"
 
