@@ -6,7 +6,15 @@ import {
 }
 
 // Values
+pub fn bytes_to_hex(Bytes) -> String
+
 pub fn check(String) -> Type raise DhallError
+
+pub fn decode(Bytes) -> Expr raise DhallError
+
+pub fn encode(String) -> Bytes raise DhallError
+
+pub fn encode_expr(Expr) -> Bytes raise DhallError
 
 pub fn equivalent(String, String) -> Bool raise DhallError
 
@@ -14,9 +22,15 @@ pub fn format(String) -> String raise DhallError
 
 pub fn format_expr(Expr) -> String
 
+pub fn hex_to_bytes(String) -> Bytes raise DhallError
+
 pub fn normalize(String) -> Expr raise DhallError
 
 pub fn parse(String) -> Expr raise DhallError
+
+pub fn semantic_hash(String) -> String raise DhallError
+
+pub fn sha256(Bytes) -> String
 
 pub fn to_json(String) -> String raise DhallError
 
