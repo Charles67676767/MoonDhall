@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/dhall-lang/dhall-lang",
+  "revision": "56b0997a4800bfc815ea221529a6bb2bfd6723dc",
+  "license": "BSD-3-Clause",
+  "suites": [
+    "parser",
+    "normalization",
+    "type-inference",
+    "alpha-normalization",
+    "semantic-hash",
+    "binary-decode",
+    "import"
+  ],
+  "policy": "Reports must include failed and unsupported cases; no claim of full conformance from a selected subset."
+}
