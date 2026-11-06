@@ -8,6 +8,14 @@ import {
 // Values
 pub fn check(String) -> Type raise DhallError
 
+pub fn equivalent(String, String) -> Bool raise DhallError
+
+pub fn format(String) -> String raise DhallError
+
+pub fn format_expr(Expr) -> String
+
+pub fn normalize(String) -> Expr raise DhallError
+
 pub fn parse(String) -> Expr raise DhallError
 
 pub fn to_json(String) -> String raise DhallError
@@ -18,36 +26,60 @@ pub fn type_of(Expr) -> Type raise DhallError
 pub suberror DhallError {
   Syntax(String, Int32)
   TypeError(String)
+  TypeAt(String, Int32)
   Evaluation(String)
   JsonError(String)
+  ImportError(String)
+  MissingImport(String)
+  BinaryError(String)
 } derive(@debug.Debug)
 pub fn DhallError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
 pub(all) enum Expr {
+  At(Int32, Int32, Expr)
   Boolean(Bool)
   Natural(Int64)
+  BigNatural(String)
+  Integer(String)
+  Real(Double)
   Text(String)
+  Interpolate(Array[(String, Expr)], String)
   Variable(String, Int32)
-  Let(String, Type?, Expr, Expr)
-  Lambda(String, Type, Expr)
+  Builtin(String)
+  Universe(Int32)
+  Let(String, Expr?, Expr, Expr)
+  Lambda(String, Expr, Expr)
+  Pi(String, Expr, Expr)
   Apply(Expr, Expr)
   Record(Array[(String, Expr)])
+  RecordType(Array[(String, Expr)])
+  UnionType(Array[(String, Expr?)])
   Field(Expr, String)
+  Project(Expr, Array[String])
   List(Array[Expr])
-  Annotate(Expr, Type)
+  Annotate(Expr, Expr)
   If(Expr, Expr, Expr)
   Binary(String, Expr, Expr)
-} derive(@debug.Debug)
+  Merge(Expr, Expr, Expr?)
+  Assert(Expr)
+  Import(ImportSpec)
+} derive(Eq, @debug.Debug)
+pub fn Expr::equal(Self, Self) -> Bool
+pub fn Expr::not_equal(Self, Self) -> Bool
 pub fn Expr::to_repr(Self) -> @debug.Repr
 
-pub(all) enum Type {
-  BoolType
-  NaturalType
-  TextType
-  ListType(Type)
-  RecordType(Array[(String, Type)])
-  FunctionType(Type, Type)
+pub(all) struct ImportSpec {
+  path : String
+  mode : String
+  hash : String?
+} derive(Eq, @debug.Debug)
+pub fn ImportSpec::equal(Self, Self) -> Bool
+pub fn ImportSpec::not_equal(Self, Self) -> Bool
+pub fn ImportSpec::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Type {
+  expression : Expr
 } derive(Eq, @debug.Debug)
 pub fn Type::display(Self) -> String
 pub fn Type::equal(Self, Self) -> Bool

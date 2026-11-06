@@ -1,8 +1,10 @@
 ///|
 priv enum TokenKind {
   Word(String)
-  Digits(String)
-  Quoted(String)
+  Number(String)
+  Quoted(String, Bool)
+  Path(String)
+  Label(String)
   Symbol(String)
   End
 } derive(Debug, Eq)
@@ -11,6 +13,7 @@ priv enum TokenKind {
 priv struct Token {
   kind : TokenKind
   offset : Int32
+  end : Int32
 }
 
 ///|
@@ -24,6 +27,15 @@ fn identifier_part(c : Char) -> Bool {
 }
 
 ///|
+fn chars_text(chars : Array[Char], start : Int32, end : Int32) -> String {
+  let b = StringBuilder()
+  for i in start..<end {
+    b.write_char(chars[i])
+  }
+  b.to_string()
+}
+
+///|
 fn lex(source : String) -> Array[Token] raise DhallError {
   let chars = source.to_array()
   let tokens : Array[Token] = []
@@ -33,7 +45,7 @@ fn lex(source : String) -> Array[Token] raise DhallError {
       raise Syntax("Token limit exceeded", i)
     }
     let c = chars[i]
-    if c == ' ' || c == '\n' || c == '\r' || c == '\t' {
+    if [' ', '\n', '\r', '\t'].contains(c) {
       i += 1
       continue
     }
@@ -66,91 +78,201 @@ fn lex(source : String) -> Array[Token] raise DhallError {
       continue
     }
     let start = i
-    if c == '"' {
-      let raw = StringBuilder()
-      raw.write_char(c)
+    let rest = chars_text(chars, i, min_int(i + 8, chars.length()))
+    if rest.has_prefix("./") ||
+      rest.has_prefix("../") ||
+      rest.has_prefix("~/") ||
+      rest.has_prefix("https://") ||
+      rest.has_prefix("http://") ||
+      rest.has_prefix("env:") ||
+      (
+        c == '/' &&
+        i + 1 < chars.length() &&
+        chars[i + 1] != '/' &&
+        chars[i + 1] != '\\'
+      ) {
+      while i < chars.length() &&
+            ![' ', '\n', '\r', '\t', ')', ']', '}', ','].contains(chars[i]) {
+        i += 1
+      }
+      tokens.push({
+        kind: Path(chars_text(chars, start, i)),
+        offset: start,
+        end: i,
+      })
+      continue
+    }
+    if c.to_int() == 96 {
       i += 1
+      let begin = i
+      while i < chars.length() && chars[i].to_int() != 96 {
+        i += 1
+      }
+      if i == chars.length() {
+        raise Syntax("Unterminated quoted label", start)
+      }
+      let name = chars_text(chars, begin, i)
+      i += 1
+      tokens.push({ kind: Label(name), offset: start, end: i, })
+      continue
+    }
+    let multiline = c == '\'' && i + 1 < chars.length() && chars[i + 1] == '\''
+    if c == '"' || multiline {
+      i += if multiline { 2 } else { 1 }
+      let begin = i
+      let mut nesting = 0
       let mut closed = false
       while i < chars.length() {
-        let ch = chars[i]
-        raw.write_char(ch)
-        i += 1
-        if ch == '"' {
+        if multiline &&
+          i + 2 < chars.length() &&
+          chars[i] == '\'' &&
+          chars[i + 1] == '\'' &&
+          (chars[i + 2] == '\'' || chars[i + 2] == '$') {
+          i += 3
+          continue
+        }
+        if !multiline && chars[i] == '\\' {
+          i += 2
+          continue
+        }
+        if chars[i] == '$' && i + 1 < chars.length() && chars[i + 1] == '{' {
+          nesting += 1
+          i += 2
+          continue
+        }
+        if nesting > 0 {
+          if chars[i] == '{' {
+            nesting += 1
+          } else if chars[i] == '}' {
+            nesting -= 1
+          } else if chars[i] == '"' {
+            i += 1
+            while i < chars.length() && chars[i] != '"' {
+              if chars[i] == '\\' {
+                i += 1
+              }
+              i += 1
+            }
+          }
+          i += 1
+          continue
+        }
+        if (!multiline && chars[i] == '"') ||
+          (
+            multiline &&
+            i + 1 < chars.length() &&
+            chars[i] == '\'' &&
+            chars[i + 1] == '\''
+          ) {
+          let text = chars_text(chars, begin, i)
+          i += if multiline { 2 } else { 1 }
+          tokens.push({ kind: Quoted(text, multiline), offset: start, end: i, })
           closed = true
           break
         }
-        if ch == '\\' {
-          if i == chars.length() {
-            break
-          }
-          raw.write_char(chars[i])
-          i += 1
-        } else if ch == '$' && i < chars.length() && chars[i] == '{' {
-          raise Syntax("Text interpolation is not supported yet", start)
-        }
+        i += 1
       }
       if !closed {
         raise Syntax("Unterminated text literal", start)
       }
-      let value = @json.parse(raw.to_string()) catch {
-        _ => raise Syntax("Invalid text escape or control character", start)
-      }
-      guard value is String(text) else { raise Syntax("Invalid text", start) }
-      tokens.push({ kind: Quoted(text), offset: start, })
       continue
     }
-    if c >= '0' && c <= '9' {
-      let digits = StringBuilder()
+    if (c >= '0' && c <= '9') ||
+      (
+        (c == '+' || c == '-') &&
+        i + 1 < chars.length() &&
+        chars[i + 1] >= '0' &&
+        chars[i + 1] <= '9'
+      ) {
+      i += 1
       while i < chars.length() && chars[i] >= '0' && chars[i] <= '9' {
-        digits.write_char(chars[i])
         i += 1
       }
-      tokens.push({ kind: Digits(digits.to_string()), offset: start, })
+      if i + 1 < chars.length() &&
+        chars[i] == '.' &&
+        chars[i + 1] >= '0' &&
+        chars[i + 1] <= '9' {
+        i += 1
+        while i < chars.length() && chars[i] >= '0' && chars[i] <= '9' {
+          i += 1
+        }
+      }
+      if i < chars.length() && (chars[i] == 'e' || chars[i] == 'E') {
+        i += 1
+        if i < chars.length() && (chars[i] == '+' || chars[i] == '-') {
+          i += 1
+        }
+        let exponent = i
+        while i < chars.length() && chars[i] >= '0' && chars[i] <= '9' {
+          i += 1
+        }
+        if i == exponent {
+          raise Syntax("Missing exponent digits", i)
+        }
+      }
+      tokens.push({
+        kind: Number(chars_text(chars, start, i)),
+        offset: start,
+        end: i,
+      })
       continue
     }
     if identifier_start(c) {
-      let word = StringBuilder()
+      i += 1
       while i < chars.length() && identifier_part(chars[i]) {
-        word.write_char(chars[i])
         i += 1
       }
-      tokens.push({ kind: Word(word.to_string()), offset: start, })
+      let name = chars_text(chars, start, i)
+      if name == "sha256" && i < chars.length() && chars[i] == ':' {
+        i += 1
+        while i < chars.length() &&
+              (
+                (chars[i] >= '0' && chars[i] <= '9') ||
+                (chars[i] >= 'a' && chars[i] <= 'f')
+              ) {
+          i += 1
+        }
+      }
+      tokens.push({
+        kind: Word(chars_text(chars, start, i)),
+        offset: start,
+        end: i,
+      })
       continue
     }
-    let single = c.to_string()
-    if i + 1 < chars.length() {
-      let pair = single + chars[i + 1].to_string()
-      if pair == "->" ||
-        pair == "&&" ||
-        pair == "||" ||
-        pair == "==" ||
-        pair == "!=" ||
-        pair == "++" ||
-        pair == "//" {
-        tokens.push({ kind: Symbol(pair), offset: start, })
+    let mut symbol = c.to_string()
+    let remaining = chars_text(chars, i, min_int(i + 3, chars.length()))
+    if remaining == "===" {
+      symbol = "==="
+      i += 3
+    } else {
+      let pair = chars_text(chars, i, min_int(i + 2, chars.length()))
+      if ["->", "&&", "||", "==", "!=", "++", "//", "/\\", "::"].contains(pair) {
+        symbol = pair
         i += 2
-        continue
+      } else {
+        i += 1
       }
     }
-    let symbol = match c {
-      'λ' => "\\"
-      '→' => "->"
-      _ => single
+    symbol = match symbol {
+      "λ" => "\\"
+      "→" => "->"
+      "∀" => "forall"
+      "∧" => "/\\"
+      "⫽" => "//"
+      "≡" => "==="
+      _ => symbol
     }
-    if ["(", ")", "{", "}", "[", "]", ",", ":", "=", ".", "\\", "+", "*", "@"].contains(
-        symbol,
-      ) ||
-      c == 'λ' ||
-      c == '→' {
-      tokens.push({ kind: Symbol(symbol), offset: start, })
-      i += 1
+    if [
+        "(", ")", "{", "}", "[", "]", ",", ":", "=", ".", "\\", "+", "*", "@", "#",
+        "<", ">", "|", "?", "->", "&&", "||", "==", "!=", "++", "//", "/\\", "::",
+        "===", "forall",
+      ].contains(symbol) {
+      tokens.push({ kind: Symbol(symbol), offset: start, end: i, })
     } else {
-      raise Syntax("Unsupported character: " + single, start)
-    }
-    if tokens.length() > 20000 {
-      raise Syntax("Token limit exceeded", start)
+      raise Syntax("Unsupported character: " + symbol, start)
     }
   }
-  tokens.push({ kind: End, offset: chars.length(), })
+  tokens.push({ kind: End, offset: chars.length(), end: chars.length(), })
   tokens
 }

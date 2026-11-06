@@ -38,115 +38,38 @@ fn Parser::expect(self : Parser, kind : TokenKind) -> Unit raise DhallError {
 ///|
 fn Parser::name(self : Parser) -> String raise DhallError {
   match self.peek() {
-    Word(name) => {
-      if [
-          "let", "in", "if", "then", "else", "True", "False", "Bool", "Natural",
-          "Text", "List",
-        ].contains(name) {
-        raise Syntax(
-          "Reserved word cannot be used as a label: " + name,
-          self.offset(),
-        )
-      }
+    Word(s) if ![
+        "let", "in", "if", "then", "else", "as", "assert", "forall", "merge", "True",
+        "False",
+      ].contains(s) => {
       self.index += 1
-      name
+      s
     }
-    _ => raise Syntax("Expected an identifier", self.offset())
-  }
-}
-
-///|
-fn Parser::enter(self : Parser) -> Unit raise DhallError {
-  self.depth += 1
-  if self.depth > 128 {
-    raise Syntax("Nesting limit exceeded", self.offset())
-  }
-}
-
-///|
-fn Parser::read_type(self : Parser) -> Type raise DhallError {
-  self.enter()
-  let t = if self.accept(Word("Bool")) {
-    BoolType
-  } else if self.accept(Word("Natural")) {
-    NaturalType
-  } else if self.accept(Word("Text")) {
-    TextType
-  } else if self.accept(Word("List")) {
-    ListType(self.type_atom())
-  } else if self.accept(Symbol("(")) {
-    let t = self.read_type()
-    self.expect(Symbol(")"))
-    t
-  } else if self.accept(Symbol("{")) {
-    let fields : Array[(String, Type)] = []
-    if !self.accept(Symbol("}")) {
-      while true {
-        let name = self.name()
-        if fields.any(fn(f) { f.0 == name }) {
-          raise Syntax("Duplicate type field: " + name, self.offset())
-        }
-        self.expect(Symbol(":"))
-        fields.push((name, self.read_type()))
-        if self.accept(Symbol("}")) {
-          break
-        }
-        self.expect(Symbol(","))
-      }
+    Label(s) => {
+      self.index += 1
+      s
     }
-    RecordType(sorted_types(fields))
-  } else {
-    raise Syntax("Expected a supported type", self.offset())
+    _ => raise Syntax("Expected a label", self.offset())
   }
-  let result = if self.accept(Symbol("->")) {
-    FunctionType(t, self.read_type())
-  } else {
-    t
-  }
-  self.depth -= 1
-  result
-}
-
-///|
-fn Parser::type_atom(self : Parser) -> Type raise DhallError {
-  self.enter()
-  let result = if self.accept(Symbol("(")) {
-    let t = self.read_type()
-    self.expect(Symbol(")"))
-    t
-  } else if self.accept(Word("Bool")) {
-    BoolType
-  } else if self.accept(Word("Natural")) {
-    NaturalType
-  } else if self.accept(Word("Text")) {
-    TextType
-  } else if self.accept(Word("List")) {
-    ListType(self.type_atom())
-  } else {
-    raise Syntax(
-      "Expected an atomic type; parenthesize record or function types",
-      self.offset(),
-    )
-  }
-  self.depth -= 1
-  result
 }
 
 ///|
 fn Parser::expression(self : Parser) -> Expr raise DhallError {
-  self.enter()
+  self.depth += 1
+  if self.depth > 128 {
+    raise Syntax("Nesting limit exceeded", self.offset())
+  }
+  let start = self.offset()
   let expr = if self.accept(Word("let")) {
     let name = self.name()
     let annotation = if self.accept(Symbol(":")) {
-      Some(self.read_type())
+      Some(self.expression())
     } else {
       None
     }
     self.expect(Symbol("="))
     let value = self.expression()
-    if self.accept(Word("let")) {
-      self.index -= 1
-    } else {
+    if self.peek() != Word("let") {
       self.expect(Word("in"))
     }
     Let(name, annotation, value, self.expression())
@@ -154,38 +77,59 @@ fn Parser::expression(self : Parser) -> Expr raise DhallError {
     self.expect(Symbol("("))
     let name = self.name()
     self.expect(Symbol(":"))
-    let t = self.read_type()
+    let t = self.expression()
     self.expect(Symbol(")"))
     self.expect(Symbol("->"))
     Lambda(name, t, self.expression())
+  } else if self.accept(Word("forall")) || self.accept(Symbol("forall")) {
+    self.expect(Symbol("("))
+    let name = self.name()
+    self.expect(Symbol(":"))
+    let t = self.expression()
+    self.expect(Symbol(")"))
+    self.expect(Symbol("->"))
+    Pi(name, t, self.expression())
   } else if self.accept(Word("if")) {
     let condition = self.expression()
     self.expect(Word("then"))
     let yes = self.expression()
     self.expect(Word("else"))
     If(condition, yes, self.expression())
+  } else if self.accept(Word("assert")) {
+    self.expect(Symbol(":"))
+    Assert(self.expression())
   } else {
     self.binary(0)
   }
-  let result = if self.accept(Symbol(":")) {
-    Annotate(expr, self.read_type())
+  let expr = if self.accept(Symbol("->")) {
+    Pi("_", expr, self.expression())
+  } else {
+    expr
+  }
+  let expr = if self.accept(Symbol(":")) {
+    Annotate(expr, self.expression())
   } else {
     expr
   }
   self.depth -= 1
-  result
+  At(start, self.tokens[self.index - 1].end, expr)
 }
 
 ///|
 fn precedence(op : String) -> Int32 {
   match op {
-    "||" => 1
-    "++" => 2
-    "+" => 3
-    "&&" => 4
-    "//" => 5
-    "*" => 6
-    "==" | "!=" => 7
+    "===" => 0
+    "?" => 1
+    "||" => 2
+    "++" => 3
+    "+" => 4
+    "#" => 5
+    "&&" => 6
+    "/\\" => 7
+    "//" => 8
+    "*" => 9
+    "==" => 10
+    "!=" => 11
     _ => -1
   }
 }
@@ -203,8 +147,18 @@ fn Parser::binary(self : Parser, minimum : Int32) -> Expr raise DhallError {
 ///|
 fn starts_atom(kind : TokenKind) -> Bool {
   match kind {
-    Digits(_) | Quoted(_) | Symbol("(") | Symbol("{") | Symbol("[") => true
-    Word(s) => !["let", "in", "then", "else", "if"].contains(s)
+    Number(_)
+    | Quoted(_, _)
+    | Path(_)
+    | Label(_)
+    | Symbol("(")
+    | Symbol("{")
+    | Symbol("[")
+    | Symbol("<") => true
+    Word(s) =>
+      !["let", "in", "then", "else", "if", "as", "forall", "with", "assert"].contains(
+        s,
+      )
     _ => false
   }
 }
@@ -222,37 +176,71 @@ fn Parser::application(self : Parser) -> Expr raise DhallError {
 fn Parser::project(self : Parser) -> Expr raise DhallError {
   let mut expr = self.atom()
   while self.accept(Symbol(".")) {
-    expr = Field(expr, self.name())
+    if self.accept(Symbol("{")) {
+      let names : Array[String] = []
+      if !self.accept(Symbol("}")) {
+        while true {
+          let name = self.name()
+          if names.contains(name) {
+            raise Syntax("Duplicate projection label", self.offset())
+          }
+          names.push(name)
+          if self.accept(Symbol("}")) {
+            break
+          }
+          self.expect(Symbol(","))
+          if self.accept(Symbol("}")) {
+            break
+          }
+        }
+      }
+      expr = Project(expr, names)
+    } else {
+      expr = Field(expr, self.name())
+    }
   }
   expr
 }
 
 ///|
-fn natural_literal(s : String, offset : Int32) -> Int64 raise DhallError {
-  let mut value = 0L
-  for c in s.to_array() {
-    let digit = (c.to_int() - 48).to_int64()
-    if value > (9223372036854775807L - digit) / 10L {
-      raise Syntax(
-        "Natural exceeds this implementation's signed 64-bit range", offset,
-      )
+fn number_expr(s : String, offset : Int32) -> Expr raise DhallError {
+  if s.contains(".") || s.contains("e") || s.contains("E") {
+    let value = @string.parse_double(s[:]) catch {
+      _ => raise Syntax("Invalid Double", offset)
     }
-    value = value * 10L + digit
+    Real(value)
+  } else if s.has_prefix("+") || s.has_prefix("-") {
+    Integer(if s.has_prefix("+") { s[1:].to_owned() } else { s })
+  } else {
+    let n = @bigint.BigInt::from_string(s)
+    if n.compare_int64(9223372036854775807L) <= 0 {
+      Natural(n.to_int64())
+    } else {
+      BigNatural(n.to_string())
+    }
   }
-  value
+}
+
+///|
+fn dotted_record(names : Array[String], value : Expr) -> Expr {
+  let mut expr = value
+  for i = names.length() - 1; i >= 0; i = i - 1 {
+    expr = Record([(names[i], expr)])
+  }
+  expr
 }
 
 ///|
 fn Parser::atom(self : Parser) -> Expr raise DhallError {
-  let offset = self.offset()
-  match self.peek() {
-    Digits(s) => {
+  let start = self.offset()
+  let expr = match self.peek() {
+    Number(s) => {
       self.index += 1
-      Natural(natural_literal(s, offset))
+      number_expr(s, start)
     }
-    Quoted(s) => {
+    Quoted(text, multiline) => {
       self.index += 1
-      Text(s)
+      parse_text(text, multiline, start, self.depth)
     }
     Word("True") => {
       self.index += 1
@@ -262,24 +250,85 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
       self.index += 1
       Boolean(false)
     }
-    Word(_) => {
-      let name = self.name()
-      let index = if self.accept(Symbol("@")) {
-        match self.peek() {
-          Digits(s) => {
-            self.index += 1
-            let n = natural_literal(s, offset)
-            if n > 20000L {
-              raise Syntax("Variable index limit exceeded", offset)
-            }
-            n.to_int()
+    Word("Type") => {
+      self.index += 1
+      Universe(0)
+    }
+    Word("Kind") => {
+      self.index += 1
+      Universe(1)
+    }
+    Word("Sort") => {
+      self.index += 1
+      Universe(2)
+    }
+    Word("NaN") => {
+      self.index += 1
+      Real(0.0 / 0.0)
+    }
+    Word("Infinity") => {
+      self.index += 1
+      Real(1.0 / 0.0)
+    }
+    Word("merge") => {
+      self.index += 1
+      let handlers = self.project()
+      let union = self.project()
+      Merge(handlers, union, None)
+    }
+    Word("missing") => {
+      self.index += 1
+      Import({ path: "missing", mode: "Code", hash: None, })
+    }
+    Path(path) => {
+      self.index += 1
+      let hash = match self.peek() {
+        Word(s) if s.has_prefix("sha256:") => {
+          self.index += 1
+          if s.length() != 71 {
+            raise Syntax("Expected 64 hexadecimal hash digits", self.offset())
           }
-          _ => raise Syntax("Expected a variable index", self.offset())
+          Some(s[7:].to_owned())
         }
-      } else {
-        0
+        _ => None
       }
-      Variable(name, index)
+      let mode = if self.accept(Word("as")) {
+        let name = self.name()
+        if !["Text", "Location"].contains(name) {
+          raise Syntax("Expected Text or Location import mode", self.offset())
+        }
+        name
+      } else {
+        "Code"
+      }
+      Import({ path, mode, hash, })
+    }
+    Word(s) | Label(s) => {
+      self.index += 1
+      if builtin_signature(s) is Some(_) ||
+        [
+          "Bool", "Natural", "Integer", "Double", "Text", "List", "Optional", "Some",
+          "None",
+        ].contains(s) {
+        Builtin(s)
+      } else {
+        let index = if self.accept(Symbol("@")) {
+          match self.peek() {
+            Number(n) => {
+              self.index += 1
+              let value = number_expr(n, start)
+              guard value is Natural(v) && v <= 20000L else {
+                raise Syntax("Invalid variable index", start)
+              }
+              v.to_int()
+            }
+            _ => raise Syntax("Expected variable index", self.offset())
+          }
+        } else {
+          0
+        }
+        Variable(s, index)
+      }
     }
     Symbol("(") => {
       self.index += 1
@@ -289,30 +338,70 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
     }
     Symbol("{") => {
       self.index += 1
-      let fields : Array[(String, Expr)] = []
       if self.accept(Symbol("=")) {
         self.expect(Symbol("}"))
-        return Record(fields)
-      }
-      if self.peek() == Symbol("}") {
-        raise Syntax("An empty record value is written {=}", offset)
-      }
-      while true {
-        let name = self.name()
-        if fields.any(fn(f) { f.0 == name }) {
-          raise Syntax(
-            "Duplicate record fields are not supported yet: " + name,
-            offset,
-          )
+        Record([])
+      } else if self.accept(Symbol("}")) {
+        RecordType([])
+      } else {
+        let fields : Array[(String, Expr)] = []
+        let mut is_type : Bool? = None
+        while true {
+          let names : Array[String] = [self.name()]
+          while self.accept(Symbol(".")) {
+            names.push(self.name())
+          }
+          let t = if self.accept(Symbol(":")) {
+            true
+          } else {
+            self.expect(Symbol("="))
+            false
+          }
+          if is_type is Some(old) && old != t {
+            raise Syntax("Cannot mix record types and values", self.offset())
+          }
+          is_type = Some(t)
+          let value = self.expression()
+          if t {
+            if names.length() != 1 || fields.any(f => f.0 == names[0]) {
+              raise Syntax("Invalid record type field", start)
+            }
+            fields.push((names[0], value))
+          } else {
+            let value = if names.length() > 1 {
+              dotted_record(names[1:].to_owned(), value)
+            } else {
+              value
+            }
+            let mut existing = -1
+            for i in 0..<fields.length() {
+              if fields[i].0 == names[0] {
+                existing = i
+              }
+            }
+            if existing >= 0 {
+              fields[existing] = (
+                names[0],
+                Binary("/\\", fields[existing].1, value),
+              )
+            } else {
+              fields.push((names[0], value))
+            }
+          }
+          if self.accept(Symbol("}")) {
+            break
+          }
+          self.expect(Symbol(","))
+          if self.accept(Symbol("}")) {
+            break
+          }
         }
-        self.expect(Symbol("="))
-        fields.push((name, self.expression()))
-        if self.accept(Symbol("}")) {
-          break
+        if is_type == Some(true) {
+          RecordType(fields)
+        } else {
+          Record(fields)
         }
-        self.expect(Symbol(","))
       }
-      Record(fields)
     }
     Symbol("[") => {
       self.index += 1
@@ -324,26 +413,201 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
             break
           }
           self.expect(Symbol(","))
+          if self.accept(Symbol("]")) {
+            break
+          }
         }
       }
       List(items)
     }
+    Symbol("<") => {
+      self.index += 1
+      let fields : Array[(String, Expr?)] = []
+      if !self.accept(Symbol(">")) {
+        while true {
+          let name = self.name()
+          if fields.any(f => f.0 == name) {
+            raise Syntax("Duplicate union alternative", start)
+          }
+          let t = if self.accept(Symbol(":")) {
+            Some(self.expression())
+          } else {
+            None
+          }
+          fields.push((name, t))
+          if self.accept(Symbol(">")) {
+            break
+          }
+          self.expect(Symbol("|"))
+        }
+      }
+      UnionType(fields)
+    }
     _ =>
       raise Syntax(
         "Expected an expression, found \{@debug.repr(self.peek())}",
-        offset,
+        start,
       )
+  }
+  At(start, self.tokens[self.index - 1].end, expr)
+}
+
+///|
+fn dedent_text(raw : String) -> String {
+  let raw = if raw.has_prefix("\r\n") {
+    raw[2:].to_owned()
+  } else if raw.has_prefix("\n") {
+    raw[1:].to_owned()
+  } else {
+    raw
+  }
+  let lines = raw.split("\n").to_array()
+  let mut indent = 2147483647
+  for line in lines {
+    let chars = line.to_array()
+    let mut count = 0
+    while count < chars.length() &&
+          (chars[count] == ' ' || chars[count] == '\t') {
+      count += 1
+    }
+    if count < chars.length() || line == lines[lines.length() - 1] {
+      indent = min_int(indent, count)
+    }
+  }
+  if indent == 2147483647 {
+    indent = 0
+  }
+  lines
+  .map(line => {
+    let c = line.to_array()
+    chars_text(c, min_int(indent, c.length()), c.length())
+  })
+  .join("\n")
+}
+
+///|
+fn decode_text(raw : String, offset : Int32) -> String raise DhallError {
+  let json = @json.parse("\"" + raw + "\"") catch {
+    _ => raise Syntax("Invalid text escape or control character", offset)
+  }
+  guard json is String(text) else { raise Syntax("Invalid Text", offset) }
+  text
+}
+
+///|
+fn parse_text(
+  input : String,
+  multiline : Bool,
+  offset : Int32,
+  depth : Int32,
+) -> Expr raise DhallError {
+  let raw = if multiline { dedent_text(input) } else { input }
+  let chars = raw.to_array()
+  let parts : Array[(String, Expr)] = []
+  let mut literal = StringBuilder()
+  let mut i = 0
+  while i < chars.length() {
+    if !multiline && chars[i] == '\\' {
+      if i + 2 < chars.length() && chars[i + 1] == '$' && chars[i + 2] == '{' {
+        literal.write_string(interpolation_start())
+        i += 3
+        continue
+      }
+      if i + 1 >= chars.length() {
+        raise Syntax("Unterminated escape", offset + i)
+      }
+      literal.write_char(chars[i])
+      literal.write_char(chars[i + 1])
+      i += 2
+      continue
+    }
+    if multiline &&
+      i + 2 < chars.length() &&
+      chars[i] == '\'' &&
+      chars[i + 1] == '\'' {
+      if chars[i + 2] == '\'' {
+        literal.write_string("''")
+        i += 3
+        continue
+      }
+      if chars[i + 2] == '$' && i + 3 < chars.length() && chars[i + 3] == '{' {
+        literal.write_string(interpolation_start())
+        i += 4
+        continue
+      }
+    }
+    if chars[i] == '$' && i + 1 < chars.length() && chars[i + 1] == '{' {
+      let begin = i + 2
+      i = begin
+      let mut nesting = 1
+      while i < chars.length() && nesting > 0 {
+        if chars[i] == '{' {
+          nesting += 1
+        } else if chars[i] == '}' {
+          nesting -= 1
+        } else if chars[i] == '"' {
+          i += 1
+          while i < chars.length() && chars[i] != '"' {
+            if chars[i] == '\\' {
+              i += 1
+            }
+            i += 1
+          }
+        }
+        if nesting > 0 {
+          i += 1
+        }
+      }
+      if nesting != 0 {
+        raise Syntax("Unterminated interpolation", offset + begin)
+      }
+      let source = chars_text(chars, begin, i)
+      let expr = parse_internal(source, offset + begin + 1, depth + 1)
+      let text = literal.to_string()
+      literal = StringBuilder()
+      parts.push(
+        (if multiline { text } else { decode_text(text, offset) }, expr),
+      )
+      i += 1
+    } else {
+      literal.write_char(chars[i])
+      i += 1
+    }
+  }
+  let tail = if multiline {
+    literal.to_string()
+  } else {
+    decode_text(literal.to_string(), offset)
+  }
+  if parts.is_empty() {
+    Text(tail)
+  } else {
+    Interpolate(parts, tail)
   }
 }
 
 ///|
-/// Parse a supported Dhall expression. Offsets count Unicode scalar values.
-pub fn parse(source : String) -> Expr raise DhallError {
-  if source.length() > 262144 {
-    raise Syntax("Source exceeds 256 Ki UTF-16 code units", 0)
+fn parse_internal(
+  source : String,
+  base : Int32,
+  depth : Int32,
+) -> Expr raise DhallError {
+  if source.length() > 262144 || depth > 128 {
+    raise Syntax("Source or nesting limit exceeded", base)
   }
-  let parser = { tokens: lex(source), index: 0, depth: 0, }
+  let tokens = lex(source)
+  let shifted = tokens.map(t => Token::{
+    kind: t.kind,
+    offset: t.offset + base,
+    end: t.end + base,
+  })
+  let parser = Parser::{ tokens: shifted, index: 0, depth, }
   let expr = parser.expression()
   parser.expect(End)
   expr
+}
+
+///|
+pub fn parse(source : String) -> Expr raise DhallError {
+  parse_internal(source, 0, 0)
 }

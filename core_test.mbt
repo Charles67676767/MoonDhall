@@ -144,7 +144,7 @@ test "ill typed programs fail before evaluation" {
       let _ = @MoonDhall.to_json(source)
       false
     } catch {
-      @MoonDhall.TypeError(_) => true
+      @MoonDhall.TypeError(_) | @MoonDhall.TypeAt(_, _) => true
       _ => false
     }
     assert_true(rejected, msg=source)
@@ -155,9 +155,7 @@ test "ill typed programs fail before evaluation" {
 test "invalid syntax and unsupported features are rejected" {
   for
     source in [
-      "", "1 )", "\"unterminated", "{- unterminated", "{ a = 1, a = 2 }", "let x = 1",
-      "[1,]", "{ }", "9223372036854775808", "./other.dhall", "https://example.invalid/config",
-      "\"bad\\q\"",
+      "", "1 )", "\"unterminated", "{- unterminated", "let x = 1", "[1,,]", "\"bad\\q\"",
     ] {
     let rejected = try {
       let _ = @MoonDhall.to_json(source)
@@ -171,17 +169,15 @@ test "invalid syntax and unsupported features are rejected" {
 }
 
 ///|
-test "overflow is explicit rather than wrapped" {
-  for source in ["9223372036854775807 + 1", "4611686018427387904 * 2"] {
-    let rejected = try {
-      let _ = @MoonDhall.to_json(source)
-      false
-    } catch {
-      @MoonDhall.Evaluation(_) => true
-      _ => false
-    }
-    assert_true(rejected)
-  }
+test "arbitrary precision arithmetic does not wrap" {
+  assert_eq(
+    @MoonDhall.to_json("9223372036854775807 + 1"),
+    "9223372036854775808",
+  )
+  assert_eq(
+    @MoonDhall.to_json("4611686018427387904 * 2"),
+    "9223372036854775808",
+  )
 }
 
 ///|
@@ -202,7 +198,7 @@ test "public AST rejects negative Naturals" {
     let _ = @MoonDhall.type_of(@MoonDhall.Natural(-1L))
     false
   } catch {
-    @MoonDhall.TypeError(_) => true
+    @MoonDhall.TypeError(_) | @MoonDhall.TypeAt(_, _) => true
     _ => false
   }
   assert_true(rejected)
