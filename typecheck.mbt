@@ -142,10 +142,14 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       let output_kind = kind_of(b, scope, depth + 1)
       if output_kind == 0 {
         Universe(0)
-      } else if input_kind <= output_kind {
-        Universe(output_kind)
       } else {
-        raise TypeError("Invalid dependent function universe")
+        Universe(
+          if input_kind > output_kind {
+            input_kind
+          } else {
+            output_kind
+          },
+        )
       }
     }
     Apply(f, x) => {
@@ -337,6 +341,9 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
             }
             require_same(input, t, "merge handler " + k)
             // Reject result types depending on the constructor payload.
+            if uses_zero(out, 0) {
+              raise TypeError("Dependent merge result is not allowed")
+            }
             let output = shift(out, -1, 0)
             require_same(shift(output, 1, 0), out, "Non-dependent merge result")
             output

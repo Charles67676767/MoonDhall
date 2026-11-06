@@ -107,7 +107,10 @@ fn Parser::expression(self : Parser) -> Expr raise DhallError {
     expr
   }
   let expr = if self.accept(Symbol(":")) {
-    Annotate(expr, self.expression())
+    match bare(expr) {
+      Merge(h, u, None) => Merge(h, u, Some(self.expression()))
+      _ => Annotate(expr, self.expression())
+    }
   } else {
     expr
   }
@@ -265,6 +268,10 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
     Word("NaN") => {
       self.index += 1
       Real(0.0 / 0.0)
+    }
+    Word("-Infinity") => {
+      self.index += 1
+      Real(-1.0 / 0.0)
     }
     Word("Infinity") => {
       self.index += 1

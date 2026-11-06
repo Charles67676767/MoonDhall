@@ -7,6 +7,7 @@ pub suberror DhallError {
   JsonError(String)
   ImportError(String)
   MissingImport(String)
+  UnavailableImport(String)
   BinaryError(String)
 } derive(Debug)
 

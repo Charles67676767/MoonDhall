@@ -217,6 +217,12 @@ fn lex(source : String) -> Array[Token] raise DhallError {
       })
       continue
     }
+    if rest.has_prefix("-Infinit") &&
+      chars_text(chars, i, min_int(i + 9, chars.length())) == "-Infinity" {
+      i += 9
+      tokens.push({ kind: Word("-Infinity"), offset: start, end: i, })
+      continue
+    }
     if identifier_start(c) {
       i += 1
       while i < chars.length() && identifier_part(chars[i]) {

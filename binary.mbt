@@ -467,9 +467,9 @@ fn decode_expr(c : Cbor, depth : Int32) -> Expr raise DhallError {
         (0, [f, .. args]) if args.length() > 0 =>
           apply_many(dec(f), args.map(dec))
         (1, [t, b]) => Lambda("_", dec(t), dec(b))
-        (1, [CText(n), t, b]) => Lambda(n, dec(t), dec(b))
+        (1, [CText(n), t, b]) if n != "_" => Lambda(n, dec(t), dec(b))
         (2, [t, b]) => Pi("_", dec(t), dec(b))
-        (2, [CText(n), t, b]) => Pi(n, dec(t), dec(b))
+        (2, [CText(n), t, b]) if n != "_" => Pi(n, dec(t), dec(b))
         (3, [CInt(op), a, b]) if op >= 0 && op <= 13 => {
           let ops = [
             "||", "&&", "==", "!=", "+", "*", "++", "#", "/\\", "//", "//\\", "?",

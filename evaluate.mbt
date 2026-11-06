@@ -446,7 +446,12 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
         ("+", Natural(0L), x) | ("+", x, Natural(0L)) => x
         ("*", Natural(0L), _) | ("*", _, Natural(0L)) => Natural(0L)
         ("*", Natural(1L), x) | ("*", x, Natural(1L)) => x
-        ("++", Text(x), Text(y)) => Text(x + y)
+        ("++", Text(x), Text(y)) => {
+          if x.length() + y.length() > 1048576 {
+            raise Evaluation("Text size limit exceeded")
+          }
+          Text(x + y)
+        }
         ("++", Text(""), x) | ("++", x, Text("")) => x
         ("++", x, y) => norm(Interpolate([("", x), ("", y)], ""))
         ("#", List(x), List(y)) => {
@@ -456,6 +461,7 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
         }
         ("#", Annotate(List(x), _), y) if x.is_empty() => y
         ("#", x, Annotate(List(y), _)) if y.is_empty() => x
+        ("&&", x, y) | ("||", x, y) if x == y => x
         ("&&", Boolean(false), _) | ("&&", _, Boolean(false)) => Boolean(false)
         ("&&", Boolean(true), x) | ("&&", x, Boolean(true)) => x
         ("||", Boolean(true), _) | ("||", _, Boolean(true)) => Boolean(true)
@@ -584,4 +590,17 @@ fn render_json(e : Expr, depth : Int32) -> String raise DhallError {
 /// Exact decimal serialization for arbitrary-precision integers.
 pub fn to_json(source : String) -> String raise DhallError {
   render_json(normalize(source), 0)
+}
+
+///|
+/// Alpha-normalize syntax without evaluating or checking it.
+pub fn alpha_normalize(expr : Expr) -> Expr raise DhallError {
+  strip_positions(canonical(expr, [], 0))
+}
+
+///|
+/// Low-level normalization for conformance tooling and open terms.
+/// Applications should use normalize_expr to check closed terms first.
+pub fn beta_normalize(expr : Expr) -> Expr raise DhallError {
+  normal(canonical(expr, [], 0), { fuel: 200000, }, 0)
 }

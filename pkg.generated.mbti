@@ -6,11 +6,17 @@ import {
 }
 
 // Values
+pub fn alpha_normalize(Expr) -> Expr raise DhallError
+
+pub fn beta_normalize(Expr) -> Expr raise DhallError
+
 pub fn bytes_to_hex(Bytes) -> String
 
 pub fn check(String) -> Type raise DhallError
 
 pub fn decode(Bytes) -> Expr raise DhallError
+
+pub fn diagnostic(DhallError, String, String) -> String
 
 pub fn encode(String) -> Bytes raise DhallError
 
@@ -24,9 +30,15 @@ pub fn format_expr(Expr) -> String
 
 pub fn hex_to_bytes(String) -> Bytes raise DhallError
 
+pub fn json_expr(Expr) -> String raise DhallError
+
 pub fn normalize(String) -> Expr raise DhallError
 
+pub fn normalize_expr(Expr) -> Expr raise DhallError
+
 pub fn parse(String) -> Expr raise DhallError
+
+pub fn resolve(String, String, Array[ImportSource]) -> Expr raise DhallError
 
 pub fn semantic_hash(String) -> String raise DhallError
 
@@ -45,6 +57,7 @@ pub suberror DhallError {
   JsonError(String)
   ImportError(String)
   MissingImport(String)
+  UnavailableImport(String)
   BinaryError(String)
 } derive(@debug.Debug)
 pub fn DhallError::to_repr(Self) -> @debug.Repr
@@ -82,6 +95,13 @@ pub(all) enum Expr {
 pub fn Expr::equal(Self, Self) -> Bool
 pub fn Expr::not_equal(Self, Self) -> Bool
 pub fn Expr::to_repr(Self) -> @debug.Repr
+
+pub(all) struct ImportSource {
+  key : String
+  location : String
+  source : String?
+} derive(@debug.Debug)
+pub fn ImportSource::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ImportSpec {
   path : String
