@@ -1,0 +1,17 @@
+.DS_Store
+_build/
+target/
+target
+.mooncakes/
+.moonagent/
+AGENTS.md
+.githooks/
+.local/
+.env
+.env.*
+*.log
+*.zip
+*.pdf
+*.docx
+*.pem
+*.key
