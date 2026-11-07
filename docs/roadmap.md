@@ -1,28 +1,21 @@
 # Roadmap
 
-## Current milestone: self-contained configuration core
+## Implemented development milestone
 
-Parsing, a non-dependent type checker, lexical closures, deterministic JSON, a CLI, runnable examples and regression tests. See compatibility.md for exact boundaries.
+Portable typed core, first-class/dependent types, normalization/equivalence, arbitrary-precision numbers, interpolation, record/list operations, Optional/unions, CBOR and semantic hashes. File/stdin CLI, imports, caching, diagnostics, examples and pinned audits are available. See compatibility.md for boundaries.
 
-## Standard alignment
+## Standard completion
 
-- Pin a Dhall standard revision and add a reproducible conformance test runner.
-- Expand syntax and builtins based on that test manifest.
-- Add first-class types, dependent function types and normalization/equivalence.
-- Add Integer, Double, Optional, unions and interpolation.
-- Publish the current supported profile and registry package only after release checks.
+- Fix audited grammar, typing and normalization differences.
+- Add Bytes/date/time, toMap, with, completion, type projection and record-type merge.
+- Complete unresolved-import binary forms and display/escape rules.
+- Integrate the official import fixture server, headers and standard cache.
+- Extend regression coverage as previously failing cases become supported.
 
-## Imports and distribution
+## Release and embedding
 
-- Host-provided local and remote import resolvers with explicit policies.
-- Import caching, integrity checks and standard import semantics.
-- CBOR encoding, alpha-normalization and semantic hashing.
-- File/stdin CLI interfaces and improved source diagnostics.
+- Publish to Mooncakes after a versioned release review and registry authentication.
+- Add typed conversion helpers and performance/resource measurements.
+- Verify additional compiler versions.
 
-## Embedding and usability
-
-- Typed conversion helpers for MoonBit applications.
-- Larger application configuration examples.
-- Measured performance and resource-use reporting.
-
-These items describe planned work, not functionality available in the current version.
+Remaining items describe future work.

@@ -1,15 +1,15 @@
 # Architecture
 
-The root package is a portable MoonBit library. It has no third-party runtime dependencies and does not call another Dhall interpreter.
+The root package is a portable MoonBit library with only core-library dependencies. No operation delegates language processing to another interpreter.
 
-1. The lexer produces tokens with Unicode scalar offsets and handles nested comments and text escapes.
-2. The recursive-descent parser produces an Expr tree. Operator parsing uses precedence; applications and projections bind tightly.
-3. The type checker walks the complete expression under a lexical type environment. Record types are canonicalized by field name.
-4. The evaluator represents functions as lexical closures. Each closure captures its definition environment; application extends that captured environment. Named indices resolve shadowed variables without textual substitution.
-5. The JSON writer walks evaluated values, sorts record fields, escapes Text through the standard JSON library, and writes Naturals directly as decimal integers.
+1. The lexer records Unicode scalar offsets. Recursive-descent parsing produces one Expr tree for terms and types, retaining source spans.
+2. Named variables and indices become canonical de Bruijn indices. Capture-avoiding shifting and substitution implement lexical binding and dependent type substitution.
+3. Type inference uses a context of expressions. Function types are Pi expressions; application substitutes the argument into the output type. Normal forms determine type equivalence.
+4. A bounded reducer performs beta normalization, builtin reductions and record/list operations. JSON consumes a checked normal form and writes integer digits directly.
+5. The CBOR codec implements the supported Dhall binary forms, preferred integer/float encodings, UTF-8 validation and bounded decoding. Portable SHA-256 hashes alpha/beta-normal-form CBOR.
+6. Import traversal is pure. Host-provided ImportSource entries are keyed by origin + newline + written path. MissingImport requests another entry; retries are deterministic. Canonical locations identify cycles and cached values. Imported code is checked in an empty context, preventing capture of importing-file variables. Integrity is checked on the normalized imported value.
+7. cmd/bridge accepts structured stdin requests. Its single JS FFI reads stdin; language operations call the MoonBit library. scripts/moondhall.mjs supplies I/O, canonical URL resolution, raw-resource caching and output files. Remote code cannot import local resources; cross-origin requests check CORS, including cache hits. Redirects are rejected.
 
-The public entry points separate syntax inspection, type checking and checked JSON evaluation. Function values can be type-checked but cannot be serialized to JSON.
+Application APIs check closed expressions. Low-level alpha_normalize and beta_normalize support open terms for standard testing; the latter does not infer a type. Resource limits are implementation bounds, not a process memory sandbox.
 
-The command-line entry point receives one expression argument and invokes the same API used by applications. The service example exercises function reuse and nested records.
-
-Later import resolution should be a distinct layer with an explicit host-provided resolver. Network policy and filesystem policy must remain under the embedding application's control.
+The upstream runner compares normalization output against an unnormalized expected syntax tree. Parser output uses exact CBOR; hashes use upstream digests. Binary decoding compares decoded syntax with B, accepting oversized input floats. Fixtures are downloaded with their license to an ignored directory at a pinned revision.

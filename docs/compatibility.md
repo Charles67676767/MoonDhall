@@ -1,47 +1,43 @@
 # Compatibility
 
-MoonDhall currently implements a self-contained subset of Dhall, not a conforming complete implementation. The public API may change before a first registry release.
+MoonDhall implements a growing Dhall subset, not a complete standard-conforming implementation. APIs can change before a registry release.
 
-## Implemented syntax
+## Implemented profile
 
-- Bool literals, decimal Naturals, double-quoted Text with JSON-compatible escapes.
-- let bindings, optional let annotations, expression annotations.
-- Typed lambda parameters and function application, including higher-order functions.
-- Non-dependent function types, record types, and List types.
-- Record literals, field selection, and right-biased record preference.
-- Homogeneous lists; empty lists require an annotation.
-- if / then / else; both branches are type-checked.
-- Operators: ||, ++, +, &&, //, *, ==, !=. Equality and inequality are Bool-only.
-- Four Natural builtins: isZero, even, odd, show.
-- Named variable indices, line comments, and nested block comments.
+- Bool; decimal arbitrary-precision Natural and Integer; IEEE-754 Double; double-quoted and multiline Text, interpolation, escapes and indentation removal.
+- Let, annotations, lambda/application, named variable indices, first-class types, aliases, Type / Kind / Sort and dependent Pi types.
+- Records/types, dotted field sugar, field selection, label projection, right-biased preference and recursive record-value merge.
+- Homogeneous lists and annotated empty lists; Optional; unions/constructors and exhaustive merge; equivalence assertions.
+- Boolean conditionals/operators, Natural arithmetic, text/list concatenation.
+- Natural: isZero, even, odd, show, toInteger, subtract, fold, build.
+- Integer: abs, clamp, negate, show, toDouble. Double: show. Text: show, replace.
+- List: length, head, last, reverse, indexed, fold, build.
+- Alpha/beta normalization, equivalence, supported-core CBOR and semantic SHA-256.
+- Host-supplied local/environment/HTTP(S) imports, text imports, relative chains, cycle detection, unavailable-resource fallback, integrity checks and caches.
 
-An empty record value is written {=}; {} is a record type, not a record value. Types are accepted in annotations and lambda parameters, but are not first-class expression values in this milestone. Record type fields and JSON fields use lexical name order.
+Empty record values are {=}; {} is a record type. Boolean == and != are Bool-only; === forms an equivalence type used by assert. Exact integer JSON output does not prevent downstream IEEE-754 consumers losing digits.
 
-## Explicitly outside this milestone
+## Remaining standard gaps
 
-- Local, environment, HTTP(S), hashed, or fallback imports.
-- Type / Kind / Sort universes, dependent functions, polymorphic type arguments, and type aliases.
-- Integer, Double, Bytes, Date, Time, TimeZone, Optional, unions, merge, and assertions.
-- Text interpolation, multiline Text, backtick labels, dotted field sugar, and duplicate field merging.
-- Record projection, recursive record merge, list concatenation and most standard builtins.
-- Public expression normalization, alpha-normalization, CBOR, and semantic hashing.
-- Arbitrary-precision Naturals: the supported range is 0 through 9223372036854775807.
+Known gaps include Bytes/Date/Time/TimeZone, binary/hex numbers, toMap and with, completion and recursive record-type merge, projection by type, grammar/escape/normalization edge cases and some typing rules. Unsupported builtin names may parse as free variables before type checking rejects them.
 
-Unsupported features raise an error or are treated as unbound identifiers; they are never delegated to an external interpreter. There is no network or filesystem access in the evaluator.
+CBOR covers the implemented expression profile, excluding unresolved imports, Bytes/date/time forms and other extensions. Standalone untyped empty lists cannot be encoded. Decoding does not imply a well-typed term: call type_of or normalize_expr before evaluation.
 
-## Resource and representation limits
+Location imports, raw Bytes imports, custom HTTP headers, redirects and the standard semantic-cache layout are not implemented. CLI caching stores raw resources by URL and validates declared hashes after every resolution, including hits. Offline mode uses local resources and cached remote text. CORS and remote-to-local checks are host responsibilities for library embedders.
 
-- Source: at most 262144 UTF-16 code units.
-- Tokens: at most 20000, excluding the final end marker.
-- Parser, type checker, evaluation and JSON traversal have depth limits of 128 (the parser counts its nested expression/type entry points).
-- Evaluation and JSON traversal share a 100000-step budget.
-- Concatenated Text and each serialized JSON subtree are capped at 1048576 UTF-16 code units.
-- Natural literal and arithmetic overflow produces an explicit error.
+Complex nested text lexical constructs still fail some upstream tests. Text/show uses JSON quoting, which differs from complete Dhall display rules.
 
-These are implementation limits, not part of the Dhall specification and not a general memory-isolation guarantee. Syntax error offsets count Unicode scalar values from the beginning of the source.
+## Resource limits
 
-JSON emits exact Natural decimal digits. Consumers that parse numbers through IEEE-754 doubles may still lose precision above 2^53.
+- Parsed source: 262144 string code units; tokens: 20000.
+- Parser and inference recursion: 128; canonicalization, reducer, JSON and CBOR traversal: up to 256.
+- Each normalization operation: 200000 steps; inference may perform several operations.
+- Natural/fold: 10000 iterations; import ancestors: 64; CLI dependency requests: 256.
+- JSON subtree and guarded concatenation: 1048576 code units; imports: 256 KiB; CLI/binary input: 1 MiB.
+- CBOR bounds collections, nesting and nodes; rejects malformed UTF-8, duplicate map keys, trailing bytes and truncated input.
 
-## Verification status
+These are implementation limits, not standard semantics or a global memory guarantee. Diagnostics count Unicode scalar columns, not terminal display cells.
 
-The current tests are independently written regression examples and negative cases. They do not constitute the upstream Dhall conformance suite. Full compatibility claims will require a pinned standard revision, a published upstream test manifest and explicit pass/fail/unsupported results.
+## Verification
+
+[Manifest](../tests/upstream.json), [regression cases](../tests/conformance-profile.json), and [complete audit snapshot](upstream-audit.json) record exact scope. The default profile freezes currently passing cases; full audit results measure compatibility. Official import tests remain unrun until their custom HTTP/CORS/header/cache fixture environment is integrated. Separate CLI tests exercise real local/HTTP I/O.

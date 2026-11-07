@@ -1,21 +1,22 @@
 # Sources and attribution
 
-MoonDhall's current implementation and regression tests are written independently for this project.
+MoonDhall code and project-specific regression tests are independently implemented. No operation invokes or embeds another Dhall interpreter.
 
-## Dhall specification
+## Dhall specification and acceptance tests
 
-- Project: https://github.com/dhall-lang/dhall-lang
-- Specification: https://github.com/dhall-lang/dhall-lang/tree/master/standard
-- Upstream tests: https://github.com/dhall-lang/dhall-lang/tree/master/tests
-- Upstream license: https://github.com/dhall-lang/dhall-lang/blob/master/LICENSE
+- Repository: https://github.com/dhall-lang/dhall-lang
+- Revision: 56b0997a4800bfc815ea221529a6bb2bfd6723dc
+- Specification: https://github.com/dhall-lang/dhall-lang/tree/56b0997a4800bfc815ea221529a6bb2bfd6723dc/standard
+- Tests: https://github.com/dhall-lang/dhall-lang/tree/56b0997a4800bfc815ea221529a6bb2bfd6723dc/tests
+- BSD-3-Clause license: https://github.com/dhall-lang/dhall-lang/blob/56b0997a4800bfc815ea221529a6bb2bfd6723dc/LICENSE
 
-The current reference scope is syntax, non-dependent typing behavior, named variable indices, lexical binding, primitive operator behavior and configuration examples. No upstream implementation source or test fixtures are vendored in this milestone. Reading the specification does not imply full conformance; docs/compatibility.md records the implemented profile.
+Reference scope includes grammar, substitution, universes/dependent typing, normalization, imports, binary encoding and hashes. The runner downloads upstream with its license intact to ignored .local/dhall-standard. Fixtures and upstream implementation sources are not vendored; committed manifests contain case paths and outcomes only. Actual compatibility is recorded in docs/compatibility.md and docs/upstream-audit.json.
 
-Before importing upstream source code or fixtures, retain their applicable license and attribution and record their exact revision.
+## Runtime and hashing
 
-## Runtime
+MoonBit core is distributed with the toolchain under Apache-2.0. The project uses bigint, float, JSON, UTF-8 and string facilities. SHA-256 is independently implemented from FIPS 180-4, including its standard initial values and round constants: https://csrc.nist.gov/pubs/fips/180-4/upd1/final
 
-The implementation uses MoonBit core, distributed with the MoonBit toolchain under Apache-2.0. Text escape handling and JSON string escaping use the core JSON library. Numeric output is generated directly to preserve exact decimal digits.
+Node.js provides host I/O. Its crypto API names URL cache files only; semantic hashing is implemented in MoonBit.
 
 ## Project license
 
