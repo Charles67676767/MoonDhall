@@ -46,6 +46,7 @@ def main():
         actual = json.loads(require(run("json", ROOT / file)))
         assert actual == expected
         count += 1
+    (ROOT / ".local").mkdir(exist_ok=True)
     with TemporaryDirectory(prefix="moondhall-test-", dir=ROOT / ".local") as directory:
         temp = Path(directory)
         (temp / "value.dhall").write_text("{ port = 8080 }")

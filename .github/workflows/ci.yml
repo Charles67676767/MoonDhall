@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: Install pinned MoonBit toolchain
         run: |
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- '0.10.18+6c83a7f62'
@@ -34,3 +37,15 @@ jobs:
           git diff --exit-code
       - name: CLI integration
         run: python3 scripts/check_cli.py
+      - name: Pinned upstream regression profile
+        run: python3 scripts/conformance.py --report .local/regression-report.json
+      - name: Full upstream compatibility audit
+        run: python3 scripts/conformance.py --audit --allow-failures --report .local/upstream-audit.json
+      - name: Preserve compatibility reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dhall-conformance
+          path: |
+            .local/regression-report.json
+            .local/upstream-audit.json

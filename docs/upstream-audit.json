@@ -1,0 +1,6144 @@
+{
+  "revision": "56b0997a4800bfc815ea221529a6bb2bfd6723dc",
+  "scope": "audit",
+  "counts": {
+    "pass": 1050,
+    "not-run": 100,
+    "fail": 376
+  },
+  "suites": {
+    "parser": {
+      "pass": 213,
+      "fail": 183
+    },
+    "import": {
+      "not-run": 100
+    },
+    "normalization": {
+      "pass": 208,
+      "fail": 79
+    },
+    "type-inference": {
+      "pass": 412,
+      "fail": 78
+    },
+    "alpha-normalization": {
+      "pass": 10
+    },
+    "semantic-hash": {
+      "pass": 141,
+      "fail": 10
+    },
+    "binary-decode": {
+      "fail": 26,
+      "pass": 66
+    }
+  },
+  "description": "Complete measured corpus scope. Failure details are reproducible with scripts/conformance.py --audit; statuses alone are committed to keep reports portable.",
+  "results": [
+    {
+      "case": "alpha-normalization/success/regression/preludeBoolFoldA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "alpha-normalization/success/unit/FunctionBindingUnderscoreA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "alpha-normalization/success/unit/FunctionBindingXA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "alpha-normalization/success/unit/FunctionNestedBindingXA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "alpha-normalization/success/unit/FunctionNestedBindingXXA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "alpha-normalization/success/unit/FunctionNestedBindingXXFreeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "alpha-normalization/success/unit/FunctionNestedBindingXYA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "alpha-normalization/success/unit/FunctionTypeBindingUnderscoreA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "alpha-normalization/success/unit/FunctionTypeBindingXA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "alpha-normalization/success/unit/FunctionTypeNestedBindingXA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/failure/unit/ApplyNoArgs.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/failure/unit/LambdaExplicitlyNamedUnderscore.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/failure/unit/ListOneWithAnnotation.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/failure/unit/NaturalNegativeOne.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/failure/unit/OperatorOrTooFewArgs.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/failure/unit/OperatorOrTooManyArgs.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/failure/unit/OperatorUnknownOpcode.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/failure/unit/PiExplicitlyNamedUnderscore.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/failure/unit/VariableExplicitlyNamedUnderscore.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/AnnotationA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/ApplicationA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/ApplicationMultipleA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/AssertA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/BoolFalseA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/BoolIfA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/BoolTrueA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/BuiltinNaturalShowA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/BuiltinNaturalSubtractA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/BytesA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/CompletionA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/DateA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/DoubleDoubleA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/DoubleHalfA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/DoubleInfinityA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/DoubleNegativeInfinityA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/DoubleSingleA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/IntegerBigNegativeA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/IntegerBigPositiveA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/IntegerNegativeOneA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/IntegerZeroA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/LambdaNamedXA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/LambdaUnderscoreA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/LetMultipleA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/LetOneTypedA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/LetOneUntypedA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/ListEmpty0A.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/ListEmpty1A.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/ListOneA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/MergeAnnotatedA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/MergeUnannotatedA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/NaturalBigA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/NaturalTwentyFourA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/NaturalZeroA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorAndA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorCombineA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorCombineTypesA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorEqA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorEquivA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorImportAltA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorListAppendA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorNeqA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorOrA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorPlusA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorPreferA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorTextAppendA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/OperatorTimesA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/PiNamedXA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/PiUnderscoreA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/RecordFieldAccessA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/RecordLiteralA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/RecordProjectFieldsA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/RecordTypeA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/SelfDescribeCBORX2A.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/SelfDescribeCBORX3A.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/SelfDescribeCBORXA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/SomeA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/TextInterpolatedA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/TextSimpleA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/TimeA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/TimeLiteralHighPrecisionA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/TimeZoneA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/ToMapA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/ToMapAnnotatedA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/UnionTypeA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/VariableNamedA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/VariableNamedOversizedIntA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/VariableUnderscoreA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/VariableUnderscoreOversizedIntA.dhallb",
+      "status": "pass"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/EnvironmentVariableA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/HttpImportWithQueryA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/HttpImportWithoutQueryA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/HttpsImportWithEmptyQueryA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/HttpsImportWithQueryA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/HttpsImportWithTrickyPathCharsA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/HttpsImportWithTrickyQueryCharsA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/HttpsImportWithoutQueryA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/LocalHereImportA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/LocalHomeImportA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/LocalParentImportA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/LocalRootImportA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/imports/MissingA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "binary-decode/success/unit/recordProjectionByExpressionA.dhallb",
+      "status": "fail"
+    },
+    {
+      "case": "import/failure/alternativeEnv.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/alternativeEnvMissing.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/customHeadersUsingBoundVariable.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/originHeadersFromRemote.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/originHeadersFromRemoteENV.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/404.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/Cycle.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/DontRecoverCycle.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/DontRecoverHashMismatch.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/DontRecoverParseError.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/DontRecoverTypeError.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/EnvFromRemote.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/EnvUnset.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/EnvUnsetAsText.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/FileMissing.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/HashMismatch.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/HashMismatch2.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/Missing.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/VarAcrossImportBoundary.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/cors/Empty.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/cors/NoCORS.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/cors/Null.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/cors/OnlyOther.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/cors/OnlySelf.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/failure/unit/cors/TwoHops.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/customHeadersA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/customHeadersImportedA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/hashFromCacheA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/headerForwardingA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/nestedHashA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/noHeaderForwardingA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/normalCachingOfProtectedA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/originHeadersA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/originHeadersImportA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/originHeadersImportFromEnvA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/originHeadersOverrideA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeChain1A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeChain2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeEnvA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeImportErrorA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeNestedImportErrorA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeNoError1A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeNoError2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeNoError3A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeSubExprA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeWithVariableA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeWithWrongVariable1A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AlternativeWithWrongVariable2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AsBytesA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/AsTextA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/DontCacheIfHashA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/EnvSetA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/EnvSetAsTextA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/FilenameWithSpacesA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/IgnorePoisonedCacheA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/ImportRelativeToHomeA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/MixImportModesA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/NormalizeA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/QuotedPathA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/RecoverTransitiveFailureA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/RemoteAsTextA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/SimpleA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/SimpleHashA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/SimpleRemoteA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/AbsoluteA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Canonicalize1A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Canonicalize2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Canonicalize3A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Canonicalize4A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Canonicalize5A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Chain1A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Chain2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Chain3A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/DontTryResolvingA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/EnvA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/EnvHomeA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/HashA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/HomeA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/MissingA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Relative1A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/Relative2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteCanonicalize1A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteCanonicalize2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteCanonicalize3A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteCanonicalize4A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteChain1A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteChain2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteChain3A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteChainEnvA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/asLocation/RemoteChainMissingA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/cors/AllowedAllA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/cors/NoCORSFromLocalA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/cors/OnlyGithubA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/cors/PreludeA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/cors/SelfImportAbsolute2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/cors/SelfImportAbsoluteA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/cors/SelfImportRelative2A.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/cors/SelfImportRelativeA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "import/success/unit/cors/TwoHopsA.dhall",
+      "status": "not-run"
+    },
+    {
+      "case": "normalization/success/WithRecordValueA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/haskell-tutorial/access/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/haskell-tutorial/access/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/haskell-tutorial/combineTypes/0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/haskell-tutorial/combineTypes/1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/haskell-tutorial/prefer/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/haskell-tutorial/projection/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/regression/ComplexRecordSimplificationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/regression/NaturalFoldExtraArgA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/regression/ToMapQuotedFieldsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/regression/TrickyBinderIdentityA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/regression/UnsaturatedBuiltinsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/remoteSystemsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/completionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/simple/doubleShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/enumA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/equalNoCommuteA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/integerShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/integerToDoubleA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/letAvoidCaptureA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/letenumA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/letletA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/listBuildA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/multiLineA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/naturalBuildA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/notEqualNoCommuteA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/plusNoCommuteA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/simpleAdditionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/sortOperatorA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simple/timesNoCommuteA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simplifications/andA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simplifications/eqA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simplifications/ifThenElseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simplifications/issue661A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/simplifications/neA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simplifications/orA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/simplifications/rightBiasedMergeWithinRecordProjectionWithinFieldSelection0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/simplifications/rightBiasedMergeWithinRecordProjectionWithinFieldSelection1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/simplifications/rightBiasedMergeWithinRecursiveRecordMergeWithinFieldselectionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/AssertNormalizeArgumentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/BareInterpolationA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/BoolA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/BytesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/BytesLiteralA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/CompletionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/DoubleA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/DoubleLiteralA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/DoubleShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/DoubleShowValueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/EmptyAlternativeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/EmptyToMapA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/EquivalenceNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/FunctionApplicationCaptureA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/FunctionApplicationNoSubstituteA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/FunctionApplicationNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/FunctionApplicationSubstituteA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/FunctionNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/FunctionTypeNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IfAlternativesIdenticalA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IfFalseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IfNormalizePredicateAndBranchesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IfTrivialA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IfTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerClampA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerClampNegativeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerClampPositiveA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerClampZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerNegateA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerNegateNegativeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerNegatePositiveA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerNegateZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerNegativeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerPositiveA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerShow-12A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerShow12A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerToDouble-12A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerToDouble12A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/IntegerToDoubleA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/KindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/LetA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/LetWithTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListBuildA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListBuildFoldFusionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListBuildImplementationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListFoldA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListFoldEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListFoldOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListHeadA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListHeadEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListHeadTwoA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/ListIndexedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListIndexedEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/ListIndexedOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListLastA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListLastEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListLastTwoA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/ListLengthA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListLengthEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListLengthOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListNormalizeElementsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListNormalizeTypeAnnotationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListReverseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/ListReverseEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/ListReverseTwoA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/MergeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/MergeEmptyAlternativeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/MergeNoneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/MergeNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/MergeSomeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/MergeWithTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/MergeWithTypeNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalBuildA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalBuildFoldFusionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalBuildImplementationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalEvenA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalEvenOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalEvenZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalFoldA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalFoldOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalFoldZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalIsZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalIsZeroOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalIsZeroZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalLiteralA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalOddA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalOddOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalOddZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalShowOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalSubtractEquivalentA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/NaturalSubtractFromZeroA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/NaturalSubtractGreaterA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalSubtractLessA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalSubtractNormalizeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalSubtractZero0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/NaturalSubtractZero1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalToIntegerA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NaturalToIntegerOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/NestedRecordProjectionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/NestedRecordProjectionByTypeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/NoneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorAndEquivalentArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorAndLhsFalseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorAndLhsTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorAndNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorAndRhsFalseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorAndRhsTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorEqualEquivalentArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorEqualLhsTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorEqualNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorEqualRhsTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorListConcatenateLhsEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorListConcatenateListListA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorListConcatenateNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorListConcatenateRhsEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorNotEqualEquivalentArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorNotEqualLhsFalseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorNotEqualNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorNotEqualRhsFalseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorOrEquivalentArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorOrLhsFalseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorOrLhsTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorOrNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorOrRhsFalseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorOrRhsTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorPlusLhsZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorPlusNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorPlusOneAndOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorPlusRhsZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTextConcatenateLhsEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTextConcatenateLhsNonEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTextConcatenateRhsEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTextConcatenateRhsNonEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTextConcatenateTextTextA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTimesLhsOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTimesLhsZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTimesNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTimesRhsOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTimesRhsZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OperatorTimesTwoAndTwoA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/OptionalA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordLitAllSugarsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecordLitDottedFieldsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordLitDuplicateFieldsNoCollisionsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordLitNixLikeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordLitPun1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecordLitPun2A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecordLitTriplicateFieldsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordProjectionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordProjectionByTypeEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecordProjectionByTypeNonEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecordProjectionByTypeNormalizeProjectionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecordProjectionByTypeWithinFieldSelectionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecordProjectionEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecordProjectionNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordProjectionNormalizeFieldsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordProjectionWithinFieldSelectionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecordSelectionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordSelectionNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordSortFieldsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordTypeEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecordTypeSortFieldsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordMergeCollisionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordMergeLhsEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordMergeNoCollisionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordMergeNormalizeArgumentsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordMergeRhsEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordMergeWithinFieldSelection0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordMergeWithinFieldSelection1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordMergeWithinFieldSelection2A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordMergeWithinFieldSelection3A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordTypeMergeCollisionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordTypeMergeDeepA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordTypeMergeLhsEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordTypeMergeNoCollisionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordTypeMergeNormalizeArgumentsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordTypeMergeRhsEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RecursiveRecordTypeMergeSortsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedMergeEquivalentArgumentsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedMergeWithinFieldSelection0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedMergeWithinFieldSelection1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedMergeWithinFieldSelection2A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedMergeWithinFieldSelection3A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedRecordMergeCollisionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedRecordMergeLhsEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedRecordMergeNoCollisionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedRecordMergeNormalizeArgumentsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedRecordMergeRhsEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/RightBiasedRecordMergeWithinRecordProjectionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/ShowConstructorEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/ShowConstructorNonEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/SomeNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/SortA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextInterpolateA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextLitNested1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TextLitNested2A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TextLitNested3A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TextLiteralA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextNormalizeInterpolationsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceAbstractA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceAbstractHaystackA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceEmpty1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceEmpty2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceEmpty3A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceMultipleA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceNFCUnicodeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceNormalizationA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceOverlappingA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceSimpleA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceUnicodeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextReplaceVarA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TextShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextShowAllEscapesA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TextShowEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TextShowInterpolatedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TimeAsRecordA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TimeShowHighPrecisionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TimeShowTrailingZerosA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/ToMapA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/ToMapWithTypeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/TrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/TypeAnnotationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/UnionProjectConstructorA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/UnionTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/UnionTypeEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/UnionTypeNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/VariableA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "normalization/success/unit/WithA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithChainedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithCreateIntermediateRecordsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithDesugarA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithNestedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithOnOptionalNoneA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithOnOptionalSomeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithOptionalDeeplyNestedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithOptionalNestedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithPartiallyAbstractA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "normalization/success/unit/WithPriorityA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/ImportHeadersExteriorHash.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/ProjectionByTypeNeedsParens.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/annotation.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/assertBinding.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/boundBuiltins.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/builtinWithIndex.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/bytesInvalid.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/bytesOddLength.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/doubleBoundsNeg.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/doubleBoundsPos.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/fSomeX.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/importAccess.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/incompleteIf.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/mandatoryNewline.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/nonBase16Hash.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/nonCharacter.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/nonCharacterUnbraced.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/nonUtf8.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/spacing/AnnotationNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/ApplicationNoSpace1.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/ApplicationNoSpace2.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/spacing/AssertNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/ForallNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/HeadersNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/IfNoSpace1.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/IfNoSpace2.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/IfNoSpace3.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/ImportAltNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/ImportHashedNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/LambdaNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/LetAnnotNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/LetNoSpace1.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/spacing/LetNoSpace2.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/LetNoSpace3.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/spacing/LetNoSpace4.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/ListLitEmptyNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/MergeAnnotationNoSpace3.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/MergeNoSpace1.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/MergeNoSpace2.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/NaturalPlusNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/RecordTypeNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/SomeNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/ToMapAnnotNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/ToMapNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/spacing/UnionTypeNoSpace.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/surrogatePairUnbraced.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/time/DateTimeZone.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/time/InvalidDayOfMonth.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/time/InvalidHour.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/time/InvalidLeapSecond.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/time/InvalidMinute.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/time/InvalidMonth.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/time/InvalidSecond.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/time/NegativeYear.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/time/YearTooLarge.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/AssertNoAnnotation.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/BoolLitTrueWithIndex.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/BuiltinBoolWithIndex.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/BuiltinTypeWithIndex.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/ImportEnvWrongEscape.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/ListLitEmptyAnnotation.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/ListLitEmptyMissingAnnotation.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/ListLitTwoCommas.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/MergeAlone.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/MergeOneArgument.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/NaturalLitLeadingZero.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/OldUnionLitSyntax.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/ProjectionTwoCommas.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword00.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword01.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword02.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword03.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword04.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword05.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword06.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword07.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword08.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword09.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword10.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword11.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword12.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword13.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/RecordFieldMustNotBeKeyword14.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordLitPunDotted.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/RecordTwoCommas.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/SomeAlone.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/UnionTypeTwoDelims.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/UrlWithQuotedPath.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/UsingToMap.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/failure/unit/WithPrecedence1.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/WithPrecedence2.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/WithPrecedence3.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/WithWhitespace.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/failure/unit/showConstructorAlone.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/annotationsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/binaryA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/blockCommentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/builtinNameAsFieldA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/builtinsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/bytesA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/collectionImportTypeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/fieldsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/forallA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/functionTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/hexadecimalA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/identifierA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/labelA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/lambdaA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/largeExpressionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/leadingSeparatorsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/leadingTabsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/lineCommentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/lineCommentCRLFA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/listA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/listWithCommentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/mergeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/missingFooA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/missingInParenthesesA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/missingSlashA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/mixedBlockLineCommentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/naturalA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/nestedBlockCommentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/operatorsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/preferMissingNoSpacesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/quotedBoundVariableA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/quotedLabelA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/quotedRecordLabelA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/quotedUnionLabelA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/recordA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/recordProjectionByExpressionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/reservedPrefixA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/dollarSignA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/doubleQuotedStringA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/escapeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/escapedDoubleQuotedStringA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/text/escapedSingleQuotedStringA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/interestingA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/interiorIndentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/interpolatedDoubleQuotedStringA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/interpolatedSingleQuotedStringA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/interpolationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/multilineBlankLineA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/multilineBlankLineCrlfA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/multilineCorruptedLeadingWhitespaceA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/text/multilineIndentedAndAlignedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/multilineMismatchedLeadingWhitespaceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/multilinePreserveCommentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/multilineTabsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/nonAssignedUnicodeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/text/preserveCommentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/singleLineA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/singleQuoteConcatA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/singleQuotedStringA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/templateA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/twoLinesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/unicodeBracedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/text/unicodeDoubleQuotedStringA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/text/unicodeEscapedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/text/unicodePlane16A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/time/DateTimeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/time/DateTimeTimeZoneA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/time/LowercaseTA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/time/TimeTimeZoneA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/time/TimeTimeZoneZA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/toMapA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unicodeCommentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/AnnotationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/AssertA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/AssertEquivalenceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/AssertEquivalenceUnicodeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/AssertPrecedenceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/BoolA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/BoolLitTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/BuiltinListBuildA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/CompletionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/DateA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/DateLiteralA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/DeBruijnIndexA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLit16bitA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLit32bitA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLit64bitA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitExponentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitExponentNegativeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitExponentNoDotA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitInfinityA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitNaNA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitNegInfinityA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitNegZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitNegativeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitPositiveA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitSecretlyIntA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/DoubleLitZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/EmptyRecordLiteralA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FieldA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FieldBuiltinNameA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FieldQuotedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ForallA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ForallNestedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ForallUnderscoreA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ForallUnicodeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FunctionApplicationMultipleArgsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FunctionApplicationOneArgA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FunctionTypeArrowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FunctionTypePiA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FunctionTypePiNestedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FunctionTypePiUnderscoreA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/FunctionTypePiUnicodeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/IntegerLitNegativeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/IntegerLitPositiveA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/KindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/LambdaA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/LambdaNestedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/LambdaUnderscoreA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/LambdaUnicodeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/LetA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/LetAnnotA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/LetMultiA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/LetNestedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/LetNoAnnotA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ListLitEmpty1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ListLitEmpty2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ListLitEmptyCommaA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ListLitEmptyPrecedenceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ListLitLeadingCommaA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ListLitNonEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ListLitNonEmptyAnnotatedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ListLitTrailingAndLeadingCommasA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ListLitTrailingCommaA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ListWithNewlineA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/MergeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/MergeAnnotationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/MergeAnnotationPrecedenceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/MergeParenAnnotationA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/MergeXYZA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/NaturalLitA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ProjectionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ProjectionLeadingCommaA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ProjectionTrailingAndLeadingCommasA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ProjectionTrailingCommaA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/QuotedBoolA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/QuotedTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/QuotedTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/QuotedVariableA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordLitA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordLitDottedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordLitDottedEscapeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordLitDuplicatesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordLitEmptyBothCommasA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordLitEmptyLeadingCommaA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordLitEmptyTrailingCommaA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordLitLeadingCommaA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordLitNixLikeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordLitPunA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordLitPunDuplicateA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordLitPunMixedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordLitPunSomeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordLitSomeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordLitTrailingAndLeadingCommasA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordLitTrailingCommaA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordProjectionByTypeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordProjectionByTypeEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordTypeEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/RecordTypeEmptyCommaA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordTypeLeadingCommaA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordTypeTrailingAndLeadingCommasA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/RecordTypeTrailingCommaA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/SelectionSomeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/ShebangA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ShebangNixA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ShowConstructorA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ShowConstructorWithValueA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/SomeXA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/SomeXYZA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/SortA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/TimeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/TimeLiteralA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/TimeLiteralHighPrecisionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/TimeLiteralTrailingZerosA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/TimeZoneA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/TimeZoneLiteralA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ToMapA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ToMapAnnotA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/TrailingLineCommentWithoutNewlineA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/TypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeEmptyDelimA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeLeadingDelimA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeSomeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeTrailingAndLeadingDelimsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeTrailingDelimA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeXA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeXTYA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeXTYUA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeXYA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/UnionTypeXYTA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/VariableA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/VariableQuotedWithSpaceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/VariableUnderscoreA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/WithA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/WithMultipleA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/WithPrecedence1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/WithPrecedence2A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/WithPrecedence3A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/WithSomeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/ifThenElseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/import/AsLocationAbsoluteA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/AsLocationEnvA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/AsLocationHashA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/AsLocationLocalA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/AsLocationMissingA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/AsLocationRemoteA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/HeadersA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/HeadersDoubleHashA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/HeadersDoubleHashPrecedenceA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/HeadersHashPrecedenceA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/HeadersInteriorHashA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/ImportAsNoSpaceA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/MissingA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/asTextA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/environmentVariableBashA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/environmentVariablePosixA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/hashA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/importAltA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/inlineUsingA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/pathAbsoluteA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/pathHereA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/pathHomeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/pathParentA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/pathTerminationLambdaA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/pathTerminationListA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/pathTerminationRecordA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/pathTerminationUnionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/quotedPathsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/unicodePathsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/basicHttpA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/basicHttpsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/emptyPath0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/emptyPath1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/emptyPathSegmentA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/emptyQueryA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/escapedPathA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/escapedQueryA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/fragmentParsesAsListAppendA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/ipv4A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/ipv4upperoctetsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/ipv6longA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/ipv6mediumA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/ipv6shortA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/ipv6verylongA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/ipv6withipv4A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/ipvfutureLowercaseA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/ipvfutureUppercaseA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/portA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/potPourriA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/import/urls/userinfoA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/operators/BoolAndA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/BoolAndAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/BoolEQA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/BoolEQAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/BoolNEA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/BoolNEAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/BoolOrA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/BoolOrAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/EquivalenceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/EquivalenceAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/ImportAltA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/ImportAltAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/ListAppendA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/ListAppendAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/NaturalPlusA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/NaturalPlusAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/NaturalTimesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/NaturalTimesAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/PrecedenceBoolA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/PrecedenceEquivalenceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/PrecedenceNatA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/PrecedenceRecordA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/RecursiveRecordMergeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/RecursiveRecordMergeAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/RecursiveRecordMergeUnicodeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/RecursiveRecordMergeUnicodeAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/RecursiveRecordTypeMergeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/operators/RecursiveRecordTypeMergeAssocA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/operators/RecursiveRecordTypeMergeUnicodeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/operators/RecursiveRecordTypeMergeUnicodeAssocA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/unit/operators/RightBiasedRecordMergeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/RightBiasedRecordMergeAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/RightBiasedRecordMergeUnicodeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/RightBiasedRecordMergeUnicodeAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/TextAppendA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/unit/operators/TextAppendAssocA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/usingToMapA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "parser/success/whitespaceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/whitespaceBuffetA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "parser/success/withQuestionMarkA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/haskell-tutorial/access/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/haskell-tutorial/access/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/haskell-tutorial/combineTypes/0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/haskell-tutorial/combineTypes/1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/haskell-tutorial/prefer/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/haskell-tutorial/projection/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/and/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/and/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/build/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/build/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/even/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/even/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/even/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/even/3A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/fold/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/fold/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/not/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/not/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/odd/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/odd/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/odd/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/odd/3A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/or/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/or/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/show/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Bool/show/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Double/show/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Double/show/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Integer/show/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Integer/show/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Integer/toDouble/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Integer/toDouble/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/all/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/all/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/any/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/any/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/build/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/build/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/concat/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/concat/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/concatMap/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/concatMap/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/filter/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/filter/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/fold/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/fold/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/fold/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/generate/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/generate/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/head/0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/head/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/indexed/0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/indexed/1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/iterate/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/iterate/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/last/0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/last/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/length/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/length/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/map/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/map/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/null/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/null/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/replicate/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/replicate/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/reverse/0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/reverse/1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/shifted/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/shifted/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/unzip/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/List/unzip/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/build/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/build/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/enumerate/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/enumerate/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/even/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/even/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/fold/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/fold/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/fold/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/isZero/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/isZero/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/odd/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/odd/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/product/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/product/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/show/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/show/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/sum/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/sum/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/toDouble/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/toDouble/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/toInteger/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Natural/toInteger/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/all/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/all/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/any/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/any/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/build/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/build/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/concat/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/concat/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/concat/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/filter/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/filter/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/fold/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/fold/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/head/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/head/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/head/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/last/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/last/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/last/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/length/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/length/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/map/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/map/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/null/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/null/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/toList/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/toList/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/unzip/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Optional/unzip/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/concat/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/concat/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/concatMap/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/concatMap/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/concatMapSep/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/concatMapSep/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/concatSep/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/concatSep/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/show/0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/prelude/Text/show/1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "semantic-hash/success/remoteSystemsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/doubleShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/enumA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/integerShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/integerToDoubleA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/letletA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/listBuildA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/multiLineA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/naturalBuildA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/naturalPlusA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/naturalShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/naturalToIntegerA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simple/sortOperatorA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simplifications/andA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simplifications/eqA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simplifications/ifThenElseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simplifications/neA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "semantic-hash/success/simplifications/orA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/DateApplyTime.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/SortInLet.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/hurkensParadox.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/recordOfKind.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/AnnotationRecordWrongFieldName.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/AnnotationRecordWrongFieldType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/AssertAlphaTrap.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/AssertAlphaTrap2.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/AssertDoubleZeros.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/AssertNotEquivalence.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/AssertTriviallyFalse.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/CompletionMissingRequiredField.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/CompletionWithWrongDefaultType.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/CompletionWithWrongFieldName.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/CompletionWithWrongOverridenType.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/EmptyToMap.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/EquivalenceNotSameType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/EquivalenceNotTerms.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/FunctionApplicationArgumentNotMatch.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/FunctionApplicationIsNotFunction.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/FunctionArgumentTypeNotAType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/FunctionTypeArgumentTypeNotAType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/FunctionTypeKindSort.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/FunctionTypeOutputTypeNotAType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/FunctionTypeTypeSort.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/HeterogenousToMap.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/IfBranchesNotMatch.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/IfBranchesNotTermTypeOrKind.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/IfNotBool.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/LetInSort.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/LetWithNonterminatingAnnotation.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/LetWithWrongAnnotation.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/ListLiteralEmptyNotType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/ListLiteralNotType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/ListLiteralTypesNotMatch.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeAlternativeHasNoHandler.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeAnnotationMismatch.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeAnnotationNotType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeBool.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeEmptyNeedsDirectAnnotation1.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeEmptyNeedsDirectAnnotation2.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeEmptyWithoutAnnotation.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeHandlerFreeVar.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeHandlerNotFunction.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeHandlerNotInUnion.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeHandlerNotMatchAlternativeType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeHandlersWithDifferentType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeLhsNotRecord.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeMissingHandler1.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeMissingHandler2.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeRhsNotUnion.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MergeUnusedHandler.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MistypedToMap1.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MistypedToMap2.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MistypedToMap3.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/MistypedToMap4.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/NaturalSubtractNotNatural.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/NestedAnnotInnerWrong.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/NestedAnnotOuterWrong.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/NonRecordToMap.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorAndNotBool.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorEqualNotBool.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorListConcatenateLhsNotList.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorListConcatenateListsNotMatch.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorListConcatenateNotListsButMatch.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorListConcatenateRhsNotList.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorNotEqualNotBool.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorOrNotBool.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorPlusNotNatural.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorTextConcatenateLhsNotText.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorTextConcatenateRhsNotText.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OperatorTimesNotNatural.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OptionalDeprecatedSyntaxAbsent.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/OptionalDeprecatedSyntaxPresent.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordLitDuplicateFieldsAbstract.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordLitDuplicateFieldsCollidingRecords.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordLitDuplicateFieldsNotRecords.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordProjectionByTypeFieldTypeMismatch.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordProjectionByTypeNotPresent.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordProjectionDuplicateFields.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordProjectionEmpty.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordProjectionNotPresent.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordProjectionNotRecord.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordSelectionEmpty.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordSelectionNotPresent.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordSelectionNotRecord.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordSelectionTypeNotUnionType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordTypeDuplicateFields.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/RecordTypeValueMember.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecursiveRecordMergeLhsNotRecord.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecursiveRecordMergeOverlapping.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecursiveRecordMergeRhsNotRecord.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RecursiveRecordTypeMergeLhsNotRecordType.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/RecursiveRecordTypeMergeOverlapping.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/RecursiveRecordTypeMergeRhsNotRecordType.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/RemovedBuiltinOptionalBuild.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RemovedBuiltinOptionalFold.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RightBiasedRecordMergeLhsNotRecord.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/RightBiasedRecordMergeRhsNotRecord.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/ShowConstructorNotFullyApplied.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/ShowConstructorNotFullyAppliedOptional.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/ShowConstructorWrongArgument.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/SomeNotType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/Sort.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/TextLiteralInterpolateNotText.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/ToMapEmptyInvalidAnnotation.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/ToMapWrongKind.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/TypeAnnotationWrong.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/UnionConstructorFieldNotPresent.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/UnionDeprecatedConstructorsKeyword.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/UnionTypeDuplicateVariants1.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/UnionTypeDuplicateVariants2.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/UnionTypeNotType.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/VariableFree.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/failure/unit/WithInfersKind.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/WithInvalidOverrideA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/WithNestedNotOptional.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/WithNotOptional.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/WithNotRecord.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/WithOptionalNestedRecordTypeChanged.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/WithOptionalNestedRecordTypeChanged2.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/WithOptionalRecordTypeChanged.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/WithOptionalTypeChanged.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/WithOptionalTypeChangedRecord.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/failure/unit/Z.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/CacheImportsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/CacheImportsCanonicalizeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/accessEncodedTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/accessTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/preferMixedRecordsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/preferMixedRecordsSameFieldA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/and/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/and/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/build/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/build/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/even/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/even/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/even/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/even/3A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/fold/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/fold/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/not/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/not/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/odd/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/odd/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/odd/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/odd/3A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/or/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/or/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/show/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Bool/show/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Double/show/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Double/show/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Integer/show/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Integer/show/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Integer/toDouble/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Integer/toDouble/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/all/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/all/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/any/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/any/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/build/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/build/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/concat/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/concat/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/concatMap/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/concatMap/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/filter/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/filter/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/fold/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/fold/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/fold/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/generate/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/generate/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/head/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/head/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/indexed/0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/prelude/List/indexed/1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/prelude/List/iterate/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/iterate/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/last/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/last/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/length/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/length/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/map/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/map/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/null/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/null/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/replicate/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/replicate/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/reverse/0A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/prelude/List/reverse/1A.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/prelude/List/shifted/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/shifted/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/unzip/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/List/unzip/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/00A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/01A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/02A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/03A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/04A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/05A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/06A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/07A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/08A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/09A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Monoid/10A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/build/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/build/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/enumerate/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/enumerate/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/even/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/even/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/fold/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/fold/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/fold/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/isZero/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/isZero/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/odd/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/odd/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/product/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/product/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/show/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/show/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/sum/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/sum/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/toDouble/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/toDouble/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/toInteger/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Natural/toInteger/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/all/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/all/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/any/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/any/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/build/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/build/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/concat/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/concat/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/concat/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/filter/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/filter/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/fold/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/fold/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/head/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/head/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/head/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/last/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/last/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/last/2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/length/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/length/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/map/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/map/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/null/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/null/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/toList/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/toList/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/unzip/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Optional/unzip/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Text/concat/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Text/concat/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Text/concatMap/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Text/concatMap/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Text/concatMapSep/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Text/concatMapSep/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Text/concatSep/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/prelude/Text/concatSep/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/preludeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/recordOfRecordOfTypesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/recordOfTypesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/regression/LambdaInLetScoping1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/regression/LambdaInLetScoping2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/regression/RecursiveRecordTypeMergeTripleCollisionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/regression/TodoA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/access/0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/access/1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/anonymousFunctionsInTypesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/combineMixedRecordsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/completionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/simple/complexShadowingA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/fieldsAreTypesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/kindParameterA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/mergeEquivalenceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/mixedFieldAccessA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/orderInsensitivityA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/simple/toMapEmptyNormalizeAnnotationA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/simple/unionsOfTypesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/AssertAlphaA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/AssertNaNA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/AssertSimpleA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/AssertTrivialA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/BoolA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/BytesLiteralA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/CompletionA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/ConstructorShiftA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/DoubleA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/DoubleLiteralA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/DoubleShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/EquivalenceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FalseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionApplicationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionApplicationNormalizeArgumentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionApplicationNormalizeResultA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionDependentType1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionDependentType2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionNamedArgA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionNormalizeTypeAnnotationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionTypeKindKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionTypeKindTermA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionTypeKindTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionTypeTermTermA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionTypeTypeKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionTypeTypeTermA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionTypeTypeTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/FunctionTypeUsingArgumentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/IfA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/IfBranchesKindA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/IfBranchesTypeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/IfNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/IntegerA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/IntegerClampA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/IntegerLiteralA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/IntegerNegateA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/IntegerShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/IntegerToDoubleA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/KindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/LetA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/LetNestedTypeSynonymA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/LetTypeSynonymA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/LetWithAnnotationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListBuildA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListFoldA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListHeadA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListIndexedA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListLastA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListLengthA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListLiteralEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListLiteralEmptyNormalizeAnnotationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListLiteralNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListLiteralOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ListReverseA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeEmptyAlternativeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeEmptyUnionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeNoneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeOneEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeOneWithAnnotation0A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeOneWithAnnotation1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeOptionalA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeSomeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/MergeTrickyShadowingA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalBuildA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalEvenA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalFoldA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalIsZeroA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalLiteralA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalOddA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalSubtractA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NaturalToIntegerA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/NoneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorAndA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorAndNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorEqualA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorEqualNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorListConcatenateA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorListConcatenateNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorNotEqualA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorNotEqualNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorOrA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorOrNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorPlusA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorPlusNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorTextConcatenateA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorTextConcatenateNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorTimesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OperatorTimesNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/OptionalA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordLitDottedFieldsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordLitDottedFieldsMergeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordLitDuplicateFieldsAbstractA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordLitDuplicateFieldsNoCollisionsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordLitNormalizeFieldTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordLitPunA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecordLitPunCaptureA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecordLitPunSomeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecordLitSortFieldsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordMixedKinds2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordMixedKindsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordNestedKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordNestedKindLikeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordNestedTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordNestedTypeLikeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordOneKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordOneTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordOneValueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordProjectionByTypeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecordProjectionByTypeEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecordProjectionByTypeJudgmentalEqualityA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecordProjectionEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordProjectionEmptyKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordProjectionKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordProjectionTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordProjectionValueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordSelectionKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordSelectionTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordSelectionValueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeKindLikeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeMixedKinds2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeMixedKinds3A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeMixedKindsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeNestedKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeNestedKindLikeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecordTypeTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeBoolTypeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeLhsEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeMixedKindsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeRecursivelyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeRecursivelyKindsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeRecursivelyTypesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeRhsEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeTwoA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeTwoKindsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordMergeTwoTypesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordTypeMergeDeepA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordTypeMergeRecursivelyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordTypeMergeRecursivelyKindsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordTypeMergeRecursivelyTypesA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordTypeMergeRhsEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordTypeMergeTwoA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordTypeMergeTwoKindsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RecursiveRecordTypeMergeTwoTypesA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/RightBiasedRecordMergeMixedKindsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RightBiasedRecordMergeRhsEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RightBiasedRecordMergeTwoA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RightBiasedRecordMergeTwoDifferentA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RightBiasedRecordMergeTwoKindsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/RightBiasedRecordMergeTwoTypesA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ShowConstructorEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/ShowConstructorNonEmptyA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/ShowConstructorOptionalA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/SomeTrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TextA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TextLiteralA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TextLiteralNormalizeArgumentsA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TextLiteralWithInterpolationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TextReplaceA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TextShowA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/ToMapA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/ToMapAnnotatedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/ToMapInferTypeFromRecordA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/TrueA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TypeAnnotationA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TypeAnnotationFunctionA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TypeAnnotationNormalizeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/TypeAnnotationSortA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/UnionConstructorEmptyFieldA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/UnionConstructorFieldA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/UnionTypeEmptyA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/UnionTypeKindA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/UnionTypeMixedKinds1A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/UnionTypeMixedKinds2A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/UnionTypeMixedKinds3A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/UnionTypeMixedKinds4A.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/UnionTypeOneA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/UnionTypeTypeA.dhall",
+      "status": "pass"
+    },
+    {
+      "case": "type-inference/success/unit/WithCreateIntermediateRecordsA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/WithInfersKindA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/WithNestedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/WithNewFieldA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/WithNewTypeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/WithOptionalNestedTypeUnchangedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/WithOptionalTypeUnchangedA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/time/DateA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/time/DateLiteralA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/time/DateTimeLiteralA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/time/DateTimeTimeZoneLiteralA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/time/TimeA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/time/TimeLiteralA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/time/TimeTimeZoneLiteralA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/time/TimeZoneA.dhall",
+      "status": "fail"
+    },
+    {
+      "case": "type-inference/success/unit/time/TimeZoneLiteralA.dhall",
+      "status": "fail"
+    }
+  ]
+}
