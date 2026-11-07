@@ -216,13 +216,7 @@ fn reduce_builtin(
     ("Integer/show", [Integer(s)]) =>
       Some(Text(if s.has_prefix("-") { s } else { "+" + s }))
     ("Integer/toDouble", [Integer(s)]) =>
-      Some(
-        Real(
-          @string.parse_double(s[:]) catch {
-            _ => raise Evaluation("Integer is too large for Double")
-          },
-        ),
-      )
+      Some(Real(integer_double(@bigint.BigInt::from_string(s))))
     ("Integer/negate", [Integer(s)]) =>
       Some(Integer((-@bigint.BigInt::from_string(s)).to_string()))
     ("Integer/clamp", [Integer(s)]) => {
@@ -522,7 +516,8 @@ pub fn equivalent(left : String, right : String) -> Bool raise DhallError {
 
 ///|
 fn same(a : Expr, b : Expr) -> Bool raise DhallError {
-  normal(a, { fuel: 200000, }, 0) == normal(b, { fuel: 200000, }, 0)
+  encode_expr(normal(a, { fuel: 200000, }, 0)) ==
+  encode_expr(normal(b, { fuel: 200000, }, 0))
 }
 
 ///|
@@ -603,4 +598,35 @@ pub fn alpha_normalize(expr : Expr) -> Expr raise DhallError {
 /// Applications should use normalize_expr to check closed terms first.
 pub fn beta_normalize(expr : Expr) -> Expr raise DhallError {
   normal(canonical(expr, [], 0), { fuel: 200000, }, 0)
+}
+
+///|
+/// Correctly rounded integer conversion, including the overflow boundary.
+fn integer_double(value : @bigint.BigInt) -> Double {
+  let negative = value < 0
+  let n = if negative { -value } else { value }
+  let bits = n.bit_length()
+  if bits > 1024 {
+    return if negative { -1.0 / 0.0 } else { 1.0 / 0.0 }
+  }
+  let mut d = if bits <= 53 {
+    n.to_uint64().to_double()
+  } else {
+    let shift = bits - 53
+    let mut top = n.shr(shift)
+    let remainder = n - top.shl(shift)
+    let half = @bigint.BigInt::from_int(1).shl(shift - 1)
+    if remainder > half || (remainder == half && top % 2 != 0) {
+      top = top + 1
+    }
+    let mut out = top.to_uint64().to_double()
+    for _ in 0..<shift {
+      out = out * 2.0
+    }
+    out
+  }
+  if negative {
+    d = -d
+  }
+  d
 }

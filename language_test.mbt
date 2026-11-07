@@ -160,3 +160,16 @@ test "formatting round trips normalized values" {
     )
   }
 }
+
+///|
+test "Integer to Double uses round to nearest ties to even" {
+  assert_eq(
+    @MoonDhall.to_json("Integer/toDouble +9007199254740993"),
+    "9007199254740992.0",
+  )
+  assert_eq(
+    @MoonDhall.to_json("Integer/toDouble +9007199254740995"),
+    "9007199254740996.0",
+  )
+  assert_true(@MoonDhall.equivalent("NaN", "NaN"))
+}
