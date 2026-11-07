@@ -1,0 +1,8 @@
+import {
+  "Charles67676767/MoonDhall" @dhall,
+  "moonbitlang/core/json",
+}
+
+supported_targets = "js"
+
+pkgtype(kind: "executable")

@@ -23,6 +23,9 @@ fn main raise {
   match args[0] {
     "json" => println(@dhall.to_json(args[1]))
     "check" => println(@dhall.check(args[1]).display())
+    "normalize" => println(@dhall.format_expr(@dhall.normalize(args[1])))
+    "hash" => println(@dhall.semantic_hash(args[1]))
+    "format" => println(@dhall.format(args[1]))
     _ => fail("Unknown command: " + args[0])
   }
 }
