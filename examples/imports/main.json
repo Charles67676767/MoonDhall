@@ -1,0 +1,1 @@
+{"banner":"MoonDhall service configuration","debug":false,"services":{"admin":{"description":"service: admin","host":"127.0.0.1","labels":["moonbit","service","admin"],"port":9090},"api":{"description":"service: api","host":"127.0.0.1","labels":["moonbit","service","api"],"port":8080}}}

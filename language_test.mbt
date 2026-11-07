@@ -173,3 +173,24 @@ test "Integer to Double uses round to nearest ties to even" {
   )
   assert_true(@MoonDhall.equivalent("NaN", "NaN"))
 }
+
+///|
+test "builders text replacement and list reversal" {
+  assert_eq(
+    @MoonDhall.to_json(
+      "Natural/build (\\(natural : Type) -> \\(succ : natural -> natural) -> \\(zero : natural) -> succ (succ zero))",
+    ),
+    "2",
+  )
+  assert_eq(
+    @MoonDhall.to_json(
+      "List/build Natural (\\(list : Type) -> \\(cons : Natural -> list -> list) -> \\(nil : list) -> cons 1 (cons 2 nil))",
+    ),
+    "[1,2]",
+  )
+  assert_eq(@MoonDhall.to_json("List/reverse Natural [1,2,3]"), "[3,2,1]")
+  assert_eq(
+    @MoonDhall.to_json("Text/replace \"aa\" \"b\" \"aaaaa\""),
+    "\"bba\"",
+  )
+}

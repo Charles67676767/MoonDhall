@@ -85,7 +85,12 @@ try {
         const cacheFile = cacheDir && path.join(cacheDir, createHash('sha256').update(location).digest('hex') + '.json');
         if (cacheFile && fs.existsSync(cacheFile)) {
           const cached = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
-          if (cached.url === location && typeof cached.source === 'string') source = cached.source;
+          if (cached.url === location && typeof cached.source === 'string') {
+            if (isRemote && new URL(parent).origin !== new URL(location).origin) {
+              if (cached.cors !== '*' && cached.cors !== new URL(parent).origin) throw new Error('Cached cross-origin import denied by CORS');
+            }
+            source = cached.source;
+          }
         }
         if (source === null) {
           if (offline) throw new Error('Remote import is unavailable in offline cache');
@@ -108,7 +113,7 @@ try {
           if (cacheFile) {
             fs.mkdirSync(cacheDir, { recursive: true });
             const temporary = cacheFile + '.' + process.pid + '.tmp';
-            fs.writeFileSync(temporary, JSON.stringify({ url: location, source }));
+            fs.writeFileSync(temporary, JSON.stringify({ url: location, source, cors: response.headers.get('access-control-allow-origin') }));
             fs.renameSync(temporary, cacheFile);
           }
         }

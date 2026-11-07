@@ -21,7 +21,9 @@ fn response(j : Json) -> String {
   let origin = text_field(j, "origin", "<stdin>")
   let op = text_field(j, "op", "json")
   let result = try {
-    if op == "syntax" {
+    if op == "format" {
+      @dhall.format(source)
+    } else if op == "syntax" {
       @dhall.format_expr(@dhall.parse(source))
     } else if op == "decode" {
       @dhall.format_expr(@dhall.decode(@dhall.hex_to_bytes(source)))
@@ -73,7 +75,6 @@ fn response(j : Json) -> String {
             @dhall.encode_expr(@dhall.type_of(expr).expression),
           )
         "normalize" => @dhall.format_expr(@dhall.normalize_expr(expr))
-        "format" => @dhall.format_expr(expr)
         "hash" => @dhall.sha256(@dhall.encode_expr(@dhall.normalize_expr(expr)))
         "encode" => @dhall.bytes_to_hex(@dhall.encode_expr(expr))
         _ => return "{\"error\":\"Unknown operation\"}"

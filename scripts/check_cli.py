@@ -41,6 +41,11 @@ def main():
         reject(run(*arguments)); count += 1
     assert "Usage:" in require(run("--help")); count += 1
     reject(run("json", "-", data=b"\xff")); count += 1
+    for file in ["examples/imports/main.dhall", "examples/polymorphic/config.dhall"]:
+        expected = json.loads((ROOT / file).with_suffix(".json").read_text(encoding="utf-8"))
+        actual = json.loads(require(run("json", ROOT / file)))
+        assert actual == expected
+        count += 1
     with TemporaryDirectory(prefix="moondhall-test-", dir=ROOT / ".local") as directory:
         temp = Path(directory)
         (temp / "value.dhall").write_text("{ port = 8080 }")
