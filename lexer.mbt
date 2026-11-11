@@ -2,6 +2,7 @@
 priv enum TokenKind {
   Word(String)
   Number(String)
+  Literal(Expr)
   Quoted(String, Bool)
   Path(String)
   Label(String)
@@ -33,6 +34,15 @@ fn chars_text(chars : Array[Char], start : Int32, end : Int32) -> String {
     b.write_char(chars[i])
   }
   b.to_string()
+}
+
+///|
+fn radix_digit(c : Char, binary : Bool) -> Bool {
+  if binary {
+    c == '0' || c == '1'
+  } else {
+    digit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')
+  }
 }
 
 ///|
@@ -91,8 +101,24 @@ fn lex(source : String) -> Array[Token] raise DhallError {
         chars[i + 1] != '/' &&
         chars[i + 1] != '\\'
       ) {
+      let remote = rest.has_prefix("https://") || rest.has_prefix("http://")
       while i < chars.length() &&
             ![' ', '\n', '\r', '\t', ')', ']', '}', ','].contains(chars[i]) {
+        if chars[i] == '"' {
+          if remote {
+            raise Syntax("Remote import paths cannot contain quotes", i)
+          }
+          i += 1
+          while i < chars.length() && chars[i] != '"' {
+            if rest.has_prefix("env:") && chars[i] == '\\' {
+              i += 1
+            }
+            i += 1
+          }
+          if i >= chars.length() {
+            raise Syntax("Unterminated quoted import path", start)
+          }
+        }
         i += 1
       }
       tokens.push({
@@ -114,6 +140,28 @@ fn lex(source : String) -> Array[Token] raise DhallError {
       let name = chars_text(chars, begin, i)
       i += 1
       tokens.push({ kind: Label(name), offset: start, end: i, })
+      continue
+    }
+    if rest.has_prefix("0x\"") {
+      i += 3
+      let begin = i
+      while i < chars.length() && chars[i] != '"' {
+        i += 1
+      }
+      if i == chars.length() {
+        raise Syntax("Unterminated Bytes literal", start)
+      }
+      let bytes = hex_to_bytes(chars_text(chars, begin, i)) catch {
+        _ => raise Syntax("Bytes require pairs of hexadecimal digits", begin)
+      }
+      i += 1
+      tokens.push({ kind: Literal(ByteLiteral(bytes)), offset: start, end: i, })
+      continue
+    }
+    if (digit(c) || c == '+' || c == '-') &&
+      temporal_at(chars, i) is Some((literal, end)) {
+      i = end
+      tokens.push({ kind: Literal(literal), offset: start, end: i, })
       continue
     }
     let multiline = c == '\'' && i + 1 < chars.length() && chars[i + 1] == '\''
@@ -184,6 +232,28 @@ fn lex(source : String) -> Array[Token] raise DhallError {
         chars[i + 1] >= '0' &&
         chars[i + 1] <= '9'
       ) {
+      let digits_start = if c == '+' || c == '-' { i + 1 } else { i }
+      if char_at(chars, digits_start, '0') &&
+        (
+          char_at(chars, digits_start + 1, 'x') ||
+          char_at(chars, digits_start + 1, 'b')
+        ) {
+        let binary = chars[digits_start + 1] == 'b'
+        i = digits_start + 2
+        let begin = i
+        while i < chars.length() && radix_digit(chars[i], binary) {
+          i += 1
+        }
+        if i == begin {
+          raise Syntax("Expected digits after number prefix", begin)
+        }
+        tokens.push({
+          kind: Number(chars_text(chars, start, i)),
+          offset: start,
+          end: i,
+        })
+        continue
+      }
       i += 1
       while i < chars.length() && chars[i] >= '0' && chars[i] <= '9' {
         i += 1
@@ -248,7 +318,10 @@ fn lex(source : String) -> Array[Token] raise DhallError {
     }
     let mut symbol = c.to_string()
     let remaining = chars_text(chars, i, min_int(i + 3, chars.length()))
-    if remaining == "===" {
+    if remaining == "//\\" {
+      symbol = "//\\"
+      i += 3
+    } else if remaining == "===" {
       symbol = "==="
       i += 3
     } else {
@@ -266,13 +339,14 @@ fn lex(source : String) -> Array[Token] raise DhallError {
       "∀" => "forall"
       "∧" => "/\\"
       "⫽" => "//"
+      "⩓" => "//\\"
       "≡" => "==="
       _ => symbol
     }
     if [
         "(", ")", "{", "}", "[", "]", ",", ":", "=", ".", "\\", "+", "*", "@", "#",
         "<", ">", "|", "?", "->", "&&", "||", "==", "!=", "++", "//", "/\\", "::",
-        "===", "forall",
+        "//\\", "===", "forall",
       ].contains(symbol) {
       tokens.push({ kind: Symbol(symbol), offset: start, end: i, })
     } else {

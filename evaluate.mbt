@@ -29,6 +29,7 @@ fn children(
     UnionType(fs) => UnionType(fs.map(p => (p.0, p.1.map(x => f(x, 0)))))
     Field(x, n) => Field(f(x, 0), n)
     Project(x, ns) => Project(f(x, 0), ns)
+    ProjectType(r, t) => ProjectType(f(r, 0), f(t, 0))
     List(xs) => List(xs.map(x => f(x, 0)))
     Annotate(x, t) => Annotate(f(x, 0), f(t, 0))
     If(c, a, b) => If(f(c, 0), f(a, 0), f(b, 0))
@@ -37,6 +38,7 @@ fn children(
     Merge(h, u, t) => Merge(f(h, 0), f(u, 0), t.map(x => f(x, 0)))
     ToMap(r, t) => ToMap(f(r, 0), t.map(x => f(x, 0)))
     With(r, path, v) => With(f(r, 0), path, f(v, 0))
+    Import(spec) => Import({ ..spec, headers: spec.headers.map(x => f(x, 0)), })
     Assert(x) => Assert(f(x, 0))
     _ => e
   }
@@ -153,6 +155,7 @@ fn combine_records(
   budget : Budget,
   depth : Int32,
 ) -> Array[(String, Expr)] raise DhallError {
+  budget.step(depth)
   let out = a.filter(p => !b.any(q => p.0 == q.0))
   for (k, v) in b {
     let v = if infer_childsive && get_field(a, k) is Some(old) {
@@ -229,6 +232,10 @@ fn reduce_builtin(
       let n = @bigint.BigInt::from_string(s)
       Some(nat(if n < 0 { -n } else { n }))
     }
+    ("Date/show", [DateLiteral(_, _, _) as value])
+    | ("Time/show", [TimeLiteral(_, _, _, _) as value])
+    | ("TimeZone/show", [TimeZoneLiteral(_) as value]) =>
+      Some(Text(pretty_type(value)))
     ("Double/show", [Real(d)]) => Some(Text(double_text(d)))
     ("Text/show", [Text(s)]) => Some(Text(quote_json(s)))
     ("Text/replace", [Text(needle), Text(replacement), Text(haystack)]) =>
@@ -387,6 +394,13 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
         Field(x, k)
       }
     }
+    ProjectType(r, t) => {
+      let t = norm(t)
+      match t {
+        RecordType(fields) => norm(Project(r, fields.map(p => p.0)))
+        _ => ProjectType(norm(r), t)
+      }
+    }
     Project(x, ks) => {
       let x = norm(x)
       if x is Record(fs) {
@@ -484,7 +498,7 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
           Record(combine_records(x, y, false, false, budget, depth + 1))
         ("/\\", Record(x), Record(y)) =>
           Record(combine_records(x, y, true, false, budget, depth + 1))
-        ("/\\", RecordType(x), RecordType(y)) =>
+        ("//\\", RecordType(x), RecordType(y)) =>
           RecordType(combine_records(x, y, true, true, budget, depth + 1))
         _ => Binary(op, a, b)
       }
@@ -575,6 +589,9 @@ fn render_json(e : Expr, depth : Int32) -> String raise DhallError {
       } else {
         double_text(d)
       }
+    ByteLiteral(bs) => quote_json("0x" + bytes_to_hex(bs))
+    DateLiteral(_, _, _) | TimeLiteral(_, _, _, _) | TimeZoneLiteral(_) =>
+      quote_json(pretty_type(e))
     Text(s) => quote_json(s)
     List(xs) | Annotate(List(xs), _) => "[" + xs.map(render).join(",") + "]"
     Record(fs) =>

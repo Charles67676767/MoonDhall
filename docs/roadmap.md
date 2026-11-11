@@ -2,14 +2,13 @@
 
 ## Implemented development milestone
 
-Portable typed core, first-class/dependent types, normalization/equivalence, arbitrary-precision numbers, interpolation, record/list operations, Optional/unions, CBOR and semantic hashes. File/stdin CLI, imports, caching, diagnostics, examples and pinned audits are available. See compatibility.md for boundaries.
+Portable typed core, first-class/dependent types, normalization/equivalence, arbitrary-precision numbers, interpolation, record/list operations, Optional/unions, CBOR and semantic hashes. File/stdin CLI, import modes and headers, semantic caching, diagnostics, examples and pinned audits are available. The language also supports Bytes, Date, Time, TimeZone, record completion, with and toMap. See compatibility.md for boundaries.
 
 ## Standard completion
 
 - Fix audited grammar, typing and normalization differences.
-- Add Bytes/date/time, toMap, with, completion, type projection and record-type merge.
-- Complete unresolved-import binary forms and display/escape rules.
-- Integrate the official import fixture server, headers and standard cache.
+- Complete the remaining display and escape rules.
+- Verify parser and normalization edge cases around imports and test the host against the upstream HTTP and HTTPS fixture server.
 - Extend regression coverage as previously failing cases become supported.
 
 ## Release and embedding

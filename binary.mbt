@@ -9,6 +9,7 @@ priv enum Cbor {
   CBool(Bool)
   CNull
   CDouble(Double)
+  CDecimal(@bigint.BigInt, @bigint.BigInt)
 }
 
 ///|
@@ -30,6 +31,27 @@ fn cbor_expr(e : Expr, depth : Int32) -> Cbor raise DhallError {
     BigNatural(s) => CArray([ci(15), CInt(@bigint.BigInt::from_string(s))])
     Integer(s) => CArray([ci(16), CInt(@bigint.BigInt::from_string(s))])
     Real(d) => CDouble(d)
+    ByteLiteral(bs) => CArray([ci(33), CBytes(bs)])
+    DateLiteral(y, m, d) => CArray([ci(30), ci(y), ci(m), ci(d)])
+    TimeLiteral(h, m, s, fraction) =>
+      CArray([
+        ci(31),
+        ci(h),
+        ci(m),
+        CDecimal(
+          @bigint.BigInt::from_int(-fraction.length()),
+          @bigint.BigInt::from_string(s.to_string() + fraction),
+        ),
+      ])
+    TimeZoneLiteral(minutes) => {
+      let magnitude = if minutes < 0 { -minutes } else { minutes }
+      CArray([
+        ci(32),
+        CBool(minutes >= 0),
+        ci(magnitude / 60),
+        ci(magnitude % 60),
+      ])
+    }
     Text(s) => CArray([ci(18), CText(s)])
     Interpolate(ps, tail) => {
       let a = [ci(18)]
@@ -79,6 +101,7 @@ fn cbor_expr(e : Expr, depth : Int32) -> Cbor raise DhallError {
       CArray([ci(11), CMap(m)])
     }
     Field(r, k) => CArray([ci(9), enc(r), CText(k)])
+    ProjectType(r, t) => CArray([ci(10), enc(r), CArray([enc(t)])])
     Project(r, ks) => {
       let a = [ci(10), enc(r)]
       let ks = ks.copy()
@@ -162,8 +185,7 @@ fn cbor_expr(e : Expr, depth : Int32) -> Cbor raise DhallError {
       a.push(enc(tail))
       CArray(a)
     }
-    Import(spec) =>
-      raise BinaryError("Encode imports after resolution: " + spec.path)
+    Import(spec) => CArray(import_cbor(spec, enc))
     At(_, _, _) => abort("unreachable")
   }
 }
@@ -261,6 +283,10 @@ fn half_bits(d : Double) -> UInt32? {
 ///|
 fn write_cbor(c : Cbor, out : Array[Byte]) -> Unit {
   match c {
+    CDecimal(exponent, mantissa) => {
+      header(out, 6, 4UL)
+      write_cbor(CArray([CInt(exponent), CInt(mantissa)]), out)
+    }
     CInt(n) => {
       let negative = n < 0
       let magnitude = if negative { -n - 1 } else { n }
@@ -409,6 +435,15 @@ fn BinaryReader::read(
     return CInt(if major == 0 { b } else { -b - 1 })
   }
   if major == 6 {
+    if n == 55799UL {
+      return self.read(depth + 1)
+    }
+    if n == 4UL {
+      guard self.read(depth + 1) is CArray([CInt(exponent), CInt(mantissa)]) else {
+        raise BinaryError("Invalid decimal fraction")
+      }
+      return CDecimal(exponent, mantissa)
+    }
     if n != 2UL && n != 3UL {
       raise BinaryError("Unsupported CBOR tag")
     }
@@ -480,7 +515,7 @@ fn decode_expr(c : Cbor, depth : Int32) -> Expr raise DhallError {
     CArray([CText(n), CInt(k)]) if n != "_" && k >= 0 && k <= 20000 =>
       Variable(n, k.to_int())
     CArray([CInt(tag), .. rest]) => {
-      if tag < 0 || tag > 29 {
+      if tag < 0 || tag > 33 {
         raise BinaryError("Unknown Dhall binary tag")
       }
       let a = rest.to_owned()
@@ -506,6 +541,7 @@ fn decode_expr(c : Cbor, depth : Int32) -> Expr raise DhallError {
         (7, [CMap(fs)]) => RecordType(fs.map(p => (p.0, dec(p.1))))
         (8, [CMap(fs)]) => Record(fs.map(p => (p.0, dec(p.1))))
         (9, [r, CText(k)]) => Field(dec(r), k)
+        (10, [r, CArray([t])]) => ProjectType(dec(r), dec(t))
         (10, [r, .. ks]) => {
           let labels : Array[String] = []
           for k in ks {
@@ -568,6 +604,7 @@ fn decode_expr(c : Cbor, depth : Int32) -> Expr raise DhallError {
           }
           body
         }
+        (24, _) => decode_import_cbor(a, dec)
         (26, [x, t]) => Annotate(dec(x), dec(t))
         (27, [r]) => ToMap(dec(r), None)
         (27, [r, t]) => ToMap(dec(r), Some(dec(t)))
@@ -581,6 +618,39 @@ fn decode_expr(c : Cbor, depth : Int32) -> Expr raise DhallError {
           })
           With(dec(r), keys, dec(v))
         }
+        (30, [CInt(y), CInt(m), CInt(d)]) if y >= 0 &&
+          y <= 9999 &&
+          m >= 1 &&
+          m <= 12 &&
+          d >= 1 &&
+          d <= 31 &&
+          valid_date(y.to_int(), m.to_int(), d.to_int()) =>
+          DateLiteral(y.to_int(), m.to_int(), d.to_int())
+        (31, [CInt(h), CInt(m), CDecimal(exponent, mantissa)]) if h >= 0 &&
+          h <= 23 &&
+          m >= 0 &&
+          m <= 59 &&
+          exponent <= 0 &&
+          exponent >= -262144 &&
+          mantissa >= 0 => {
+          let precision = -exponent.to_int()
+          let seconds = pad_digits(mantissa.to_string(), precision + 2)
+          let boundary = seconds.length() - precision
+          guard boundary == 2 else { raise BinaryError("Invalid Time seconds") }
+          let s = decimal_at(seconds.to_array(), 0, 2)
+          if s > 59 {
+            raise BinaryError("Invalid Time seconds")
+          }
+          TimeLiteral(h.to_int(), m.to_int(), s, seconds[boundary:].to_owned())
+        }
+        (32, [CBool(positive), CInt(h), CInt(m)]) if h >= 0 &&
+          h <= 23 &&
+          m >= 0 &&
+          m <= 59 =>
+          TimeZoneLiteral(
+            (if positive { 1 } else { -1 }) * (h.to_int() * 60 + m.to_int()),
+          )
+        (33, [CBytes(bytes)]) => ByteLiteral(bytes)
         (28, [t]) => Annotate(List([]), dec(t))
         _ => raise BinaryError("Malformed or unsupported Dhall binary form")
       }

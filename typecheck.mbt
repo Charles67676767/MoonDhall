@@ -2,6 +2,10 @@
 fn builtin_signature(name : String) -> String? {
   match name {
     "Bool" | "Natural" | "Integer" | "Double" | "Text" => Some("Type")
+    "Bytes" | "Date" | "Time" | "TimeZone" => Some("Type")
+    "Date/show" => Some("Date -> Text")
+    "Time/show" => Some("Time -> Text")
+    "TimeZone/show" => Some("TimeZone -> Text")
     "List" | "Optional" => Some("Type -> Type")
     "None" => Some("forall (a : Type) -> Optional a")
     "Natural/isZero" | "Natural/even" | "Natural/odd" => Some("Natural -> Bool")
@@ -100,6 +104,10 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
     Integer(_) => Builtin("Integer")
     Real(_) => Builtin("Double")
     Text(_) => Builtin("Text")
+    ByteLiteral(_) => Builtin("Bytes")
+    DateLiteral(_, _, _) => Builtin("Date")
+    TimeLiteral(_, _, _, _) => Builtin("Time")
+    TimeZoneLiteral(_) => Builtin("TimeZone")
     Interpolate(ps, _) => {
       for (_, x) in ps {
         require_same(infer_child(x), Builtin("Text"), "Text interpolation")
@@ -219,6 +227,22 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       }
       raise TypeError("Field selection requires a record or union type")
     }
+    ProjectType(r, t) => {
+      guard norm(infer_child(r)) is RecordType(fields) &&
+        norm(t) is RecordType(selected) else {
+        raise TypeError(
+          "Projection by type requires a record and a record type",
+        )
+      }
+      let _ = kind_of(t, ctx, depth + 1)
+      for (key, expected) in selected {
+        guard get_field(fields, key) is Some(actual) else {
+          raise TypeError("Missing projection field: " + key)
+        }
+        require_same(actual, expected, "Projection field " + key)
+      }
+      RecordType(selected)
+    }
     Project(r, ks) => {
       guard norm(infer_child(r)) is RecordType(fs) else {
         raise TypeError("Projection requires a record")
@@ -303,6 +327,21 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       t
     }
     Binary("::", schema, value) => infer_child(complete_record(schema, value))
+    Binary("//\\", a, b) => {
+      let _ = kind_of(a, ctx, depth + 1)
+      let _ = kind_of(b, ctx, depth + 1)
+      guard norm(a) is RecordType(left) && norm(b) is RecordType(right) else {
+        raise TypeError("Record type merge requires record types")
+      }
+      kind_of(
+        RecordType(
+          combine_records(left, right, true, true, { fuel: 200000, }, 0),
+        ),
+        ctx,
+        depth + 1,
+      )
+      |> Universe
+    }
     Binary(op, a, b) => {
       let ta = norm(infer_child(a))
       let tb = norm(infer_child(b))

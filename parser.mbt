@@ -133,6 +133,13 @@ fn Parser::expression(self : Parser) -> Expr raise DhallError {
     if updated {
       raise Syntax("Parenthesize the with expression before annotating", start)
     }
+    if bare(expr) is ToMap(_, None) &&
+      self.tokens[self.index - 1].end == self.offset() {
+      raise Syntax(
+        "Expected whitespace after toMap annotation separator",
+        self.offset(),
+      )
+    }
     match bare(expr) {
       Merge(h, u, None) => Merge(h, u, Some(self.expression()))
       ToMap(r, None) => ToMap(r, Some(self.expression()))
@@ -157,9 +164,10 @@ fn precedence(op : String) -> Int32 {
     "&&" => 6
     "/\\" => 7
     "//" => 8
-    "*" => 9
-    "==" => 10
-    "!=" => 11
+    "//\\" => 9
+    "*" => 10
+    "==" => 11
+    "!=" => 12
     _ => -1
   }
 }
@@ -178,6 +186,7 @@ fn Parser::binary(self : Parser, minimum : Int32) -> Expr raise DhallError {
 fn starts_atom(kind : TokenKind) -> Bool {
   match kind {
     Number(_)
+    | Literal(_)
     | Quoted(_, _)
     | Path(_)
     | Label(_)
@@ -186,9 +195,9 @@ fn starts_atom(kind : TokenKind) -> Bool {
     | Symbol("[")
     | Symbol("<") => true
     Word(s) =>
-      !["let", "in", "then", "else", "if", "as", "forall", "with", "assert"].contains(
-        s,
-      )
+      ![
+        "let", "in", "then", "else", "if", "as", "forall", "with", "assert", "using",
+      ].contains(s)
     _ => false
   }
 }
@@ -196,7 +205,8 @@ fn starts_atom(kind : TokenKind) -> Bool {
 ///|
 fn Parser::application(self : Parser) -> Expr raise DhallError {
   let mut expr = self.completion()
-  while starts_atom(self.peek()) {
+  while starts_atom(self.peek()) &&
+        self.tokens[self.index - 1].end < self.offset() {
     expr = Apply(expr, self.completion())
   }
   expr
@@ -244,6 +254,10 @@ fn Parser::project(self : Parser) -> Expr raise DhallError {
         }
       }
       expr = Project(expr, names)
+    } else if self.accept(Symbol("(")) {
+      let t = self.expression()
+      self.expect(Symbol(")"))
+      expr = ProjectType(expr, t)
     } else {
       expr = Field(expr, self.name())
     }
@@ -253,6 +267,17 @@ fn Parser::project(self : Parser) -> Expr raise DhallError {
 
 ///|
 fn number_expr(s : String, offset : Int32) -> Expr raise DhallError {
+  let signed = s.has_prefix("+") || s.has_prefix("-")
+  let magnitude = if signed { s[1:].to_owned() } else { s }
+  if magnitude.has_prefix("0x") || magnitude.has_prefix("0b") {
+    let radix = if magnitude.has_prefix("0x") { 16 } else { 2 }
+    let n = @bigint.BigInt::from_string(magnitude[2:].to_owned(), radix~)
+    return if signed {
+      Integer((if s.has_prefix("-") { -n } else { n }).to_string())
+    } else {
+      nat(n)
+    }
+  }
   if s.contains(".") || s.contains("e") || s.contains("E") {
     let value = @string.parse_double(s[:]) catch {
       _ => raise Syntax("Invalid Double", offset)
@@ -280,9 +305,50 @@ fn dotted_record(names : Array[String], value : Expr) -> Expr {
 }
 
 ///|
+fn Parser::import_atom(self : Parser, path : String) -> Expr raise DhallError {
+  self.index += 1
+  let headers = if (path.has_prefix("http://") || path.has_prefix("https://")) &&
+    self.accept(Word("using")) {
+    if self.peek() == Word("toMap") {
+      raise Syntax("Parenthesize toMap in a using clause", self.offset())
+    }
+    Some(self.completion())
+  } else {
+    None
+  }
+  let hash = match self.peek() {
+    Word(s) if s.has_prefix("sha256:") => {
+      self.index += 1
+      if s.length() != 71 {
+        raise Syntax("Expected 64 hexadecimal hash digits", self.offset())
+      }
+      Some(s[7:].to_owned())
+    }
+    _ => None
+  }
+  let mode = if self.accept(Word("as")) {
+    let name = self.name()
+    if !["Text", "Location", "Bytes"].contains(name) {
+      raise Syntax(
+        "Expected Text, Bytes or Location import mode",
+        self.offset(),
+      )
+    }
+    name
+  } else {
+    "Code"
+  }
+  Import({ path, mode, hash, headers, })
+}
+
+///|
 fn Parser::atom(self : Parser) -> Expr raise DhallError {
   let start = self.offset()
   let expr = match self.peek() {
+    Literal(value) => {
+      self.index += 1
+      value
+    }
     Number(s) => {
       self.index += 1
       number_expr(s, start)
@@ -324,7 +390,11 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
       Real(1.0 / 0.0)
     }
     Word("toMap") => {
+      let end = self.tokens[self.index].end
       self.index += 1
+      if end == self.offset() {
+        raise Syntax("Expected whitespace after toMap", end)
+      }
       ToMap(self.completion(), None)
     }
     Word("merge") => {
@@ -333,40 +403,25 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
       let union = self.project()
       Merge(handlers, union, None)
     }
-    Word("missing") => {
-      self.index += 1
-      Import({ path: "missing", mode: "Code", hash: None, })
-    }
-    Path(path) => {
-      self.index += 1
-      let hash = match self.peek() {
-        Word(s) if s.has_prefix("sha256:") => {
-          self.index += 1
-          if s.length() != 71 {
-            raise Syntax("Expected 64 hexadecimal hash digits", self.offset())
-          }
-          Some(s[7:].to_owned())
-        }
-        _ => None
-      }
-      let mode = if self.accept(Word("as")) {
-        let name = self.name()
-        if !["Text", "Location"].contains(name) {
-          raise Syntax("Expected Text or Location import mode", self.offset())
-        }
-        name
-      } else {
-        "Code"
-      }
-      Import({ path, mode, hash, })
-    }
+    Word("missing") => self.import_atom("missing")
+    Path(path) => self.import_atom(path)
     Word(s) | Label(s) => {
+      let quoted = self.peek() is Label(_)
       self.index += 1
-      if builtin_signature(s) is Some(_) ||
-        [
-          "Bool", "Natural", "Integer", "Double", "Text", "List", "Optional", "Some",
-          "None",
-        ].contains(s) {
+      if !quoted &&
+        (
+          builtin_signature(s) is Some(_) ||
+          [
+            "Bool", "Natural", "Integer", "Double", "Text", "List", "Optional", "Some",
+            "None",
+          ].contains(s)
+        ) {
+        if self.peek() == Symbol("@") {
+          raise Syntax(
+            "Builtin names cannot have a variable index",
+            self.offset(),
+          )
+        }
         Builtin(s)
       } else {
         let index = if self.accept(Symbol("@")) {

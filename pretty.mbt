@@ -13,8 +13,12 @@ fn label(s : String) -> String {
       c == '/'
     })
   if valid &&
+    s != "" &&
+    identifier_start(s.to_array()[0]) &&
+    builtin_signature(s) is None &&
     ![
       "let", "in", "if", "then", "else", "True", "False", "Type", "Kind", "Sort",
+      "Some", "merge", "toMap", "with", "using", "missing", "as", "forall", "assert",
     ].contains(s) {
     s
   } else {
@@ -32,6 +36,23 @@ fn pretty_type(e : Expr) -> String {
     BigNatural(s) => s
     Integer(s) => if s.has_prefix("-") { s } else { "+" + s }
     Real(d) => double_text(d)
+    ByteLiteral(bs) => "0x\"" + bytes_to_hex(bs) + "\""
+    DateLiteral(y, m, d) =>
+      pad_decimal(y, 4) + "-" + pad_decimal(m, 2) + "-" + pad_decimal(d, 2)
+    TimeLiteral(h, m, s, fraction) =>
+      pad_decimal(h, 2) +
+      ":" +
+      pad_decimal(m, 2) +
+      ":" +
+      pad_decimal(s, 2) +
+      (if fraction == "" { "" } else { "." + fraction })
+    TimeZoneLiteral(minutes) => {
+      let magnitude = if minutes < 0 { -minutes } else { minutes }
+      (if minutes < 0 { "-" } else { "+" }) +
+      pad_decimal(magnitude / 60, 2) +
+      ":" +
+      pad_decimal(magnitude % 60, 2)
+    }
     Text(s) =>
       quote_json(s).replace_all(
         old=interpolation_start()[:],
@@ -85,6 +106,7 @@ fn pretty_type(e : Expr) -> String {
       .join(" | ") +
       " >"
     Field(r, k) => "(" + p(r) + ")." + label(k)
+    ProjectType(r, t) => "(" + p(r) + ").(" + p(t) + ")"
     Project(r, ks) => "(" + p(r) + ").{ " + ks.map(label).join(", ") + " }"
     List(xs) => "[" + xs.map(p).join(", ") + "]"
     Annotate(x, t) => "(" + p(x) + " : " + p(t) + ")"
@@ -122,6 +144,7 @@ fn pretty_type(e : Expr) -> String {
     }
     Import(spec) =>
       spec.path +
+      spec.headers.map(h => " using (" + p(h) + ")").unwrap_or("") +
       spec.hash.map(h => " sha256:" + h).unwrap_or("") +
       (if spec.mode == "Code" { "" } else { " as " + spec.mode })
   }

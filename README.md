@@ -35,7 +35,7 @@ node scripts/moondhall.mjs decode config.dhallb
 node scripts/moondhall.mjs --help
 ```
 
-`format` 保留源文件的导入，重新输出语法；求值命令先解析依赖。`hash` 输出 64 位十六进制摘要，在导入后写成 `sha256:<摘要>`。HTTP(S) 支持相对链式导入、语义完整性校验和磁盘缓存；`--cache-dir DIR`、`--offline`、`--no-cache` 控制缓存。命中原始资源缓存后仍校验声明的语义哈希。默认目录是 `~/.cache/moondhall/imports`；清理目录可刷新未固定哈希的资源。重定向和自定义请求头尚不支持。
+`format` 保留源文件的导入，重新输出语法；求值命令先解析依赖。`hash` 输出 64 位十六进制摘要，在导入后写成 `sha256:<摘要>`。HTTP(S) 支持相对链式导入、语义完整性校验和磁盘缓存；`--cache-dir DIR`、`--offline`、`--no-cache` 控制缓存。命中原始资源缓存后仍校验声明的语义哈希。默认目录是 `~/.cache/moondhall/imports`；清理目录可刷新未固定哈希的资源。CLI 支持行内及按来源配置的请求头、同源重定向和标准 Dhall 语义缓存。
 
 便携的单表达式入口也保留：
 
@@ -51,6 +51,7 @@ moon run examples/services
 - 一等类型、类型别名、Type / Kind / Sort、依赖函数与类型参数，支持遮蔽变量及 `x@1`。
 - 文本插值、多行文本、字段投影、点分字段、记录偏好／递归合并、列表拼接。
 - 常用 Natural、Integer、Double、Text、List 内建函数，包括 fold / build。
+- 支持 Bytes、日期时间类型、记录补全、with 更新、toMap 和类型投影。
 - Alpha / beta 规范化、等价性判断、断言、核心 CBOR 编解码和语义 SHA-256。
 - 本地、环境变量及 HTTP(S) 导入；导入链、循环检测、缺失回退、哈希校验与缓存。
 
@@ -110,7 +111,7 @@ moon fmt --check
 python scripts/conformance.py --audit --allow-failures --report .local/upstream-audit.json
 ```
 
-审计保留通过、失败和未运行项目；正常形式对照不会把预期结果再做 beta 规范化。官方导入套件需要专用服务器，目前明确标记未运行；文件及 HTTP 行为由本项目集成测试验证。[审计快照](docs/upstream-audit.json) 记录完整范围，回归清单的通过率不代表完整标准兼容。
+审计记录每个用例的结果。规范化用例对照上游预期正常形式，导入用例则按上游说明比较两边的 beta 规范化结果。导入审计在内存中模拟固定版本的 HTTP 测试服务，CLI 集成测试另用真实本地 HTTP 服务验证网络行为。[审计快照](docs/upstream-audit.json) 记录完整范围，回归清单的通过率不代表完整标准兼容。
 
 GitHub Actions 覆盖检查、构建、四后端测试、示例、CLI、固定回归清单和完整审计，实际状态见 [Actions](https://github.com/Charles67676767/MoonDhall/actions)。
 

@@ -21,6 +21,10 @@ pub(all) enum Expr {
   Integer(String)
   Real(Double)
   Text(String)
+  ByteLiteral(Bytes)
+  DateLiteral(Int32, Int32, Int32)
+  TimeLiteral(Int32, Int32, Int32, String)
+  TimeZoneLiteral(Int32)
   Interpolate(Array[(String, Expr)], String)
   Variable(String, Int32)
   Builtin(String)
@@ -34,6 +38,7 @@ pub(all) enum Expr {
   UnionType(Array[(String, Expr?)])
   Field(Expr, String)
   Project(Expr, Array[String])
+  ProjectType(Expr, Expr)
   List(Array[Expr])
   Annotate(Expr, Expr)
   If(Expr, Expr, Expr)
@@ -50,6 +55,7 @@ pub(all) struct ImportSpec {
   path : String
   mode : String
   hash : String?
+  headers : Expr?
 } derive(Debug, Eq)
 
 ///|

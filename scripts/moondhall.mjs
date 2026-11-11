@@ -8,6 +8,78 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 
+function originHeaders() {
+  if (Object.hasOwn(process.env, 'DHALL_HEADERS')) {
+    return {
+      headerSource: process.env.DHALL_HEADERS,
+      headerOrigin: pathToFileURL(path.resolve('__headers__.dhall')).href
+    };
+  }
+  const config = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config');
+  const filename = path.join(config, 'dhall', 'headers.dhall');
+  try {
+    const bytes = fs.readFileSync(filename);
+    if (bytes.length > 262144) throw new Error('Origin header configuration exceeds 256 KiB');
+    return { headerSource: new TextDecoder('utf-8', { fatal: true }).decode(bytes),
+      headerOrigin: pathToFileURL(filename).href };
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+    return { headerSource: '' };
+  }
+}
+
+function saveSemanticCache(directory, entries) {
+  if (!entries || Object.keys(entries).length === 0) return;
+  try { fs.mkdirSync(directory, { recursive: true }); } catch { return; }
+  for (const [digest, hex] of Object.entries(entries)) {
+    if (!/^[0-9a-f]{64}$/.test(digest)) continue;
+    const filename = path.join(directory, '1220' + digest);
+    const temporary = filename + '.' + process.pid + '.tmp';
+    try {
+      fs.writeFileSync(temporary, Buffer.from(hex, 'hex'));
+      fs.renameSync(temporary, filename);
+    } catch {
+      try { fs.unlinkSync(temporary); } catch { /* Optional cache write. */ }
+    }
+  }
+}
+
+function importRequest(key) {
+  const [parent, written, metadata] = key.split('\n');
+  if (!written) throw new Error('Invalid import request');
+  const [mode, headers, digest] = metadata ? JSON.parse(metadata) : ['Code', [], null];
+  return { parent, written, mode, headers, digest };
+}
+
+function unquotePath(written) {
+  return written.split('/').map(segment => segment.startsWith('"') && segment.endsWith('"')
+    ? segment.slice(1, -1) : segment).join('/');
+}
+
+function environmentName(written) {
+  const name = written.slice(4);
+  return name.startsWith('"') ? JSON.parse(name) : name;
+}
+
+async function fetchImport(location, headers) {
+  const signal = AbortSignal.timeout(15000);
+  const origin = new URL(location).origin;
+  let current = location;
+  for (let hop = 0; hop <= 5; hop++) {
+    const response = await fetch(current, { headers, signal, redirect: 'manual' });
+    if (![301, 302, 303, 307, 308].includes(response.status)) return response;
+    const target = response.headers.get('location');
+    await response.body?.cancel();
+    if (!target) throw new Error('Redirect is missing a Location header');
+    const next = new URL(target, current);
+    if (next.origin !== origin || next.username || next.password) {
+      throw new Error('Import redirect must stay on its original origin');
+    }
+    current = next.href;
+  }
+  throw new Error('Import redirect limit exceeded');
+}
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const bridge = path.join(root, '_build/js/debug/build/cmd/bridge/bridge.js');
 const usage = [
@@ -49,40 +121,80 @@ try {
   const raw = expression !== null ? Buffer.from(expression) : fs.readFileSync(file && file !== '-' ? file : 0);
   if (raw.length > 1048576) throw new Error('Input exceeds 1 MiB');
   const request = { op, origin, source: op === 'decode' ? raw.toString('hex') : new TextDecoder('utf-8', { fatal: true }).decode(raw), sources: [] };
+  const semanticDir = path.join(process.env.XDG_CACHE_HOME || path.join(os.homedir(), '.cache'), 'dhall');
   let result;
   for (let iteration = 0; iteration < 256; iteration++) {
     const child = spawnSync(process.execPath, [bridge], { input: JSON.stringify(request), encoding: 'utf8', maxBuffer: 8 * 1024 * 1024, timeout: 30000 });
     if (child.error || child.status !== 0) throw new Error(child.error?.message || child.stderr || 'MoonBit engine failed');
     const response = JSON.parse(child.stdout);
     if (response.error) throw new Error(response.error);
-    if (response.result !== undefined) { result = response.result; break; }
+    if (response.result !== undefined) {
+      if (cacheDir) saveSemanticCache(semanticDir, response.cache);
+      result = response.result;
+      break;
+    }
     if (typeof response.need !== 'string') throw new Error('Invalid engine response');
     const key = response.need;
-    const separator = key.indexOf('\n');
-    if (separator < 0) throw new Error('Invalid import request');
-    const parent = key.slice(0, separator), written = key.slice(separator + 1);
+    const { parent, written, mode, headers, digest } = importRequest(key);
     const isRemote = /^https?:/.test(parent);
     let location;
-    if (written.startsWith('env:')) {
-      if (isRemote) throw new Error('Remote imports cannot access environment variables');
-      location = written;
+    const local = unquotePath(written);
+    if (written === 'missing') {
+      location = 'missing';
+    } else if (written.startsWith('env:')) {
+      if (isRemote && mode !== 'Location') throw new Error('Remote imports cannot access environment variables');
+      location = 'env:' + environmentName(written);
     } else if (written.startsWith('~/')) {
-      if (isRemote) throw new Error('Remote imports cannot access home files');
-      location = pathToFileURL(path.join(os.homedir(), written.slice(2))).href;
-    } else {
+      if (isRemote && mode !== 'Location') throw new Error('Remote imports cannot access home files');
+      location = pathToFileURL(path.join(os.homedir(), local.slice(2))).href;
+    } else if (/^https?:/.test(written) || (isRemote && !written.startsWith('/'))) {
       location = new URL(written, parent).href;
-      if (isRemote && !/^https?:/.test(location)) throw new Error('Remote imports cannot access local resources');
+    } else {
+      if (isRemote && mode !== 'Location') throw new Error('Remote imports cannot access local resources');
+      const base = parent.startsWith('file:') ? path.dirname(fileURLToPath(parent)) : process.cwd();
+      location = pathToFileURL(path.resolve(base, local)).href;
     }
+    if (mode === 'Location') {
+      let display = location;
+      if (location.startsWith('env:')) display = location.slice(4);
+      if (location.startsWith('file:')) {
+        const file = fileURLToPath(location);
+        if (written.startsWith('~/')) display = '~/' + path.relative(os.homedir(), file).split(path.sep).join('/');
+        else if (written.startsWith('/')) display = file.split(path.sep).join('/');
+        else {
+          const relative = path.relative(process.cwd(), file).split(path.sep).join('/');
+          display = relative.startsWith('../') ? relative : './' + relative;
+        }
+      }
+      request.sources.push({ key, location: display, source: null });
+      continue;
+    }
+    if (cacheDir && digest && /^[0-9a-f]{64}$/.test(digest)) {
+      try {
+        const binary = fs.readFileSync(path.join(semanticDir, '1220' + digest));
+        if (binary.length <= 1048576 && createHash('sha256').update(binary).digest('hex') === digest) {
+          request.sources.push({ key, location: 'semantic-cache', source: binary.toString('hex') });
+          continue;
+        }
+      } catch { /* A cache miss falls through to the original resource. */ }
+    }
+    if (/^https?:/.test(location) && !Object.hasOwn(request, 'headerSource')) {
+      Object.assign(request, originHeaders());
+      if (request.headerSource) continue;
+    }
+    const decodeResource = bytes => mode === 'Bytes' ? bytes.toString('hex')
+      : new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes);
     let source = null;
     try {
       if (location.startsWith('env:')) {
-        source = process.env[location.slice(4)] ?? null;
+        const value = process.env[location.slice(4)];
+        source = value === undefined ? null : decodeResource(Buffer.from(value));
       } else if (location.startsWith('file:')) {
         const bytes = fs.readFileSync(fileURLToPath(location));
         if (bytes.length > 262144) throw new Error('Import exceeds 256 KiB');
-        source = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+        source = decodeResource(bytes);
       } else if (/^https?:/.test(location)) {
-        const cacheFile = cacheDir && path.join(cacheDir, createHash('sha256').update(location).digest('hex') + '.json');
+        const cacheFile = cacheDir && headers.length === 0 && path.join(cacheDir, createHash('sha256').update(mode === 'Bytes' ? 'bytes:' + location : location).digest('hex') + '.json');
         if (cacheFile && fs.existsSync(cacheFile)) {
           const cached = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
           if (cached.url === location && typeof cached.source === 'string') {
@@ -90,11 +202,12 @@ try {
               if (cached.cors !== '*' && cached.cors !== new URL(parent).origin) throw new Error('Cached cross-origin import denied by CORS');
             }
             source = cached.source;
+            location = cached.effectiveUrl || location;
           }
         }
         if (source === null) {
           if (offline) throw new Error('Remote import is unavailable in offline cache');
-          const response = await fetch(location, { signal: AbortSignal.timeout(15000), redirect: 'error' });
+          const response = await fetchImport(location, headers);
           if (!response.ok) throw new Error('HTTP ' + response.status);
           if (isRemote && new URL(parent).origin !== new URL(location).origin) {
             const allowed = response.headers.get('access-control-allow-origin');
@@ -109,16 +222,17 @@ try {
             if (length > 262144) { await reader.cancel(); throw new Error('Import exceeds 256 KiB'); }
             chunks.push(value);
           }
-          source = new TextDecoder('utf-8', { fatal: true }).decode(Buffer.concat(chunks));
+          source = decodeResource(Buffer.concat(chunks));
           if (cacheFile) {
             fs.mkdirSync(cacheDir, { recursive: true });
             const temporary = cacheFile + '.' + process.pid + '.tmp';
-            fs.writeFileSync(temporary, JSON.stringify({ url: location, source, cors: response.headers.get('access-control-allow-origin') }));
+            fs.writeFileSync(temporary, JSON.stringify({ url: location, effectiveUrl: response.url, source, cors: response.headers.get('access-control-allow-origin') }));
             fs.renameSync(temporary, cacheFile);
           }
+          location = response.url || location;
         }
       } else throw new Error('Unsupported import scheme: ' + location);
-      if (source !== null && Buffer.byteLength(source) > 262144) throw new Error('Import exceeds 256 KiB');
+      if (source !== null && Buffer.byteLength(source) > (mode === 'Bytes' ? 524288 : 262144)) throw new Error('Import exceeds 256 KiB');
     } catch { source = null; }
     request.sources.push({ key, location, source });
   }

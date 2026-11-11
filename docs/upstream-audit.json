@@ -2,39 +2,36 @@
   "revision": "56b0997a4800bfc815ea221529a6bb2bfd6723dc",
   "scope": "audit",
   "counts": {
-    "pass": 1050,
-    "not-run": 100,
-    "fail": 376
+    "pass": 1359,
+    "fail": 166
   },
   "suites": {
     "parser": {
-      "pass": 213,
-      "fail": 183
-    },
-    "import": {
-      "not-run": 100
+      "pass": 309,
+      "fail": 87
     },
     "normalization": {
-      "pass": 208,
-      "fail": 79
+      "pass": 240,
+      "fail": 47
     },
     "type-inference": {
-      "pass": 412,
-      "fail": 78
+      "pass": 467,
+      "fail": 23
     },
     "alpha-normalization": {
       "pass": 10
     },
     "semantic-hash": {
-      "pass": 141,
-      "fail": 10
+      "pass": 142,
+      "fail": 9
     },
     "binary-decode": {
-      "fail": 26,
-      "pass": 66
+      "pass": 92
+    },
+    "import": {
+      "pass": 99
     }
   },
-  "description": "Complete measured corpus scope. Failure details are reproducible with scripts/conformance.py --audit; statuses alone are committed to keep reports portable.",
   "results": [
     {
       "case": "alpha-normalization/success/regression/preludeBoolFoldA.dhall",
@@ -150,15 +147,15 @@
     },
     {
       "case": "binary-decode/success/unit/BytesA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/CompletionA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/DateA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/DoubleDoubleA.dhallb",
@@ -258,7 +255,7 @@
     },
     {
       "case": "binary-decode/success/unit/OperatorCombineTypesA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/OperatorEqA.dhallb",
@@ -326,15 +323,15 @@
     },
     {
       "case": "binary-decode/success/unit/SelfDescribeCBORX2A.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/SelfDescribeCBORX3A.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/SelfDescribeCBORXA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/SomeA.dhallb",
@@ -350,23 +347,23 @@
     },
     {
       "case": "binary-decode/success/unit/TimeA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/TimeLiteralHighPrecisionA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/TimeZoneA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/ToMapA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/ToMapAnnotatedA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/UnionTypeA.dhallb",
@@ -390,463 +387,459 @@
     },
     {
       "case": "binary-decode/success/unit/imports/EnvironmentVariableA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/HttpImportWithQueryA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/HttpImportWithoutQueryA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/HttpsImportWithEmptyQueryA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/HttpsImportWithQueryA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/HttpsImportWithTrickyPathCharsA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/HttpsImportWithTrickyQueryCharsA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/HttpsImportWithoutQueryA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/LocalHereImportA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/LocalHomeImportA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/LocalParentImportA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/LocalRootImportA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/imports/MissingA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "binary-decode/success/unit/recordProjectionByExpressionA.dhallb",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "import/failure/alternativeEnv.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/alternativeEnvMissing.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/customHeadersUsingBoundVariable.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/originHeadersFromRemote.dhall",
-      "status": "not-run"
-    },
-    {
-      "case": "import/failure/originHeadersFromRemoteENV.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/404.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/Cycle.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/DontRecoverCycle.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/DontRecoverHashMismatch.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/DontRecoverParseError.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/DontRecoverTypeError.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/EnvFromRemote.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/EnvUnset.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/EnvUnsetAsText.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/FileMissing.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/HashMismatch.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/HashMismatch2.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/Missing.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/VarAcrossImportBoundary.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/cors/Empty.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/cors/NoCORS.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/cors/Null.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/cors/OnlyOther.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/cors/OnlySelf.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/failure/unit/cors/TwoHops.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/customHeadersA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/customHeadersImportedA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/hashFromCacheA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/headerForwardingA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/nestedHashA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/noHeaderForwardingA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/normalCachingOfProtectedA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/originHeadersA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/originHeadersImportA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/originHeadersImportFromEnvA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/originHeadersOverrideA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeChain1A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeChain2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeEnvA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeImportErrorA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeNestedImportErrorA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeNoError1A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeNoError2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeNoError3A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeSubExprA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeWithVariableA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeWithWrongVariable1A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AlternativeWithWrongVariable2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AsBytesA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/AsTextA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/DontCacheIfHashA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/EnvSetA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/EnvSetAsTextA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/FilenameWithSpacesA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/IgnorePoisonedCacheA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/ImportRelativeToHomeA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/MixImportModesA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/NormalizeA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/QuotedPathA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/RecoverTransitiveFailureA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/RemoteAsTextA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/SimpleA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/SimpleHashA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/SimpleRemoteA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/AbsoluteA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Canonicalize1A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Canonicalize2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Canonicalize3A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Canonicalize4A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Canonicalize5A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Chain1A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Chain2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Chain3A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/DontTryResolvingA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/EnvA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/EnvHomeA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/HashA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/HomeA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/MissingA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Relative1A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/Relative2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteCanonicalize1A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteCanonicalize2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteCanonicalize3A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteCanonicalize4A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteChain1A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteChain2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteChain3A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteChainEnvA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/asLocation/RemoteChainMissingA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/cors/AllowedAllA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/cors/NoCORSFromLocalA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/cors/OnlyGithubA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/cors/PreludeA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/cors/SelfImportAbsolute2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/cors/SelfImportAbsoluteA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/cors/SelfImportRelative2A.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/cors/SelfImportRelativeA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "import/success/unit/cors/TwoHopsA.dhall",
-      "status": "not-run"
+      "status": "pass"
     },
     {
       "case": "normalization/success/WithRecordValueA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/haskell-tutorial/access/0A.dhall",
@@ -858,7 +851,7 @@
     },
     {
       "case": "normalization/success/haskell-tutorial/combineTypes/0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/haskell-tutorial/combineTypes/1A.dhall",
@@ -882,7 +875,7 @@
     },
     {
       "case": "normalization/success/regression/ToMapQuotedFieldsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/regression/TrickyBinderIdentityA.dhall",
@@ -898,7 +891,7 @@
     },
     {
       "case": "normalization/success/simple/completionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/simple/doubleShowA.dhall",
@@ -1022,7 +1015,7 @@
     },
     {
       "case": "normalization/success/unit/CompletionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/DoubleA.dhall",
@@ -1046,7 +1039,7 @@
     },
     {
       "case": "normalization/success/unit/EmptyToMapA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/EquivalenceNormalizeArgumentsA.dhall",
@@ -1626,15 +1619,15 @@
     },
     {
       "case": "normalization/success/unit/RecordProjectionByTypeEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecordProjectionByTypeNonEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecordProjectionByTypeNormalizeProjectionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecordProjectionByTypeWithinFieldSelectionA.dhall",
@@ -1718,31 +1711,31 @@
     },
     {
       "case": "normalization/success/unit/RecursiveRecordTypeMergeCollisionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordTypeMergeDeepA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordTypeMergeLhsEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordTypeMergeNoCollisionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordTypeMergeNormalizeArgumentsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordTypeMergeRhsEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordTypeMergeSortsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RightBiasedMergeEquivalentArgumentsA.dhall",
@@ -1898,23 +1891,23 @@
     },
     {
       "case": "normalization/success/unit/TimeAsRecordA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TimeShowHighPrecisionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TimeShowTrailingZerosA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/ToMapA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/ToMapWithTypeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TrueA.dhall",
@@ -1950,47 +1943,47 @@
     },
     {
       "case": "normalization/success/unit/WithA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithChainedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithCreateIntermediateRecordsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithDesugarA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithNestedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithOnOptionalNoneA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithOnOptionalSomeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithOptionalDeeplyNestedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithOptionalNestedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithPartiallyAbstractA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/WithPriorityA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/ImportHeadersExteriorHash.dhall",
@@ -2018,11 +2011,11 @@
     },
     {
       "case": "parser/failure/bytesInvalid.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/bytesOddLength.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/doubleBoundsNeg.dhall",
@@ -2062,7 +2055,8 @@
     },
     {
       "case": "parser/failure/nonUtf8.dhall",
-      "status": "pass"
+      "status": "pass",
+      "reason": "UTF-8 transport rejects malformed bytes before parsing"
     },
     {
       "case": "parser/failure/spacing/AnnotationNoSpace.dhall",
@@ -2070,7 +2064,7 @@
     },
     {
       "case": "parser/failure/spacing/ApplicationNoSpace1.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/ApplicationNoSpace2.dhall",
@@ -2158,15 +2152,15 @@
     },
     {
       "case": "parser/failure/spacing/SomeNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/ToMapAnnotNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/ToMapNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/UnionTypeNoSpace.dhall",
@@ -2178,39 +2172,39 @@
     },
     {
       "case": "parser/failure/time/DateTimeZone.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/time/InvalidDayOfMonth.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/time/InvalidHour.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/time/InvalidLeapSecond.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/time/InvalidMinute.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/time/InvalidMonth.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/time/InvalidSecond.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/time/NegativeYear.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/time/YearTooLarge.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/AssertNoAnnotation.dhall",
@@ -2342,11 +2336,11 @@
     },
     {
       "case": "parser/failure/unit/UrlWithQuotedPath.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/UsingToMap.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/WithPrecedence1.dhall",
@@ -2374,7 +2368,7 @@
     },
     {
       "case": "parser/success/binaryA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/blockCommentA.dhall",
@@ -2382,19 +2376,19 @@
     },
     {
       "case": "parser/success/builtinNameAsFieldA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/builtinsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/bytesA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/collectionImportTypeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/fieldsA.dhall",
@@ -2410,7 +2404,7 @@
     },
     {
       "case": "parser/success/hexadecimalA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/identifierA.dhall",
@@ -2462,7 +2456,7 @@
     },
     {
       "case": "parser/success/missingInParenthesesA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/missingSlashA.dhall",
@@ -2482,7 +2476,7 @@
     },
     {
       "case": "parser/success/operatorsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/preferMissingNoSpacesA.dhall",
@@ -2490,7 +2484,7 @@
     },
     {
       "case": "parser/success/quotedBoundVariableA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/quotedLabelA.dhall",
@@ -2510,7 +2504,7 @@
     },
     {
       "case": "parser/success/recordProjectionByExpressionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/reservedPrefixA.dhall",
@@ -2630,27 +2624,27 @@
     },
     {
       "case": "parser/success/time/DateTimeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/time/DateTimeTimeZoneA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/time/LowercaseTA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/time/TimeTimeZoneA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/time/TimeTimeZoneZA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/toMapA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unicodeCommentA.dhall",
@@ -2690,15 +2684,15 @@
     },
     {
       "case": "parser/success/unit/CompletionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/DateA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/DateLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/DeBruijnIndexA.dhall",
@@ -2950,7 +2944,7 @@
     },
     {
       "case": "parser/success/unit/QuotedBoolA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/QuotedTrueA.dhall",
@@ -3030,11 +3024,11 @@
     },
     {
       "case": "parser/success/unit/RecordProjectionByTypeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordProjectionByTypeEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordTypeA.dhall",
@@ -3094,35 +3088,35 @@
     },
     {
       "case": "parser/success/unit/TimeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/TimeLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/TimeLiteralHighPrecisionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/TimeLiteralTrailingZerosA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/TimeZoneA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/TimeZoneLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ToMapA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ToMapAnnotA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/TrailingLineCommentWithoutNewlineA.dhall",
@@ -3190,27 +3184,27 @@
     },
     {
       "case": "parser/success/unit/WithA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/WithMultipleA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/WithPrecedence1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/WithPrecedence2A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/WithPrecedence3A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/WithSomeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ifThenElseA.dhall",
@@ -3218,63 +3212,63 @@
     },
     {
       "case": "parser/success/unit/import/AsLocationAbsoluteA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/AsLocationEnvA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/AsLocationHashA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/AsLocationLocalA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/AsLocationMissingA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/AsLocationRemoteA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/HeadersA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/HeadersDoubleHashA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/HeadersDoubleHashPrecedenceA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/HeadersHashPrecedenceA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/HeadersInteriorHashA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/ImportAsNoSpaceA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/MissingA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/asTextA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/environmentVariableBashA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/environmentVariablePosixA.dhall",
@@ -3282,43 +3276,43 @@
     },
     {
       "case": "parser/success/unit/import/hashA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/importAltA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/inlineUsingA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/pathAbsoluteA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/pathHereA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/pathHomeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/pathParentA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/pathTerminationLambdaA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/pathTerminationListA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/pathTerminationRecordA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/pathTerminationUnionA.dhall",
@@ -3326,43 +3320,43 @@
     },
     {
       "case": "parser/success/unit/import/quotedPathsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/unicodePathsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/basicHttpA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/basicHttpsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/emptyPath0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/emptyPath1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/emptyPathSegmentA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/emptyQueryA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/escapedPathA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/escapedQueryA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/fragmentParsesAsListAppendA.dhall",
@@ -3370,11 +3364,11 @@
     },
     {
       "case": "parser/success/unit/import/urls/ipv4A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/ipv4upperoctetsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/ipv6longA.dhall",
@@ -3406,15 +3400,15 @@
     },
     {
       "case": "parser/success/unit/import/urls/portA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/potPourriA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/userinfoA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/operators/BoolAndA.dhall",
@@ -3530,7 +3524,7 @@
     },
     {
       "case": "parser/success/unit/operators/RecursiveRecordTypeMergeUnicodeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/operators/RecursiveRecordTypeMergeUnicodeAssocA.dhall",
@@ -3562,7 +3556,7 @@
     },
     {
       "case": "parser/success/usingToMapA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/whitespaceA.dhall",
@@ -3574,7 +3568,7 @@
     },
     {
       "case": "parser/success/withQuestionMarkA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/haskell-tutorial/access/0A.dhall",
@@ -3586,7 +3580,7 @@
     },
     {
       "case": "semantic-hash/success/haskell-tutorial/combineTypes/0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/haskell-tutorial/combineTypes/1A.dhall",
@@ -4226,19 +4220,19 @@
     },
     {
       "case": "type-inference/failure/unit/CompletionMissingRequiredField.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/CompletionWithWrongDefaultType.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/CompletionWithWrongFieldName.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/CompletionWithWrongOverridenType.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/EmptyToMap.dhall",
@@ -4490,11 +4484,11 @@
     },
     {
       "case": "type-inference/failure/unit/RecordProjectionByTypeFieldTypeMismatch.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/RecordProjectionByTypeNotPresent.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/RecordProjectionDuplicateFields.dhall",
@@ -4550,15 +4544,15 @@
     },
     {
       "case": "type-inference/failure/unit/RecursiveRecordTypeMergeLhsNotRecordType.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/RecursiveRecordTypeMergeOverlapping.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/RecursiveRecordTypeMergeRhsNotRecordType.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/RemovedBuiltinOptionalBuild.dhall",
@@ -4638,43 +4632,43 @@
     },
     {
       "case": "type-inference/failure/unit/WithInfersKind.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/WithInvalidOverrideA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/WithNestedNotOptional.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/WithNotOptional.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/WithNotRecord.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/WithOptionalNestedRecordTypeChanged.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/WithOptionalNestedRecordTypeChanged2.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/WithOptionalRecordTypeChanged.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/WithOptionalTypeChanged.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/WithOptionalTypeChangedRecord.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/Z.dhall",
@@ -5270,7 +5264,7 @@
     },
     {
       "case": "type-inference/success/regression/RecursiveRecordTypeMergeTripleCollisionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/regression/TodoA.dhall",
@@ -5294,7 +5288,7 @@
     },
     {
       "case": "type-inference/success/simple/completionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/simple/complexShadowingA.dhall",
@@ -5322,7 +5316,7 @@
     },
     {
       "case": "type-inference/success/simple/toMapEmptyNormalizeAnnotationA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/simple/unionsOfTypesA.dhall",
@@ -5350,11 +5344,11 @@
     },
     {
       "case": "type-inference/success/unit/BytesLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/CompletionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/ConstructorShiftA.dhall",
@@ -5782,15 +5776,15 @@
     },
     {
       "case": "type-inference/success/unit/RecordProjectionByTypeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecordProjectionByTypeEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecordProjectionByTypeJudgmentalEqualityA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecordProjectionEmptyA.dhall",
@@ -5866,7 +5860,7 @@
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordMergeBoolTypeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordMergeLhsEmptyA.dhall",
@@ -5906,35 +5900,35 @@
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordTypeMergeDeepA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordTypeMergeRecursivelyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordTypeMergeRecursivelyKindsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordTypeMergeRecursivelyTypesA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordTypeMergeRhsEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordTypeMergeTwoA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordTypeMergeTwoKindsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecursiveRecordTypeMergeTwoTypesA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RightBiasedRecordMergeMixedKindsA.dhall",
@@ -6002,15 +5996,15 @@
     },
     {
       "case": "type-inference/success/unit/ToMapA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/ToMapAnnotatedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/ToMapInferTypeFromRecordA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/TrueA.dhall",
@@ -6078,67 +6072,68 @@
     },
     {
       "case": "type-inference/success/unit/WithCreateIntermediateRecordsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/WithInfersKindA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/WithNestedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/WithNewFieldA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/WithNewTypeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/WithOptionalNestedTypeUnchangedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/WithOptionalTypeUnchangedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/time/DateA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/time/DateLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/time/DateTimeLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/time/DateTimeTimeZoneLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/time/TimeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/time/TimeLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/time/TimeTimeZoneLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/time/TimeZoneA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/time/TimeZoneLiteralA.dhall",
-      "status": "fail"
+      "status": "pass"
     }
-  ]
+  ],
+  "description": "Pinned corpus results. Import routes are simulated in memory; ENV setup files are excluded from case counts. Use scripts/conformance.py --audit for failure details."
 }

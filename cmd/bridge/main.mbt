@@ -20,6 +20,7 @@ fn response(j : Json) -> String {
   let source = text_field(j, "source", "")
   let origin = text_field(j, "origin", "<stdin>")
   let op = text_field(j, "op", "json")
+  let semantic_cache : Map[String, Bytes] = Map([])
   let result = try {
     if op == "format" {
       @dhall.format(source)
@@ -64,7 +65,15 @@ fn response(j : Json) -> String {
           }
         _ => ()
       }
-      let expr = @dhall.resolve(source, origin, sources)
+      let expr = @dhall.resolve(
+        source,
+        origin,
+        sources,
+        legacy_keys=false,
+        header_source=text_field(j, "headerSource", ""),
+        header_origin=text_field(j, "headerOrigin", origin),
+        semantic_cache~,
+      )
       match op {
         "beta-resolved" =>
           @dhall.bytes_to_hex(@dhall.encode_expr(@dhall.beta_normalize(expr)))
@@ -88,7 +97,19 @@ fn response(j : Json) -> String {
         Json::string(@dhall.diagnostic(error, source, origin)).stringify() +
         "}"
   }
-  "{\"result\":" + Json::string(result).stringify() + "}"
+  let cache : Array[String] = []
+  for key, bytes in semantic_cache {
+    cache.push(
+      Json::string(key).stringify() +
+      ":" +
+      Json::string(@dhall.bytes_to_hex(bytes)).stringify(),
+    )
+  }
+  "{\"result\":" +
+  Json::string(result).stringify() +
+  ",\"cache\":{" +
+  cache.join(",") +
+  "}}"
 }
 
 ///|

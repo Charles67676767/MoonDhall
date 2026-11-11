@@ -38,7 +38,7 @@ pub fn normalize_expr(Expr) -> Expr raise DhallError
 
 pub fn parse(String) -> Expr raise DhallError
 
-pub fn resolve(String, String, Array[ImportSource]) -> Expr raise DhallError
+pub fn resolve(String, String, Array[ImportSource], legacy_keys? : Bool, header_source? : String, header_origin? : String, semantic_cache? : Map[String, Bytes]) -> Expr raise DhallError
 
 pub fn semantic_hash(String) -> String raise DhallError
 
@@ -71,6 +71,10 @@ pub(all) enum Expr {
   Integer(String)
   Real(Double)
   Text(String)
+  ByteLiteral(Bytes)
+  DateLiteral(Int32, Int32, Int32)
+  TimeLiteral(Int32, Int32, Int32, String)
+  TimeZoneLiteral(Int32)
   Interpolate(Array[(String, Expr)], String)
   Variable(String, Int32)
   Builtin(String)
@@ -84,6 +88,7 @@ pub(all) enum Expr {
   UnionType(Array[(String, Expr?)])
   Field(Expr, String)
   Project(Expr, Array[String])
+  ProjectType(Expr, Expr)
   List(Array[Expr])
   Annotate(Expr, Expr)
   If(Expr, Expr, Expr)
@@ -109,6 +114,7 @@ pub(all) struct ImportSpec {
   path : String
   mode : String
   hash : String?
+  headers : Expr?
 } derive(Eq, @debug.Debug)
 pub fn ImportSpec::equal(Self, Self) -> Bool
 pub fn ImportSpec::not_equal(Self, Self) -> Bool
