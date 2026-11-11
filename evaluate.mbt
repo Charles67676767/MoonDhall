@@ -35,6 +35,8 @@ fn children(
     Binary(op, a, b) => Binary(op, f(a, 0), f(b, 0))
     Interpolate(ps, s) => Interpolate(ps.map(p => (p.0, f(p.1, 0))), s)
     Merge(h, u, t) => Merge(f(h, 0), f(u, 0), t.map(x => f(x, 0)))
+    ToMap(r, t) => ToMap(f(r, 0), t.map(x => f(x, 0)))
+    With(r, path, v) => With(f(r, 0), path, f(v, 0))
     Assert(x) => Assert(f(x, 0))
     _ => e
   }
@@ -358,6 +360,18 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
     Lambda(n, t, b) => Lambda(n, norm(t), norm(b))
     Pi(n, t, b) => Pi(n, norm(t), norm(b))
     Integer(s) => Integer(@bigint.BigInt::from_string(s).to_string())
+    ToMap(r, t) => {
+      let r = norm(r)
+      match r {
+        Record(fs) if !fs.is_empty() =>
+          List(fs.map(p => Record([("mapKey", Text(p.0)), ("mapValue", p.1)])))
+        Record(_) if t is Some(t) => Annotate(List([]), norm(t))
+        _ => ToMap(r, t.map(norm))
+      }
+    }
+    With(r, path, value) =>
+      normalize_update(norm(r), path[:], norm(value), budget, depth + 1)
+    Binary("::", schema, value) => norm(complete_record(schema, value))
     Record(fs) => Record(sorted_expr(fs.map(p => (p.0, norm(p.1)))))
     RecordType(fs) => RecordType(sorted_expr(fs.map(p => (p.0, norm(p.1)))))
     UnionType(fs) => {

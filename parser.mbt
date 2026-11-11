@@ -60,6 +60,7 @@ fn Parser::expression(self : Parser) -> Expr raise DhallError {
     raise Syntax("Nesting limit exceeded", self.offset())
   }
   let start = self.offset()
+  let mut updated = false
   let expr = if self.accept(Word("let")) {
     let name = self.name()
     let annotation = if self.accept(Symbol(":")) {
@@ -99,7 +100,29 @@ fn Parser::expression(self : Parser) -> Expr raise DhallError {
     self.expect(Symbol(":"))
     Assert(self.expression())
   } else {
-    self.binary(0)
+    let mut subject = self.binary(0)
+    while self.peek() == Word("with") {
+      let keyword = self.tokens[self.index]
+      if self.tokens[self.index - 1].end == keyword.offset ||
+        self.tokens[self.index + 1].offset == keyword.end {
+        raise Syntax("with requires surrounding whitespace", keyword.offset)
+      }
+      self.index += 1
+      if subject is Apply(_, _) ||
+        subject is ToMap(_, _) ||
+        subject is Merge(_, _, _) ||
+        (subject is Binary(op, _, _) && op != "::") {
+        raise Syntax("Parenthesize the subject of with", start)
+      }
+      updated = true
+      let path = [self.update_component()]
+      while self.accept(Symbol(".")) {
+        path.push(self.update_component())
+      }
+      self.expect(Symbol("="))
+      subject = With(subject, path, self.binary(0))
+    }
+    subject
   }
   let expr = if self.accept(Symbol("->")) {
     Pi("_", expr, self.expression())
@@ -107,8 +130,12 @@ fn Parser::expression(self : Parser) -> Expr raise DhallError {
     expr
   }
   let expr = if self.accept(Symbol(":")) {
+    if updated {
+      raise Syntax("Parenthesize the with expression before annotating", start)
+    }
     match bare(expr) {
       Merge(h, u, None) => Merge(h, u, Some(self.expression()))
+      ToMap(r, None) => ToMap(r, Some(self.expression()))
       _ => Annotate(expr, self.expression())
     }
   } else {
@@ -168,11 +195,30 @@ fn starts_atom(kind : TokenKind) -> Bool {
 
 ///|
 fn Parser::application(self : Parser) -> Expr raise DhallError {
-  let mut expr = self.project()
+  let mut expr = self.completion()
   while starts_atom(self.peek()) {
-    expr = Apply(expr, self.project())
+    expr = Apply(expr, self.completion())
   }
   expr
+}
+
+///|
+fn Parser::completion(self : Parser) -> Expr raise DhallError {
+  let left = self.project()
+  if self.accept(Symbol("::")) {
+    Binary("::", left, self.project())
+  } else {
+    left
+  }
+}
+
+///|
+fn Parser::update_component(self : Parser) -> String? raise DhallError {
+  if self.accept(Symbol("?")) {
+    None
+  } else {
+    Some(self.name())
+  }
 }
 
 ///|
@@ -276,6 +322,10 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
     Word("Infinity") => {
       self.index += 1
       Real(1.0 / 0.0)
+    }
+    Word("toMap") => {
+      self.index += 1
+      ToMap(self.completion(), None)
     }
     Word("merge") => {
       self.index += 1

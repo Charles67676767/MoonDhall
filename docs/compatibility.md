@@ -7,6 +7,7 @@ MoonDhall implements a growing Dhall subset, not a complete standard-conforming 
 - Bool; decimal arbitrary-precision Natural and Integer; IEEE-754 Double; double-quoted and multiline Text, interpolation, escapes and indentation removal.
 - Let, annotations, lambda/application, named variable indices, first-class types, aliases, Type / Kind / Sort and dependent Pi types.
 - Records/types, dotted field sugar, field selection, label projection, right-biased preference and recursive record-value merge.
+- Record completion, record and Optional updates with with, and homogeneous record conversion with toMap.
 - Homogeneous lists and annotated empty lists; Optional; unions/constructors and exhaustive merge; equivalence assertions.
 - Boolean conditionals/operators, Natural arithmetic, text/list concatenation.
 - Natural: isZero, even, odd, show, toInteger, subtract, fold, build.
@@ -19,7 +20,7 @@ Empty record values are {=}; {} is a record type. Boolean == and != are Bool-onl
 
 ## Remaining standard gaps
 
-Known gaps include Bytes/Date/Time/TimeZone, binary/hex numbers, toMap and with, completion and recursive record-type merge, projection by type, grammar/escape/normalization edge cases and some typing rules. Unsupported builtin names may parse as free variables before type checking rejects them.
+Known gaps include Bytes/Date/Time/TimeZone, binary/hex numbers, recursive record-type merge, projection by type, grammar/escape/normalization edge cases and some typing rules. Unsupported builtin names may parse as free variables before type checking rejects them.
 
 CBOR covers the implemented expression profile, excluding unresolved imports, Bytes/date/time forms and other extensions. Standalone untyped empty lists cannot be encoded. Decoding does not imply a well-typed term: call type_of or normalize_expr before evaluation.
 

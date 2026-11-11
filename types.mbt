@@ -39,6 +39,8 @@ pub(all) enum Expr {
   If(Expr, Expr, Expr)
   Binary(String, Expr, Expr)
   Merge(Expr, Expr, Expr?)
+  ToMap(Expr, Expr?)
+  With(Expr, Array[String?], Expr)
   Assert(Expr)
   Import(ImportSpec)
 } derive(Debug, Eq)

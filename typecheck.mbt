@@ -260,6 +260,49 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       require_same(infer_child(t), Universe(0), "if result type")
       t
     }
+    ToMap(r, annotation) => {
+      guard norm(infer_child(r)) is RecordType(fields) else {
+        raise TypeError("toMap requires a record")
+      }
+      let expected = annotation.map(x => {
+        require_same(infer_child(x), Universe(0), "toMap annotation")
+        norm(x)
+      })
+      let value_type = if fields.is_empty() {
+        guard expected is Some(Apply(Builtin("List"), RecordType(fields))) &&
+          fields is [("mapKey", Builtin("Text")), ("mapValue", value_type)] else {
+          raise TypeError(
+            "Empty toMap requires List { mapKey : Text, mapValue : T }",
+          )
+        }
+        value_type
+      } else {
+        fields[0].1
+      }
+      require_same(infer_child(value_type), Universe(0), "toMap field kind")
+      for (_, t) in fields {
+        require_same(t, value_type, "toMap field")
+      }
+      let result = Apply(
+        Builtin("List"),
+        RecordType([("mapKey", Builtin("Text")), ("mapValue", value_type)]),
+      )
+      if expected is Some(expected) {
+        require_same(result, expected, "toMap annotation")
+      }
+      result
+    }
+    With(r, path, value) => {
+      let t = update_type(
+        norm(infer_child(r)),
+        path[:],
+        norm(infer_child(value)),
+        depth + 1,
+      )
+      require_same(infer_child(t), Universe(0), "with result kind")
+      t
+    }
+    Binary("::", schema, value) => infer_child(complete_record(schema, value))
     Binary(op, a, b) => {
       let ta = norm(infer_child(a))
       let tb = norm(infer_child(b))

@@ -90,6 +90,16 @@ fn pretty_type(e : Expr) -> String {
     Annotate(x, t) => "(" + p(x) + " : " + p(t) + ")"
     If(c, a, b) => "(if " + p(c) + " then " + p(a) + " else " + p(b) + ")"
     Binary(op, a, b) => "(" + p(a) + " " + op + " " + p(b) + ")"
+    ToMap(r, t) =>
+      "(toMap " + p(r) + t.map(x => " : " + p(x)).unwrap_or("") + ")"
+    With(r, path, v) =>
+      "((" +
+      p(r) +
+      ") with " +
+      path.map(k => k.map(label).unwrap_or("?")).join(".") +
+      " = " +
+      p(v) +
+      ")"
     Assert(x) => "assert : " + p(x)
     Merge(h, u, t) =>
       "(merge " +

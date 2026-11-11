@@ -121,6 +121,27 @@ fn cbor_expr(e : Expr, depth : Int32) -> Cbor raise DhallError {
       }
       CArray([ci(3), ci(code), enc(a), enc(b)])
     }
+    ToMap(r, t) => {
+      let a = [ci(27), enc(r)]
+      if t is Some(t) {
+        a.push(enc(t))
+      }
+      CArray(a)
+    }
+    With(r, path, v) =>
+      CArray([
+        ci(29),
+        enc(r),
+        CArray(
+          path.map(k => {
+            match k {
+              Some(k) => CText(k)
+              None => ci(0)
+            }
+          }),
+        ),
+        enc(v),
+      ])
     Assert(x) => CArray([ci(19), enc(x)])
     Merge(h, u, t) => {
       let a = [ci(6), enc(h), enc(u)]
@@ -459,7 +480,7 @@ fn decode_expr(c : Cbor, depth : Int32) -> Expr raise DhallError {
     CArray([CText(n), CInt(k)]) if n != "_" && k >= 0 && k <= 20000 =>
       Variable(n, k.to_int())
     CArray([CInt(tag), .. rest]) => {
-      if tag < 0 || tag > 28 {
+      if tag < 0 || tag > 29 {
         raise BinaryError("Unknown Dhall binary tag")
       }
       let a = rest.to_owned()
@@ -548,6 +569,18 @@ fn decode_expr(c : Cbor, depth : Int32) -> Expr raise DhallError {
           body
         }
         (26, [x, t]) => Annotate(dec(x), dec(t))
+        (27, [r]) => ToMap(dec(r), None)
+        (27, [r, t]) => ToMap(dec(r), Some(dec(t)))
+        (29, [r, CArray(path), v]) if !path.is_empty() => {
+          let keys = path.map(k => {
+            match k {
+              CText(k) => Some(k)
+              CInt(n) if n == 0 => None
+              _ => raise BinaryError("Invalid with path component")
+            }
+          })
+          With(dec(r), keys, dec(v))
+        }
         (28, [t]) => Annotate(List([]), dec(t))
         _ => raise BinaryError("Malformed or unsupported Dhall binary form")
       }
