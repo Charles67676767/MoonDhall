@@ -1,29 +1,25 @@
 {
   "revision": "56b0997a4800bfc815ea221529a6bb2bfd6723dc",
   "scope": "audit",
+  "fixture_transport": "http-and-https",
   "counts": {
-    "pass": 1359,
-    "fail": 166
+    "pass": 1525
   },
   "suites": {
     "parser": {
-      "pass": 309,
-      "fail": 87
+      "pass": 396
     },
     "normalization": {
-      "pass": 240,
-      "fail": 47
+      "pass": 287
     },
     "type-inference": {
-      "pass": 467,
-      "fail": 23
+      "pass": 490
     },
     "alpha-normalization": {
       "pass": 10
     },
     "semantic-hash": {
-      "pass": 142,
-      "fail": 9
+      "pass": 151
     },
     "binary-decode": {
       "pass": 92
@@ -855,7 +851,7 @@
     },
     {
       "case": "normalization/success/haskell-tutorial/combineTypes/1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/haskell-tutorial/prefer/0A.dhall",
@@ -971,7 +967,7 @@
     },
     {
       "case": "normalization/success/simplifications/issue661A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/simplifications/neA.dhall",
@@ -983,15 +979,15 @@
     },
     {
       "case": "normalization/success/simplifications/rightBiasedMergeWithinRecordProjectionWithinFieldSelection0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/simplifications/rightBiasedMergeWithinRecordProjectionWithinFieldSelection1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/simplifications/rightBiasedMergeWithinRecursiveRecordMergeWithinFieldselectionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/AssertNormalizeArgumentA.dhall",
@@ -999,7 +995,7 @@
     },
     {
       "case": "normalization/success/unit/BareInterpolationA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/BoolA.dhall",
@@ -1207,7 +1203,7 @@
     },
     {
       "case": "normalization/success/unit/ListHeadTwoA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/ListIndexedA.dhall",
@@ -1215,7 +1211,7 @@
     },
     {
       "case": "normalization/success/unit/ListIndexedEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/ListIndexedOneA.dhall",
@@ -1231,7 +1227,7 @@
     },
     {
       "case": "normalization/success/unit/ListLastTwoA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/ListLengthA.dhall",
@@ -1259,7 +1255,7 @@
     },
     {
       "case": "normalization/success/unit/ListReverseEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/ListReverseTwoA.dhall",
@@ -1371,11 +1367,11 @@
     },
     {
       "case": "normalization/success/unit/NaturalSubtractEquivalentA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/NaturalSubtractFromZeroA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/NaturalSubtractGreaterA.dhall",
@@ -1391,7 +1387,7 @@
     },
     {
       "case": "normalization/success/unit/NaturalSubtractZero0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/NaturalSubtractZero1A.dhall",
@@ -1407,11 +1403,11 @@
     },
     {
       "case": "normalization/success/unit/NestedRecordProjectionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/NestedRecordProjectionByTypeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/NoneA.dhall",
@@ -1587,7 +1583,7 @@
     },
     {
       "case": "normalization/success/unit/RecordLitAllSugarsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecordLitDottedFieldsA.dhall",
@@ -1603,11 +1599,11 @@
     },
     {
       "case": "normalization/success/unit/RecordLitPun1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecordLitPun2A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecordLitTriplicateFieldsA.dhall",
@@ -1631,11 +1627,11 @@
     },
     {
       "case": "normalization/success/unit/RecordProjectionByTypeWithinFieldSelectionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecordProjectionEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecordProjectionNormalizeArgumentsA.dhall",
@@ -1647,7 +1643,7 @@
     },
     {
       "case": "normalization/success/unit/RecordProjectionWithinFieldSelectionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecordSelectionA.dhall",
@@ -1679,7 +1675,7 @@
     },
     {
       "case": "normalization/success/unit/RecursiveRecordMergeLhsEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordMergeNoCollisionA.dhall",
@@ -1687,27 +1683,27 @@
     },
     {
       "case": "normalization/success/unit/RecursiveRecordMergeNormalizeArgumentsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordMergeRhsEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordMergeWithinFieldSelection0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordMergeWithinFieldSelection1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordMergeWithinFieldSelection2A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordMergeWithinFieldSelection3A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RecursiveRecordTypeMergeCollisionA.dhall",
@@ -1739,23 +1735,23 @@
     },
     {
       "case": "normalization/success/unit/RightBiasedMergeEquivalentArgumentsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RightBiasedMergeWithinFieldSelection0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RightBiasedMergeWithinFieldSelection1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RightBiasedMergeWithinFieldSelection2A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RightBiasedMergeWithinFieldSelection3A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RightBiasedRecordMergeCollisionA.dhall",
@@ -1763,7 +1759,7 @@
     },
     {
       "case": "normalization/success/unit/RightBiasedRecordMergeLhsEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RightBiasedRecordMergeNoCollisionA.dhall",
@@ -1771,23 +1767,23 @@
     },
     {
       "case": "normalization/success/unit/RightBiasedRecordMergeNormalizeArgumentsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RightBiasedRecordMergeRhsEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/RightBiasedRecordMergeWithinRecordProjectionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/ShowConstructorEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/ShowConstructorNonEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/SomeNormalizeArgumentsA.dhall",
@@ -1807,15 +1803,15 @@
     },
     {
       "case": "normalization/success/unit/TextLitNested1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TextLitNested2A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TextLitNested3A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TextLiteralA.dhall",
@@ -1827,7 +1823,7 @@
     },
     {
       "case": "normalization/success/unit/TextReplaceAbstractA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TextReplaceAbstractHaystackA.dhall",
@@ -1843,7 +1839,7 @@
     },
     {
       "case": "normalization/success/unit/TextReplaceEmpty3A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TextReplaceMultipleA.dhall",
@@ -1855,7 +1851,7 @@
     },
     {
       "case": "normalization/success/unit/TextReplaceNormalizationA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TextReplaceOverlappingA.dhall",
@@ -1871,7 +1867,7 @@
     },
     {
       "case": "normalization/success/unit/TextReplaceVarA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TextShowA.dhall",
@@ -1879,7 +1875,7 @@
     },
     {
       "case": "normalization/success/unit/TextShowAllEscapesA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "normalization/success/unit/TextShowEmptyA.dhall",
@@ -1987,7 +1983,7 @@
     },
     {
       "case": "parser/failure/ImportHeadersExteriorHash.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/ProjectionByTypeNeedsParens.dhall",
@@ -1995,7 +1991,7 @@
     },
     {
       "case": "parser/failure/annotation.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/assertBinding.dhall",
@@ -2003,7 +1999,7 @@
     },
     {
       "case": "parser/failure/boundBuiltins.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/builtinWithIndex.dhall",
@@ -2027,11 +2023,11 @@
     },
     {
       "case": "parser/failure/fSomeX.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/importAccess.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/incompleteIf.dhall",
@@ -2039,7 +2035,7 @@
     },
     {
       "case": "parser/failure/mandatoryNewline.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/nonBase16Hash.dhall",
@@ -2051,7 +2047,7 @@
     },
     {
       "case": "parser/failure/nonCharacterUnbraced.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/nonUtf8.dhall",
@@ -2060,7 +2056,7 @@
     },
     {
       "case": "parser/failure/spacing/AnnotationNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/ApplicationNoSpace1.dhall",
@@ -2072,43 +2068,43 @@
     },
     {
       "case": "parser/failure/spacing/AssertNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/ForallNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/HeadersNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/IfNoSpace1.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/IfNoSpace2.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/IfNoSpace3.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/ImportAltNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/ImportHashedNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/LambdaNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/LetAnnotNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/LetNoSpace1.dhall",
@@ -2116,7 +2112,7 @@
     },
     {
       "case": "parser/failure/spacing/LetNoSpace2.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/LetNoSpace3.dhall",
@@ -2124,31 +2120,31 @@
     },
     {
       "case": "parser/failure/spacing/LetNoSpace4.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/ListLitEmptyNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/MergeAnnotationNoSpace3.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/MergeNoSpace1.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/MergeNoSpace2.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/NaturalPlusNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/RecordTypeNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/spacing/SomeNoSpace.dhall",
@@ -2164,7 +2160,7 @@
     },
     {
       "case": "parser/failure/spacing/UnionTypeNoSpace.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/surrogatePairUnbraced.dhall",
@@ -2224,15 +2220,15 @@
     },
     {
       "case": "parser/failure/unit/ImportEnvWrongEscape.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/ListLitEmptyAnnotation.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/ListLitEmptyMissingAnnotation.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/ListLitTwoCommas.dhall",
@@ -2248,7 +2244,7 @@
     },
     {
       "case": "parser/failure/unit/NaturalLitLeadingZero.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/OldUnionLitSyntax.dhall",
@@ -2280,11 +2276,11 @@
     },
     {
       "case": "parser/failure/unit/RecordFieldMustNotBeKeyword05.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/RecordFieldMustNotBeKeyword06.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/RecordFieldMustNotBeKeyword07.dhall",
@@ -2296,11 +2292,11 @@
     },
     {
       "case": "parser/failure/unit/RecordFieldMustNotBeKeyword09.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/RecordFieldMustNotBeKeyword10.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/RecordFieldMustNotBeKeyword11.dhall",
@@ -2308,11 +2304,11 @@
     },
     {
       "case": "parser/failure/unit/RecordFieldMustNotBeKeyword12.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/RecordFieldMustNotBeKeyword13.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/RecordFieldMustNotBeKeyword14.dhall",
@@ -2328,7 +2324,7 @@
     },
     {
       "case": "parser/failure/unit/SomeAlone.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/failure/unit/UnionTypeTwoDelims.dhall",
@@ -2360,7 +2356,7 @@
     },
     {
       "case": "parser/failure/unit/showConstructorAlone.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/annotationsA.dhall",
@@ -2424,7 +2420,7 @@
     },
     {
       "case": "parser/success/leadingSeparatorsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/leadingTabsA.dhall",
@@ -2524,7 +2520,7 @@
     },
     {
       "case": "parser/success/text/escapedDoubleQuotedStringA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/text/escapedSingleQuotedStringA.dhall",
@@ -2560,7 +2556,7 @@
     },
     {
       "case": "parser/success/text/multilineCorruptedLeadingWhitespaceA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/text/multilineIndentedAndAlignedA.dhall",
@@ -2580,7 +2576,7 @@
     },
     {
       "case": "parser/success/text/nonAssignedUnicodeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/text/preserveCommentA.dhall",
@@ -2608,7 +2604,7 @@
     },
     {
       "case": "parser/success/text/unicodeBracedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/text/unicodeDoubleQuotedStringA.dhall",
@@ -2616,11 +2612,11 @@
     },
     {
       "case": "parser/success/text/unicodeEscapedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/text/unicodePlane16A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/time/DateTimeA.dhall",
@@ -2872,7 +2868,7 @@
     },
     {
       "case": "parser/success/unit/ListLitEmptyCommaA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ListLitEmptyPrecedenceA.dhall",
@@ -2880,7 +2876,7 @@
     },
     {
       "case": "parser/success/unit/ListLitLeadingCommaA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ListLitNonEmptyA.dhall",
@@ -2892,7 +2888,7 @@
     },
     {
       "case": "parser/success/unit/ListLitTrailingAndLeadingCommasA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ListLitTrailingCommaA.dhall",
@@ -2900,7 +2896,7 @@
     },
     {
       "case": "parser/success/unit/ListWithNewlineA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/MergeA.dhall",
@@ -2916,7 +2912,7 @@
     },
     {
       "case": "parser/success/unit/MergeParenAnnotationA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/MergeXYZA.dhall",
@@ -2932,11 +2928,11 @@
     },
     {
       "case": "parser/success/unit/ProjectionLeadingCommaA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ProjectionTrailingAndLeadingCommasA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ProjectionTrailingCommaA.dhall",
@@ -2976,19 +2972,19 @@
     },
     {
       "case": "parser/success/unit/RecordLitEmptyBothCommasA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordLitEmptyLeadingCommaA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordLitEmptyTrailingCommaA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordLitLeadingCommaA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordLitNixLikeA.dhall",
@@ -2996,19 +2992,19 @@
     },
     {
       "case": "parser/success/unit/RecordLitPunA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordLitPunDuplicateA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordLitPunMixedA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordLitPunSomeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordLitSomeA.dhall",
@@ -3016,7 +3012,7 @@
     },
     {
       "case": "parser/success/unit/RecordLitTrailingAndLeadingCommasA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordLitTrailingCommaA.dhall",
@@ -3040,15 +3036,15 @@
     },
     {
       "case": "parser/success/unit/RecordTypeEmptyCommaA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordTypeLeadingCommaA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordTypeTrailingAndLeadingCommasA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/RecordTypeTrailingCommaA.dhall",
@@ -3060,19 +3056,19 @@
     },
     {
       "case": "parser/success/unit/ShebangA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ShebangNixA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ShowConstructorA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/ShowConstructorWithValueA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/SomeXA.dhall",
@@ -3080,7 +3076,7 @@
     },
     {
       "case": "parser/success/unit/SomeXYZA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/SortA.dhall",
@@ -3132,11 +3128,11 @@
     },
     {
       "case": "parser/success/unit/UnionTypeEmptyDelimA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/UnionTypeLeadingDelimA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/UnionTypeSomeA.dhall",
@@ -3144,11 +3140,11 @@
     },
     {
       "case": "parser/success/unit/UnionTypeTrailingAndLeadingDelimsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/UnionTypeTrailingDelimA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/UnionTypeXA.dhall",
@@ -3272,7 +3268,7 @@
     },
     {
       "case": "parser/success/unit/import/environmentVariablePosixA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/hashA.dhall",
@@ -3316,7 +3312,7 @@
     },
     {
       "case": "parser/success/unit/import/pathTerminationUnionA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/quotedPathsA.dhall",
@@ -3360,7 +3356,7 @@
     },
     {
       "case": "parser/success/unit/import/urls/fragmentParsesAsListAppendA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/ipv4A.dhall",
@@ -3372,31 +3368,31 @@
     },
     {
       "case": "parser/success/unit/import/urls/ipv6longA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/ipv6mediumA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/ipv6shortA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/ipv6verylongA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/ipv6withipv4A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/ipvfutureLowercaseA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/ipvfutureUppercaseA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/import/urls/portA.dhall",
@@ -3516,11 +3512,11 @@
     },
     {
       "case": "parser/success/unit/operators/RecursiveRecordTypeMergeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/operators/RecursiveRecordTypeMergeAssocA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/operators/RecursiveRecordTypeMergeUnicodeA.dhall",
@@ -3528,7 +3524,7 @@
     },
     {
       "case": "parser/success/unit/operators/RecursiveRecordTypeMergeUnicodeAssocA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "parser/success/unit/operators/RightBiasedRecordMergeA.dhall",
@@ -3584,7 +3580,7 @@
     },
     {
       "case": "semantic-hash/success/haskell-tutorial/combineTypes/1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/haskell-tutorial/prefer/0A.dhall",
@@ -3768,7 +3764,7 @@
     },
     {
       "case": "semantic-hash/success/prelude/List/head/0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/prelude/List/head/1A.dhall",
@@ -3776,11 +3772,11 @@
     },
     {
       "case": "semantic-hash/success/prelude/List/indexed/0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/prelude/List/indexed/1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/prelude/List/iterate/0A.dhall",
@@ -3792,7 +3788,7 @@
     },
     {
       "case": "semantic-hash/success/prelude/List/last/0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/prelude/List/last/1A.dhall",
@@ -3832,11 +3828,11 @@
     },
     {
       "case": "semantic-hash/success/prelude/List/reverse/0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/prelude/List/reverse/1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/prelude/List/shifted/0A.dhall",
@@ -4096,11 +4092,11 @@
     },
     {
       "case": "semantic-hash/success/prelude/Text/show/0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/prelude/Text/show/1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "semantic-hash/success/remoteSystemsA.dhall",
@@ -4244,7 +4240,7 @@
     },
     {
       "case": "type-inference/failure/unit/EquivalenceNotTerms.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/FunctionApplicationArgumentNotMatch.dhall",
@@ -4328,11 +4324,11 @@
     },
     {
       "case": "type-inference/failure/unit/MergeBool.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/MergeEmptyNeedsDirectAnnotation1.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/MergeEmptyNeedsDirectAnnotation2.dhall",
@@ -4492,7 +4488,7 @@
     },
     {
       "case": "type-inference/failure/unit/RecordProjectionDuplicateFields.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/RecordProjectionEmpty.dhall",
@@ -4524,7 +4520,7 @@
     },
     {
       "case": "type-inference/failure/unit/RecordTypeDuplicateFields.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/RecordTypeValueMember.dhall",
@@ -4616,11 +4612,11 @@
     },
     {
       "case": "type-inference/failure/unit/UnionTypeDuplicateVariants1.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/UnionTypeDuplicateVariants2.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/failure/unit/UnionTypeNotType.dhall",
@@ -4676,11 +4672,11 @@
     },
     {
       "case": "type-inference/success/CacheImportsA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/CacheImportsCanonicalizeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/accessEncodedTypeA.dhall",
@@ -4880,11 +4876,11 @@
     },
     {
       "case": "type-inference/success/prelude/List/indexed/0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/prelude/List/indexed/1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/prelude/List/iterate/0A.dhall",
@@ -4936,11 +4932,11 @@
     },
     {
       "case": "type-inference/success/prelude/List/reverse/0A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/prelude/List/reverse/1A.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/prelude/List/shifted/0A.dhall",
@@ -5244,7 +5240,7 @@
     },
     {
       "case": "type-inference/success/preludeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/recordOfRecordOfTypesA.dhall",
@@ -5444,11 +5440,11 @@
     },
     {
       "case": "type-inference/success/unit/IfBranchesKindA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/IfBranchesTypeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/IfNormalizeArgumentsA.dhall",
@@ -5724,15 +5720,15 @@
     },
     {
       "case": "type-inference/success/unit/RecordLitPunA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecordLitPunCaptureA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecordLitPunSomeA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/RecordLitSortFieldsA.dhall",
@@ -5956,15 +5952,15 @@
     },
     {
       "case": "type-inference/success/unit/ShowConstructorEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/ShowConstructorNonEmptyA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/ShowConstructorOptionalA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/SomeTrueA.dhall",
@@ -6028,7 +6024,7 @@
     },
     {
       "case": "type-inference/success/unit/TypeAnnotationSortA.dhall",
-      "status": "fail"
+      "status": "pass"
     },
     {
       "case": "type-inference/success/unit/UnionConstructorEmptyFieldA.dhall",
@@ -6135,5 +6131,5 @@
       "status": "pass"
     }
   ],
-  "description": "Pinned corpus results. Import routes are simulated in memory; ENV setup files are excluded from case counts. Use scripts/conformance.py --audit for failure details."
+  "description": "Pinned upstream test results. Official fixture routes were served over loopback HTTP and HTTPS. Environment setup files are excluded from the case counts."
 }

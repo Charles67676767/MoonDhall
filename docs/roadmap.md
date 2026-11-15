@@ -4,12 +4,9 @@
 
 Portable typed core, first-class/dependent types, normalization/equivalence, arbitrary-precision numbers, interpolation, record/list operations, Optional/unions, CBOR and semantic hashes. File/stdin CLI, import modes and headers, semantic caching, diagnostics, examples and pinned audits are available. The language also supports Bytes, Date, Time, TimeZone, record completion, with and toMap. See compatibility.md for boundaries.
 
-## Standard completion
+## Standard verification
 
-- Fix audited grammar, typing and normalization differences.
-- Complete the remaining display and escape rules.
-- Verify the remaining parser edge cases and extend CLI transport coverage alongside the upstream HTTP and HTTPS fixture audit.
-- Extend regression coverage as previously failing cases become supported.
+The pinned audit passes 1,525 upstream cases, including the Prelude and the import routes exercised over local HTTP and HTTPS. Future verification can extend coverage of the Node.js adapter and add more versions of the Dhall standard.
 
 ## Release and embedding
 

@@ -30,6 +30,8 @@ pub fn format_expr(Expr) -> String
 
 pub fn hex_to_bytes(String) -> Bytes raise DhallError
 
+pub fn import_specs(String) -> Array[ImportSpec] raise DhallError
+
 pub fn json_expr(Expr) -> String raise DhallError
 
 pub fn normalize(String) -> Expr raise DhallError

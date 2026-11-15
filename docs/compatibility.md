@@ -1,6 +1,6 @@
 # Compatibility
 
-MoonDhall implements a growing Dhall subset, not a complete standard-conforming implementation. APIs can change before a registry release.
+MoonDhall passed all 1,525 audited cases anchored to Dhall revision 56b0997. The report covers the official corpus and the import fixture routes. APIs can change before a registry release.
 
 ## Implemented profile
 
@@ -19,9 +19,7 @@ MoonDhall implements a growing Dhall subset, not a complete standard-conforming 
 
 Empty record values are {=}; {} is a record type. Boolean == and != are Bool-only; === forms an equivalence type used by assert. Exact integer JSON output does not prevent downstream IEEE-754 consumers losing digits.
 
-## Remaining standard gaps
-
-Known gaps include grammar, normalization, type inference and semantic-hash cases listed in the pinned audit.
+## Interoperability and implementation choices
 
 CBOR supports the current expression profile, including unresolved import forms, Bytes and temporal literals. Standalone untyped empty lists require an annotation. Use type_of or normalize_expr to check a decoded expression before evaluation.
 
@@ -29,14 +27,12 @@ The Node.js adapter follows up to five same-origin redirects. It keeps HTTP requ
 
 JSON encodes Bytes as hexadecimal strings with the 0x prefix and temporal values as their Dhall text forms. These are MoonDhall JSON conversion choices.
 
-See the pinned audit for outstanding discrepancies.
-
 ## Resource limits
 
 - Parsed source: 262144 string code units; tokens: 20000.
 - Parser recursion: 128. Inference and reduction: up to 512. Canonicalization, JSON and CBOR traversal: up to 256.
 - Each normalization operation: 2000000 steps; inference may perform several operations.
-- Natural/fold: 10000 iterations; import ancestors: 64; CLI dependency requests: 256.
+- Natural/fold: 10000 iterations; import ancestors: 64; CLI dependency requests: 1024.
 - JSON subtree and guarded concatenation: 1048576 code units; imports: 256 KiB; CLI/binary input: 1 MiB.
 - CBOR bounds collections, nesting and nodes; rejects malformed UTF-8, duplicate map keys, trailing bytes and truncated input.
 

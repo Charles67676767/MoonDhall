@@ -125,7 +125,7 @@ try {
   const request = { op, origin, source: op === 'decode' ? raw.toString('hex') : new TextDecoder('utf-8', { fatal: true }).decode(raw), sources: [] };
   const semanticDir = path.join(process.env.XDG_CACHE_HOME || path.join(os.homedir(), '.cache'), 'dhall');
   let result;
-  for (let iteration = 0; iteration < 256; iteration++) {
+  for (let iteration = 0; iteration < 1024; iteration++) {
     const child = spawnSync(process.execPath, [bridge], { input: JSON.stringify(request), encoding: 'utf8', maxBuffer: 8 * 1024 * 1024, timeout: 30000 });
     if (child.error || child.status !== 0) throw new Error(child.error?.message || child.stderr || 'MoonBit engine failed');
     const response = JSON.parse(child.stdout);

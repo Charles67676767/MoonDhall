@@ -374,3 +374,29 @@ fn import_authority(path : String, origin : String) -> String? {
   let (authority, _) = split_first(authority, '?')
   Some(authority)
 }
+
+///|
+/// List written import specifications without resolving or reading resources.
+pub fn import_specs(source : String) -> Array[ImportSpec] raise DhallError {
+  let imports : Array[ImportSpec] = []
+  collect_import_specs(parse(source), imports, 0)
+  imports
+}
+
+///|
+fn collect_import_specs(
+  expr : Expr,
+  imports : Array[ImportSpec],
+  depth : Int32,
+) -> Unit raise DhallError {
+  if depth > 256 {
+    raise Evaluation("Import scan depth exceeded")
+  }
+  if expr is Import(spec) {
+    imports.push(spec)
+  }
+  let _ = children(expr, (child, _) => {
+    collect_import_specs(child, imports, depth + 1)
+    child
+  })
+}

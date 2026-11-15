@@ -24,6 +24,20 @@ fn response(j : Json) -> String {
   let result = try {
     if op == "format" {
       @dhall.format(source)
+    } else if op == "imports" {
+      "[" +
+      @dhall.import_specs(source)
+      .map(spec => {
+        "[" +
+        Json::string(spec.path).stringify() +
+        "," +
+        Json::string(spec.mode).stringify() +
+        "," +
+        spec.hash.map(h => Json::string(h).stringify()).unwrap_or("null") +
+        "]"
+      })
+      .join(",") +
+      "]"
     } else if op == "syntax" {
       @dhall.format_expr(@dhall.parse(source))
     } else if op == "decode" {

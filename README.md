@@ -2,7 +2,7 @@
 
 用 MoonBit 实现的 Dhall 配置语言：在生成 JSON 前检查类型，用函数和类型参数复用配置，用导入拆分文件，并用语义哈希固定依赖。
 
-当前为 **0.1.0 开发版**。语言核心、类型检查、规范化、CBOR 和 SHA-256 均由 MoonBit 实现；文件和 HTTP 命令行由 Node.js 适配器提供。项目尚未完整兼容 Dhall 标准，也尚未发布到 Mooncakes。准确范围见 [兼容性说明](docs/compatibility.md)。
+当前为 **0.1.0 开发版**。语言核心、类型检查、规范化、CBOR 和 SHA-256 均由 MoonBit 实现；文件和 HTTP 命令行由 Node.js 适配器提供。已通过固定 Dhall 规范快照的全部 1,525 项官方审计用例。Mooncakes 包待发布。准确范围见 [兼容性说明](docs/compatibility.md)。
 
 ```dhall
 let Port = Natural
@@ -108,7 +108,7 @@ moon fmt --check
 四个后端为 JS、native、wasm、wasm-gc。官方规范固定到 [56b0997](https://github.com/dhall-lang/dhall-lang/tree/56b0997a4800bfc815ea221529a6bb2bfd6723dc)。一致性脚本首次运行会下载该版本，需要 git 和网络。默认检查 [冻结回归清单](tests/conformance-profile.json)；完整审计使用：
 
 ```sh
-python scripts/conformance.py --audit --http-fixtures --allow-failures --report .local/upstream-audit.json
+python scripts/conformance.py --audit --http-fixtures --report .local/upstream-audit.json
 ```
 
 审计记录每个用例的结果。规范化用例对照上游预期正常形式，导入用例则按上游说明比较两边的 beta 规范化结果。导入审计实现了上游测试文档列出的服务路由。指定 --http-fixtures 时，审计通过本地 HTTP 和 HTTPS 发送请求，需要 OpenSSL 生成临时测试证书。CLI 集成测试另外验证 Node.js 适配层。[审计快照](docs/upstream-audit.json) 记录完整范围，回归清单的通过率不代表完整标准兼容。

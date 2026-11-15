@@ -241,11 +241,37 @@ def fixture_import(key, corpus_root, request):
     return location, read_fixture(file, corpus_root, mode)
 
 
+def supply_local_dependencies(request, corpus_root):
+    """Populate the fixture inputs without re-evaluating the partial Prelude graph."""
+    pending = [(request["origin"], request["source"])]
+    visited = set()
+    sources = {}
+    while pending:
+        current = [(origin, text) for origin, text in pending if origin not in visited]
+        pending = []
+        for start in range(0, len(current), 32):
+            batch = current[start:start + 32]
+            responses = raw_engine([{"op": "imports", "source": text} for _, text in batch])
+            for (origin, _), response in zip(batch, responses):
+                if origin in visited or "result" not in response:
+                    continue
+                visited.add(origin)
+                for written, mode, digest in json.loads(response["result"]):
+                    key = origin + "\n" + written
+                    if mode in {"Bytes", "Location"} or digest:
+                        key += "\n" + json.dumps([mode, [], digest], separators=(",", ":"))
+                    location, source = fixture_import(key, corpus_root, request)
+                    sources[key] = {"key": key, "location": location, "source": source}
+                    if mode == "Code" and source is not None and location.startswith("file:"):
+                        pending.append((location, source))
+    request.setdefault("sources", []).extend(sources.values())
+
+
 def engine(requests):
     pending = list(range(len(requests)))
     results = [None] * len(requests)
     corpus_root = (ROOT / ".local/dhall-standard").resolve()
-    for _ in range(256):
+    for _ in range(1024):
         responses = raw_engine([requests[i] for i in pending])
         remaining = []
         for index, response in zip(pending, responses):
@@ -307,6 +333,8 @@ def run_audit(args, base):
         if "DHALL_HEADERS" in fixture_env and op in {"check", "beta-resolved"}:
             request["headerSource"] = fixture_env["DHALL_HEADERS"]
             request["headerOrigin"] = (base.parent.parent / "__headers__.dhall").as_uri()
+        if case == "type-inference/success/preludeA.dhall" and op == "type-binary":
+            supply_local_dependencies(request, base.parent)
         requests.append(request)
         return index
     for case, suite, outcome, file in jobs:
