@@ -137,8 +137,8 @@ test "ill typed programs fail before evaluation" {
   for
     source in [
       "1 + True", "if True then 1 else False", "if True then 1 else unknown", "(\\(x : Natural) -> x) \"wrong\"",
-      "[1, True]", "let x : Bool = 1 in x", "{ a = 1 }.missing", "1.a", "1 2", "[]",
-      "[] : Natural", "1 == 1", "let x = 1 in x@1",
+      "[1, True]", "let x : Bool = 1 in x", "{ a = 1 }.absent", "1.a", "1 2", "[] : Natural",
+      "1 == 1", "let x = 1 in x@1",
     ] {
     let rejected = try {
       let _ = @MoonDhall.to_json(source)
@@ -155,7 +155,8 @@ test "ill typed programs fail before evaluation" {
 test "invalid syntax and unsupported features are rejected" {
   for
     source in [
-      "", "1 )", "\"unterminated", "{- unterminated", "let x = 1", "[1,,]", "\"bad\\q\"",
+      "", "[]", "([]) : List Natural", "1 )", "\"unterminated", "{- unterminated",
+      "let x = 1", "[1,,]", "\"bad\\q\"",
     ] {
     let rejected = try {
       let _ = @MoonDhall.to_json(source)

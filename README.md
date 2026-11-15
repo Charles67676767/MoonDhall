@@ -108,10 +108,10 @@ moon fmt --check
 四个后端为 JS、native、wasm、wasm-gc。官方规范固定到 [56b0997](https://github.com/dhall-lang/dhall-lang/tree/56b0997a4800bfc815ea221529a6bb2bfd6723dc)。一致性脚本首次运行会下载该版本，需要 git 和网络。默认检查 [冻结回归清单](tests/conformance-profile.json)；完整审计使用：
 
 ```sh
-python scripts/conformance.py --audit --allow-failures --report .local/upstream-audit.json
+python scripts/conformance.py --audit --http-fixtures --allow-failures --report .local/upstream-audit.json
 ```
 
-审计记录每个用例的结果。规范化用例对照上游预期正常形式，导入用例则按上游说明比较两边的 beta 规范化结果。导入审计在内存中模拟固定版本的 HTTP 测试服务，CLI 集成测试另用真实本地 HTTP 服务验证网络行为。[审计快照](docs/upstream-audit.json) 记录完整范围，回归清单的通过率不代表完整标准兼容。
+审计记录每个用例的结果。规范化用例对照上游预期正常形式，导入用例则按上游说明比较两边的 beta 规范化结果。导入审计实现了上游测试文档列出的服务路由。指定 --http-fixtures 时，审计通过本地 HTTP 和 HTTPS 发送请求，需要 OpenSSL 生成临时测试证书。CLI 集成测试另外验证 Node.js 适配层。[审计快照](docs/upstream-audit.json) 记录完整范围，回归清单的通过率不代表完整标准兼容。
 
 GitHub Actions 覆盖检查、构建、四后端测试、示例、CLI、固定回归清单和完整审计，实际状态见 [Actions](https://github.com/Charles67676767/MoonDhall/actions)。
 

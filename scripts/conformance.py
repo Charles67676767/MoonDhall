@@ -8,6 +8,13 @@ import argparse
 import json
 import hashlib
 import posixpath
+import ssl
+from contextlib import ExitStack
+from http.client import HTTPConnection, HTTPSConnection
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from itertools import count
+from tempfile import TemporaryDirectory
+from threading import Thread
 import subprocess
 from urllib.parse import urljoin, urlparse, quote, unquote
 from urllib.request import url2pathname
@@ -63,11 +70,7 @@ def read_fixture(file, corpus_root, mode):
         return None
 
 
-def http_fixture(location, parent, headers, corpus_root):
-    """Apply the upstream fixture routes in memory, without external requests."""
-    url = urlparse(location)
-    if url.hostname not in {"localhost", "127.0.0.1"} or url.port not in {18080, 18443}:
-        raise UnsupportedFixture("External HTTP fixture is outside the pinned corpus")
+def fixture_route(url, headers, corpus_root, serial):
     request_headers = {k.lower(): v for k, v in headers}
     cors = None
     if url.path.startswith("/tests/import/"):
@@ -75,12 +78,12 @@ def http_fixture(location, parent, headers, corpus_root):
         body = read_fixture(file, corpus_root, "Text")
         cors = "*"
     elif url.path == "/random-string":
-        raise UnsupportedFixture("The upstream random response fixture requires a stateful server")
+        body = json.dumps(str(next(serial)))
     elif url.path == "/user-agent":
         body = '{\n  "user-agent": ' + json.dumps(request_headers.get("user-agent", "none_given")) + '\n}\n'
     elif url.path in {"/foo", "/bar"}:
         if request_headers.get("test", "").lower() != "example":
-            return None
+            return None, None
         body = "./bar" if url.path == "/foo" else "True"
     elif url.path.startswith("/cors/"):
         name = Path(url.path).stem
@@ -99,13 +102,76 @@ def http_fixture(location, parent, headers, corpus_root):
         }
         cors, body = cors_cases.get(name, (None, None))
     else:
-        return None
+        return None, None
+    return cors, body
+
+
+FIXTURE_SERIAL = count()
+FIXTURE_TRANSPORT = {}
+
+
+def http_fixture(location, parent, headers, corpus_root):
+    url = urlparse(location)
+    if url.hostname not in {"localhost", "127.0.0.1"} or url.port not in {18080, 18443}:
+        raise UnsupportedFixture("External HTTP fixture is outside the pinned corpus")
+    if FIXTURE_TRANSPORT:
+        port, tls = FIXTURE_TRANSPORT[url.scheme]
+        connection = (HTTPSConnection("127.0.0.1", port, context=tls, timeout=8)
+                      if tls else HTTPConnection("127.0.0.1", port, timeout=8))
+        try:
+            target = url.path or "/"
+            if url.query:
+                target += "?" + url.query
+            connection.request("GET", target, headers=dict(headers))
+            response = connection.getresponse()
+            cors = response.getheader("Access-Control-Allow-Origin")
+            payload = response.read()
+            body = payload.decode("utf-8") if response.status == 200 else None
+        finally:
+            connection.close()
+    else:
+        cors, body = fixture_route(url, headers, corpus_root, FIXTURE_SERIAL)
     parent_url = urlparse(parent)
     if parent_url.scheme in {"http", "https"}:
         parent_origin = f"{parent_url.scheme}://{parent_url.netloc}"
         if parent_origin != f"{url.scheme}://{url.netloc}" and cors not in {"*", parent_origin}:
             return None
     return body
+
+
+def start_fixture_servers(stack, corpus_root):
+    temporary = Path(stack.enter_context(TemporaryDirectory(prefix="fixtures-", dir=ROOT / ".local")))
+    key = temporary / "key.pem"
+    certificate = temporary / "cert.pem"
+    command("openssl", "req", "-x509", "-newkey", "rsa:2048", "-nodes", "-days", "1",
+            "-subj", "/CN=127.0.0.1", "-addext", "subjectAltName=IP:127.0.0.1",
+            "-keyout", str(key), "-out", str(certificate), capture_output=True)
+    server_tls = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    server_tls.load_cert_chain(str(certificate), str(key))
+    client_tls = ssl.create_default_context(cafile=str(certificate))
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            cors, body = fixture_route(urlparse(self.path), self.headers.items(), corpus_root, FIXTURE_SERIAL)
+            self.send_response(404 if body is None else 200)
+            if cors is not None:
+                self.send_header("Access-Control-Allow-Origin", cors)
+            self.end_headers()
+            if body is not None:
+                self.wfile.write(body.encode("utf-8"))
+
+        def log_message(self, *_args):
+            pass
+
+    for scheme, listen_tls, trust in (("http", None, None), ("https", server_tls, client_tls)):
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        stack.callback(server.server_close)
+        if listen_tls:
+            server.socket = listen_tls.wrap_socket(server.socket, server_side=True)
+        Thread(target=server.serve_forever, daemon=True).start()
+        stack.callback(server.shutdown)
+        FIXTURE_TRANSPORT[scheme] = (server.server_port, trust)
+    stack.callback(FIXTURE_TRANSPORT.clear)
 
 
 def fixture_import(key, corpus_root, request):
@@ -142,6 +208,10 @@ def fixture_import(key, corpus_root, request):
             if url.path.endswith("/") and not normalized.endswith("/"):
                 normalized += "/"
             return url._replace(path=normalized).geturl(), None
+        normalized = posixpath.normpath(url.path or "/")
+        if url.path.endswith("/") and not normalized.endswith("/"):
+            normalized += "/"
+        location = url._replace(path=normalized).geturl()
         if not request.get("import_fixture"):
             return location, None
         body = http_fixture(location, parent, headers, corpus_root)
@@ -175,7 +245,7 @@ def engine(requests):
     pending = list(range(len(requests)))
     results = [None] * len(requests)
     corpus_root = (ROOT / ".local/dhall-standard").resolve()
-    for _ in range(128):
+    for _ in range(256):
         responses = raw_engine([requests[i] for i in pending])
         remaining = []
         for index, response in zip(pending, responses):
@@ -200,10 +270,18 @@ def engine(requests):
 def main():
     parser = argparse.ArgumentParser(__doc__)
     parser.add_argument("--audit", action="store_true")
+    parser.add_argument("--http-fixtures", action="store_true", help="Exercise official routes over local HTTP and HTTPS")
     parser.add_argument("--allow-failures", action="store_true")
     parser.add_argument("--report", default=".local/conformance-report.json")
     args = parser.parse_args()
     base = corpus()
+    with ExitStack() as stack:
+        if args.http_fixtures:
+            start_fixture_servers(stack, base.parent)
+        run_audit(args, base)
+
+
+def run_audit(args, base):
     profile = None if args.audit else set(json.loads((ROOT / "tests/conformance-profile.json").read_text())["cases"])
     jobs = []
     for suite in MANIFEST["suites"]:
@@ -225,7 +303,7 @@ def main():
     def add(op, source):
         index = len(requests)
         request = {"op": op, "source": source, "origin": origin,
-                   "import_fixture": suite == "import", "fixture_env": fixture_env}
+                   "import_fixture": suite == "import" or case.startswith("type-inference/success/CacheImports"), "fixture_env": fixture_env}
         if "DHALL_HEADERS" in fixture_env and op in {"check", "beta-resolved"}:
             request["headerSource"] = fixture_env["DHALL_HEADERS"]
             request["headerOrigin"] = (base.parent.parent / "__headers__.dhall").as_uri()
@@ -313,6 +391,7 @@ def main():
     for x in results:
         by_suite[x["case"].split("/")[0]][x["status"]] += 1
     report = {"revision": MANIFEST["revision"], "scope": "audit" if args.audit else "regression-profile",
+              "fixture_transport": "http-and-https" if args.http_fixtures else "memory",
               "counts": dict(counts), "suites": {k: dict(v) for k, v in by_suite.items()}, "results": results}
     target = ROOT / args.report
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -320,7 +399,7 @@ def main():
     print(json.dumps({k: v for k, v in report.items() if k != "results"}, indent=2))
     if profile is not None and set(x["case"] for x in results) != profile:
         raise SystemExit("Regression profile contains missing cases")
-    if counts["fail"] and not args.allow_failures:
+    if (counts["fail"] or counts["not-run"]) and not args.allow_failures:
         raise SystemExit(1)
 
 

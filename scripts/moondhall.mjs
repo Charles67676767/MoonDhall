@@ -58,7 +58,9 @@ function unquotePath(written) {
 
 function environmentName(written) {
   const name = written.slice(4);
-  return name.startsWith('"') ? JSON.parse(name) : name;
+  if (!name.startsWith('"')) return name;
+  const escapes = { a: '\x07', b: '\b', f: '\f', n: '\n', r: '\r', t: '\t', v: '\v' };
+  return name.slice(1, -1).replace(/\\(.)/g, (_, c) => escapes[c] ?? c);
 }
 
 async function fetchImport(location, headers) {

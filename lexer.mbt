@@ -50,6 +50,14 @@ fn lex(source : String) -> Array[Token] raise DhallError {
   let chars = source.to_array()
   let tokens : Array[Token] = []
   let mut i = 0
+  while char_at(chars, i, '#') && char_at(chars, i + 1, '!') {
+    while i < chars.length() && chars[i] != '\n' {
+      i += 1
+    }
+    if i < chars.length() {
+      i += 1
+    }
+  }
   while i < chars.length() {
     if tokens.length() >= 20000 {
       raise Syntax("Token limit exceeded", i)
@@ -103,7 +111,20 @@ fn lex(source : String) -> Array[Token] raise DhallError {
       ) {
       let remote = rest.has_prefix("https://") || rest.has_prefix("http://")
       while i < chars.length() &&
-            ![' ', '\n', '\r', '\t', ')', ']', '}', ','].contains(chars[i]) {
+            ![' ', '\n', '\r', '\t', ')', ']', '}', ',', '>', '#'].contains(
+              chars[i],
+            ) {
+        if remote && chars[i] == '[' {
+          i += 1
+          while i < chars.length() &&
+                chars[i] != ']' &&
+                ![' ', '\n', '\r', '\t'].contains(chars[i]) {
+            i += 1
+          }
+          if !char_at(chars, i, ']') {
+            raise Syntax("Unterminated URL address", i)
+          }
+        }
         if chars[i] == '"' {
           if remote {
             raise Syntax("Remote import paths cannot contain quotes", i)
@@ -167,6 +188,11 @@ fn lex(source : String) -> Array[Token] raise DhallError {
     let multiline = c == '\'' && i + 1 < chars.length() && chars[i + 1] == '\''
     if c == '"' || multiline {
       i += if multiline { 2 } else { 1 }
+      if multiline &&
+        !char_at(chars, i, '\n') &&
+        !(char_at(chars, i, '\r') && char_at(chars, i + 1, '\n')) {
+        raise Syntax("Multiline text requires an opening newline", start)
+      }
       let begin = i
       let mut nesting = 0
       let mut closed = false
@@ -318,7 +344,10 @@ fn lex(source : String) -> Array[Token] raise DhallError {
     }
     let mut symbol = c.to_string()
     let remaining = chars_text(chars, i, min_int(i + 3, chars.length()))
-    if remaining == "//\\" {
+    if chars_text(chars, i, min_int(i + 4, chars.length())) == "//\\\\" {
+      symbol = "//\\"
+      i += 4
+    } else if remaining == "//\\" {
       symbol = "//\\"
       i += 3
     } else if remaining == "===" {

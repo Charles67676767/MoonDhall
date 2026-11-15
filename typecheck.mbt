@@ -68,7 +68,7 @@ fn kind_of(
   ctx : Array[Expr],
   depth : Int32,
 ) -> Int32 raise DhallError {
-  let k = normal(infer(e, ctx, depth + 1), { fuel: 200000, }, 0)
+  let k = normal(infer(e, ctx, depth + 1), { fuel: 2000000, }, 0)
   guard k is Universe(n) else {
     raise TypeError("Expected a type, got " + pretty_type(k))
   }
@@ -77,11 +77,11 @@ fn kind_of(
 
 ///|
 fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
-  if depth > 128 {
+  if depth > 512 {
     raise TypeError("Type checking depth limit exceeded")
   }
   let infer_child = x => infer(x, ctx, depth + 1)
-  let norm = x => normal(x, { fuel: 200000, }, 0)
+  let norm = x => normal(x, { fuel: 2000000, }, 0)
   match e {
     At(pos, _, x) =>
       infer_child(x) catch {
@@ -161,6 +161,12 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       }
     }
     Apply(f, x) => {
+      if bare(f) == Builtin("showConstructor") {
+        match norm(infer_child(x)) {
+          UnionType(_) | Apply(Builtin("Optional"), _) => return Builtin("Text")
+          _ => raise TypeError("showConstructor requires a union or Optional")
+        }
+      }
       if bare(f) == Builtin("Some") {
         let t = infer_child(x)
         require_same(infer_child(t), Universe(0), "Some element type")
@@ -185,6 +191,13 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       out
     }
     RecordType(fs) => {
+      let seen : Array[String] = []
+      for (key, _) in fs {
+        if seen.contains(key) {
+          raise TypeError("Duplicate label: " + key)
+        }
+        seen.push(key)
+      }
       let mut universe = 0
       for (_, t) in fs {
         let n = kind_of(t, ctx, depth + 1)
@@ -195,6 +208,13 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       Universe(universe)
     }
     UnionType(fs) => {
+      let seen : Array[String] = []
+      for (key, _) in fs {
+        if seen.contains(key) {
+          raise TypeError("Duplicate label: " + key)
+        }
+        seen.push(key)
+      }
       let mut universe = 0
       for (_, t) in fs {
         if t is Some(t) {
@@ -247,7 +267,12 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       guard norm(infer_child(r)) is RecordType(fs) else {
         raise TypeError("Projection requires a record")
       }
+      let seen : Array[String] = []
       for k in ks {
+        if seen.contains(k) {
+          raise TypeError("Duplicate projection label: " + k)
+        }
+        seen.push(k)
         if get_field(fs, k) is None {
           raise TypeError("Missing projection field: " + k)
         }
@@ -266,7 +291,9 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       Apply(Builtin("List"), t)
     }
     Annotate(x, t) => {
-      let _ = kind_of(t, ctx, depth + 1)
+      if bare(t) != Universe(2) {
+        let _ = kind_of(t, ctx, depth + 1)
+      }
       let t = norm(t)
       if bare(x) is List(xs) && xs.is_empty() {
         guard t is Apply(Builtin("List"), _) else {
@@ -281,7 +308,7 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       require_same(infer_child(c), Builtin("Bool"), "if condition")
       let t = infer_child(a)
       require_same(infer_child(b), t, "if branches")
-      require_same(infer_child(t), Universe(0), "if result type")
+      let _ = kind_of(t, ctx, depth + 1)
       t
     }
     ToMap(r, annotation) => {
@@ -335,7 +362,7 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
       }
       kind_of(
         RecordType(
-          combine_records(left, right, true, true, { fuel: 200000, }, 0),
+          combine_records(left, right, true, true, { fuel: 2000000, }, 0),
         ),
         ctx,
         depth + 1,
@@ -373,10 +400,11 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
             raise TypeError("Record operator requires records")
           }
           RecordType(
-            combine_records(af, bf, op == "/\\", true, { fuel: 200000, }, 0),
+            combine_records(af, bf, op == "/\\", true, { fuel: 2000000, }, 0),
           )
         }
         "===" => {
+          require_same(infer_child(ta), Universe(0), "Equivalence operand kind")
           require_same(ta, tb, "Equivalence operands")
           Universe(0)
         }
@@ -448,7 +476,7 @@ fn infer(e : Expr, ctx : Array[Expr], depth : Int32) -> Expr raise DhallError {
 ///|
 pub fn type_of(expr : Expr) -> Type raise DhallError {
   let e = canonical(expr, [], 0)
-  { expression: normal(infer(e, [], 0), { fuel: 200000, }, 0), }
+  { expression: normal(infer(e, [], 0), { fuel: 2000000, }, 0), }
 }
 
 ///|

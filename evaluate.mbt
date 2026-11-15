@@ -7,8 +7,11 @@ priv struct Budget {
 ///|
 fn Budget::step(self : Budget, depth : Int32) -> Unit raise DhallError {
   self.fuel -= 1
-  if self.fuel < 0 || depth > 256 {
-    raise Evaluation("Evaluation resource limit exceeded")
+  if self.fuel < 0 {
+    raise Evaluation("Evaluation step limit exceeded")
+  }
+  if depth > 512 {
+    raise Evaluation("Evaluation depth limit exceeded")
   }
 }
 
@@ -206,16 +209,21 @@ fn reduce_builtin(
   depth : Int32,
 ) -> Expr? raise DhallError {
   let norm = e => normal(e, budget, depth + 1)
-  let optional = (t, x) => {
-    Annotate(Apply(Builtin("Some"), x), Apply(Builtin("Optional"), t))
-  }
   match (name, a) {
+    ("showConstructor", [Field(UnionType(_), key)])
+    | ("showConstructor", [Apply(Field(UnionType(_), key), _)]) =>
+      Some(Text(key))
+    ("showConstructor", [Apply(Builtin("Some"), _)]) => Some(Text("Some"))
+    ("showConstructor", [Apply(Builtin("None"), _)]) => Some(Text("None"))
     ("Natural/isZero", [x]) if number(x) is Some(n) => Some(Boolean(n == 0))
     ("Natural/even", [x]) if number(x) is Some(n) => Some(Boolean(n % 2 == 0))
     ("Natural/odd", [x]) if number(x) is Some(n) => Some(Boolean(n % 2 != 0))
     ("Natural/show", [x]) if number(x) is Some(n) => Some(Text(n.to_string()))
     ("Natural/toInteger", [x]) if number(x) is Some(n) =>
       Some(Integer(n.to_string()))
+    ("Natural/subtract", [Natural(0L), value]) => Some(value)
+    ("Natural/subtract", [_, Natural(0L)]) => Some(Natural(0L))
+    ("Natural/subtract", [x, y]) if x == y => Some(Natural(0L))
     ("Natural/subtract", [x, y]) if number(x) is Some(n) && number(y) is Some(m) =>
       Some(nat(if m >= n { m - n } else { @bigint.BigInt::from_int(0) }))
     ("Integer/show", [Integer(s)]) =>
@@ -237,20 +245,22 @@ fn reduce_builtin(
     | ("TimeZone/show", [TimeZoneLiteral(_) as value]) =>
       Some(Text(pretty_type(value)))
     ("Double/show", [Real(d)]) => Some(Text(double_text(d)))
-    ("Text/show", [Text(s)]) => Some(Text(quote_json(s)))
-    ("Text/replace", [Text(needle), Text(replacement), Text(haystack)]) =>
-      Some(
-        Text(
-          if needle == "" {
-            haystack
-          } else {
-            haystack.split(needle).map(s => s.to_owned()).join(replacement)
-          },
-        ),
-      )
+    ("Text/show", [Text(s)]) =>
+      Some(Text(quote_json(s).replace_all(old="$", new="\\u0024")))
+    ("Text/replace", [Text(""), _, haystack]) => Some(haystack)
+    ("Text/replace", [Text(needle), replacement, Text(haystack)]) => {
+      let chunks = haystack.split(needle).map(s => s.to_owned()).to_array()
+      let parts : Array[(String, Expr)] = []
+      for i in 0..<(chunks.length() - 1) {
+        parts.push((chunks[i], replacement))
+      }
+      Some(norm(Interpolate(parts, chunks[chunks.length() - 1])))
+    }
     ("List/length", [_, List(xs)])
     | ("List/length", [_, Annotate(List(xs), _)]) =>
       Some(Natural(xs.length().to_int64()))
+    ("List/reverse", [_, Annotate(List(xs), _) as empty]) if xs.is_empty() =>
+      Some(empty)
     ("List/reverse", [_, List(xs)])
     | ("List/reverse", [_, Annotate(List(xs), _)]) => {
       let ys = xs.copy()
@@ -262,7 +272,7 @@ fn reduce_builtin(
         if xs.is_empty() {
           Apply(Builtin("None"), t)
         } else {
-          optional(t, xs[0])
+          Apply(Builtin("Some"), xs[0])
         },
       )
     ("List/last", [t, List(xs)]) | ("List/last", [t, Annotate(List(xs), _)]) =>
@@ -270,8 +280,18 @@ fn reduce_builtin(
         if xs.is_empty() {
           Apply(Builtin("None"), t)
         } else {
-          optional(t, xs[xs.length() - 1])
+          Apply(Builtin("Some"), xs[xs.length() - 1])
         },
+      )
+    ("List/indexed", [t, Annotate(List(xs), _)]) if xs.is_empty() =>
+      Some(
+        Annotate(
+          List([]),
+          Apply(
+            Builtin("List"),
+            RecordType([("index", Builtin("Natural")), ("value", t)]),
+          ),
+        ),
       )
     ("List/indexed", [_, List(xs)])
     | ("List/indexed", [_, Annotate(List(xs), _)]) => {
@@ -388,10 +408,25 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
     }
     Field(x, k) => {
       let x = norm(x)
-      if x is Record(fs) && get_field(fs, k) is Some(v) {
-        v
-      } else {
-        Field(x, k)
+      match x {
+        Record(fs) => get_field(fs, k).unwrap_or(Field(x, k))
+        Project(r, _) => norm(Field(r, k))
+        Binary("//", left, Record(fs)) =>
+          match get_field(fs, k) {
+            Some(value) => value
+            None => norm(Field(left, k))
+          }
+        Binary(op, Record(fs), right) if op == "//" || op == "/\\" =>
+          match get_field(fs, k) {
+            Some(value) => Field(Binary(op, Record([(k, value)]), right), k)
+            None => norm(Field(right, k))
+          }
+        Binary("/\\", left, Record(fs)) =>
+          match get_field(fs, k) {
+            Some(value) => Field(Binary("/\\", left, Record([(k, value)])), k)
+            None => norm(Field(left, k))
+          }
+        _ => Field(x, k)
       }
     }
     ProjectType(r, t) => {
@@ -402,13 +437,23 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
       }
     }
     Project(x, ks) => {
+      if ks.is_empty() {
+        return Record([])
+      }
       let x = norm(x)
-      if x is Record(fs) {
-        Record(fs.filter(p => ks.contains(p.0)))
-      } else {
-        let ks = ks.copy()
-        ks.sort_by(lexical)
-        Project(x, ks)
+      match x {
+        Record(fs) => Record(fs.filter(p => ks.contains(p.0)))
+        Project(r, _) => norm(Project(r, ks))
+        Binary("//", left, Record(fs)) => {
+          let left_keys = ks.filter(k => get_field(fs, k) is None)
+          let right = Record(fs.filter(p => ks.contains(p.0)))
+          norm(Binary("//", Project(left, left_keys), right))
+        }
+        _ => {
+          let keys = ks.copy()
+          keys.sort_by(lexical)
+          Project(x, keys)
+        }
       }
     }
     List(xs) => List(xs.map(norm))
@@ -453,6 +498,8 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
       text += tail
       if out.is_empty() {
         Text(text)
+      } else if out is [("", value)] && text == "" {
+        value
       } else {
         Interpolate(out, text)
       }
@@ -494,6 +541,11 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
         ("!=", Boolean(false), x) | ("!=", x, Boolean(false)) => x
         ("==", x, y) if x == y => Boolean(true)
         ("!=", x, y) if x == y => Boolean(false)
+        ("//", x, y) if x == y => x
+        ("//" | "/\\", Record(fs), x) if fs.is_empty() => x
+        ("//" | "/\\", x, Record(fs)) if fs.is_empty() => x
+        ("//\\", RecordType(fs), x) if fs.is_empty() => x
+        ("//\\", x, RecordType(fs)) if fs.is_empty() => x
         ("//", Record(x), Record(y)) =>
           Record(combine_records(x, y, false, false, budget, depth + 1))
         ("/\\", Record(x), Record(y)) =>
@@ -529,7 +581,7 @@ fn normal(e : Expr, budget : Budget, depth : Int32) -> Expr raise DhallError {
 pub fn normalize(source : String) -> Expr raise DhallError {
   let e = canonical(parse(source), [], 0)
   let _ = infer(e, [], 0)
-  normal(e, { fuel: 200000, }, 0)
+  normal(e, { fuel: 2000000, }, 0)
 }
 
 ///|
@@ -544,8 +596,8 @@ pub fn equivalent(left : String, right : String) -> Bool raise DhallError {
 
 ///|
 fn same(a : Expr, b : Expr) -> Bool raise DhallError {
-  encode_expr(normal(a, { fuel: 200000, }, 0)) ==
-  encode_expr(normal(b, { fuel: 200000, }, 0))
+  encode_expr(normal(a, { fuel: 2000000, }, 0)) ==
+  encode_expr(normal(b, { fuel: 2000000, }, 0))
 }
 
 ///|
@@ -628,7 +680,7 @@ pub fn alpha_normalize(expr : Expr) -> Expr raise DhallError {
 /// Low-level normalization for conformance tooling and open terms.
 /// Applications should use normalize_expr to check closed terms first.
 pub fn beta_normalize(expr : Expr) -> Expr raise DhallError {
-  normal(canonical(expr, [], 0), { fuel: 200000, }, 0)
+  normal(canonical(expr, [], 0), { fuel: 2000000, }, 0)
 }
 
 ///|

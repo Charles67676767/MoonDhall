@@ -240,7 +240,7 @@ fn resolve_tree(
                 depth + 1,
               )
               let _ = type_of(resolved)
-              normal(canonical(resolved, [], 0), { fuel: 200000, }, 0)
+              normal(canonical(resolved, [], 0), { fuel: 2000000, }, 0)
             } catch {
               MissingImport(k) => raise MissingImport(k)
               UnavailableImport(message) => raise UnavailableImport(message)
@@ -299,7 +299,7 @@ fn resolve_tree(
 pub fn normalize_expr(expr : Expr) -> Expr raise DhallError {
   let e = canonical(expr, [], 0)
   let _ = infer(e, [], 0)
-  normal(e, { fuel: 200000, }, 0)
+  normal(e, { fuel: 2000000, }, 0)
 }
 
 ///|

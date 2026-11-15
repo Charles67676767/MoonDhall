@@ -29,13 +29,13 @@ The Node.js adapter follows up to five same-origin redirects. It keeps HTTP requ
 
 JSON encodes Bytes as hexadecimal strings with the 0x prefix and temporal values as their Dhall text forms. These are MoonDhall JSON conversion choices.
 
-Complex nested text lexical constructs still fail some upstream tests. Text/show uses JSON quoting, which differs from complete Dhall display rules.
+See the pinned audit for outstanding discrepancies.
 
 ## Resource limits
 
 - Parsed source: 262144 string code units; tokens: 20000.
-- Parser and inference recursion: 128; canonicalization, reducer, JSON and CBOR traversal: up to 256.
-- Each normalization operation: 200000 steps; inference may perform several operations.
+- Parser recursion: 128. Inference and reduction: up to 512. Canonicalization, JSON and CBOR traversal: up to 256.
+- Each normalization operation: 2000000 steps; inference may perform several operations.
 - Natural/fold: 10000 iterations; import ancestors: 64; CLI dependency requests: 256.
 - JSON subtree and guarded concatenation: 1048576 code units; imports: 256 KiB; CLI/binary input: 1 MiB.
 - CBOR bounds collections, nesting and nodes; rejects malformed UTF-8, duplicate map keys, trailing bytes and truncated input.
@@ -44,4 +44,4 @@ These are implementation limits, not standard semantics or a global memory guara
 
 ## Verification
 
-[Manifest](../tests/upstream.json), [regression cases](../tests/conformance-profile.json), and [audit snapshot](upstream-audit.json) record the tested scope. The import audit supplies pinned local and HTTP fixtures to the resolver in memory. Separate CLI tests run a real local HTTP server and verify raw imports, headers, redirects, offline reads and semantic cache files.
+[Manifest](../tests/upstream.json), [regression cases](../tests/conformance-profile.json), and [audit snapshot](upstream-audit.json) record the tested scope. The import audit exercises the upstream fixture routes in memory by default. The --http-fixtures option runs the same routes over local HTTP and HTTPS using a temporary certificate. Separate CLI tests run a real local HTTP server and verify raw imports, headers, redirects, offline reads and semantic cache files.

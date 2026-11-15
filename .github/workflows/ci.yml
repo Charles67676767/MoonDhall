@@ -40,7 +40,7 @@ jobs:
       - name: Pinned upstream regression profile
         run: python3 scripts/conformance.py --report .local/regression-report.json
       - name: Full upstream compatibility audit
-        run: python3 scripts/conformance.py --audit --allow-failures --report .local/upstream-audit.json
+        run: python3 scripts/conformance.py --audit --http-fixtures --allow-failures --report .local/upstream-audit.json
       - name: Preserve compatibility reports
         if: always()
         uses: actions/upload-artifact@v4

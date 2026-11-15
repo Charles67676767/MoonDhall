@@ -39,7 +39,7 @@ fn import_cbor(
     out.push(ci(7))
   } else if path.has_prefix("env:") {
     out.push(ci(6))
-    out.push(CText(unquote_import_component(path[4:].to_owned())))
+    out.push(CText(decode_environment_name(path[4:].to_owned())))
   } else if path.has_prefix("http://") || path.has_prefix("https://") {
     let https = path.has_prefix("https://")
     let start = if https { 8 } else { 7 }
@@ -166,7 +166,7 @@ fn decode_import_cbor(
         name.to_array().all(c => identifier_start(c) || digit(c)) {
         name
       } else {
-        quote_json(name)
+        quote_environment_name(name)
       }
       ("env:" + rendered, None)
     }
@@ -178,4 +178,67 @@ fn decode_import_cbor(
     }
   }
   Import({ path, mode, hash, headers, })
+}
+
+///|
+fn decode_environment_name(s : String) -> String raise DhallError {
+  if !s.has_prefix("\"") {
+    return s
+  }
+  let chars = s.to_array()
+  let end = chars.length() - 1
+  if end <= 1 || chars[end] != '"' {
+    raise BinaryError("Invalid quoted environment name")
+  }
+  let out = StringBuilder()
+  let mut i = 1
+  while i < end {
+    let c = if chars[i] == '\\' {
+      i += 1
+      if i >= end {
+        raise BinaryError("Incomplete environment escape")
+      }
+      match chars[i] {
+        '"' | '\\' => chars[i]
+        'a' => (7).unsafe_to_char()
+        'b' => (8).unsafe_to_char()
+        'f' => (12).unsafe_to_char()
+        'n' => '\n'
+        'r' => '\r'
+        't' => '\t'
+        'v' => (11).unsafe_to_char()
+        _ => raise BinaryError("Invalid environment escape")
+      }
+    } else {
+      if chars[i] < ' ' || chars[i] > '~' || chars[i] == '=' || chars[i] == '"' {
+        raise BinaryError("Invalid environment name character")
+      }
+      chars[i]
+    }
+    out.write_char(c)
+    i += 1
+  }
+  out.to_string()
+}
+
+///|
+fn quote_environment_name(name : String) -> String {
+  let out = StringBuilder()
+  out.write_char('"')
+  for c in name.to_array() {
+    match c.to_int() {
+      7 => out.write_string("\\a")
+      8 => out.write_string("\\b")
+      9 => out.write_string("\\t")
+      10 => out.write_string("\\n")
+      11 => out.write_string("\\v")
+      12 => out.write_string("\\f")
+      13 => out.write_string("\\r")
+      34 => out.write_string("\\\"")
+      92 => out.write_string("\\\\")
+      _ => out.write_char(c)
+    }
+  }
+  out.write_char('"')
+  out.to_string()
 }

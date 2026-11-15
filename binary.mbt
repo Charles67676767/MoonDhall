@@ -72,10 +72,20 @@ fn cbor_expr(e : Expr, depth : Int32) -> Cbor raise DhallError {
         },
       )
     Apply(f, x) => {
+      if bare(f) == Builtin("showConstructor") {
+        return CArray([ci(34), enc(x)])
+      }
       if bare(f) == Builtin("Some") {
         return CArray([ci(5), CNull, enc(x)])
       }
       let (f, args) = applications(strip_positions(e))
+      let (f, args) = if f is Builtin(name) &&
+        (name == "Some" || name == "showConstructor") &&
+        !args.is_empty() {
+        (Apply(f, args[0]), args[1:].to_owned())
+      } else {
+        (f, args)
+      }
       let a = [ci(0), enc(f)]
       for x in args {
         a.push(enc(x))
@@ -515,7 +525,7 @@ fn decode_expr(c : Cbor, depth : Int32) -> Expr raise DhallError {
     CArray([CText(n), CInt(k)]) if n != "_" && k >= 0 && k <= 20000 =>
       Variable(n, k.to_int())
     CArray([CInt(tag), .. rest]) => {
-      if tag < 0 || tag > 33 {
+      if tag < 0 || tag > 34 {
         raise BinaryError("Unknown Dhall binary tag")
       }
       let a = rest.to_owned()
@@ -651,6 +661,7 @@ fn decode_expr(c : Cbor, depth : Int32) -> Expr raise DhallError {
             (if positive { 1 } else { -1 }) * (h.to_int() * 60 + m.to_int()),
           )
         (33, [CBytes(bytes)]) => ByteLiteral(bytes)
+        (34, [x]) => Apply(Builtin("showConstructor"), dec(x))
         (28, [t]) => Annotate(List([]), dec(t))
         _ => raise BinaryError("Malformed or unsupported Dhall binary form")
       }

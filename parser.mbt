@@ -36,11 +36,18 @@ fn Parser::expect(self : Parser, kind : TokenKind) -> Unit raise DhallError {
 }
 
 ///|
+fn Parser::space(self : Parser) -> Unit raise DhallError {
+  if self.index > 0 && self.tokens[self.index - 1].end == self.offset() {
+    raise Syntax("Expected whitespace", self.offset())
+  }
+}
+
+///|
 fn Parser::name(self : Parser) -> String raise DhallError {
   match self.peek() {
     Word(s) if ![
-        "let", "in", "if", "then", "else", "as", "assert", "forall", "merge", "True",
-        "False",
+        "let", "in", "if", "then", "else", "as", "assert", "forall", "merge", "using",
+        "missing", "Infinity", "NaN", "toMap", "with", "showConstructor",
       ].contains(s) => {
       self.index += 1
       s
@@ -54,50 +61,69 @@ fn Parser::name(self : Parser) -> String raise DhallError {
 }
 
 ///|
+fn Parser::binder(self : Parser) -> String raise DhallError {
+  if self.peek() is Word(name) && builtin_signature(name) is Some(_) {
+    raise Syntax("Quote builtin names when binding variables", self.offset())
+  }
+  self.name()
+}
+
+///|
 fn Parser::expression(self : Parser) -> Expr raise DhallError {
   self.depth += 1
   if self.depth > 128 {
     raise Syntax("Nesting limit exceeded", self.offset())
   }
   let start = self.offset()
+  let parenthesized = self.peek() == Symbol("(")
   let mut updated = false
   let expr = if self.accept(Word("let")) {
-    let name = self.name()
+    self.space()
+    let name = self.binder()
     let annotation = if self.accept(Symbol(":")) {
+      self.space()
       Some(self.expression())
     } else {
       None
     }
     self.expect(Symbol("="))
     let value = self.expression()
+    self.space()
     if self.peek() != Word("let") {
       self.expect(Word("in"))
+      self.space()
     }
     Let(name, annotation, value, self.expression())
   } else if self.accept(Symbol("\\")) {
     self.expect(Symbol("("))
-    let name = self.name()
+    let name = self.binder()
     self.expect(Symbol(":"))
+    self.space()
     let t = self.expression()
     self.expect(Symbol(")"))
     self.expect(Symbol("->"))
     Lambda(name, t, self.expression())
   } else if self.accept(Word("forall")) || self.accept(Symbol("forall")) {
     self.expect(Symbol("("))
-    let name = self.name()
+    let name = self.binder()
     self.expect(Symbol(":"))
+    self.space()
     let t = self.expression()
     self.expect(Symbol(")"))
     self.expect(Symbol("->"))
     Pi(name, t, self.expression())
   } else if self.accept(Word("if")) {
+    self.space()
     let condition = self.expression()
     self.expect(Word("then"))
+    self.space()
     let yes = self.expression()
     self.expect(Word("else"))
+    self.space()
     If(condition, yes, self.expression())
   } else if self.accept(Word("assert")) {
     self.expect(Symbol(":"))
+    self.space()
     Assert(self.expression())
   } else {
     let mut subject = self.binary(0)
@@ -140,7 +166,8 @@ fn Parser::expression(self : Parser) -> Expr raise DhallError {
         self.offset(),
       )
     }
-    match bare(expr) {
+    self.space()
+    match (if parenthesized { expr } else { bare(expr) }) {
       Merge(h, u, None) => Merge(h, u, Some(self.expression()))
       ToMap(r, None) => ToMap(r, Some(self.expression()))
       _ => Annotate(expr, self.expression())
@@ -177,6 +204,9 @@ fn Parser::binary(self : Parser, minimum : Int32) -> Expr raise DhallError {
   let mut left = self.application()
   while self.peek() is Symbol(op) && precedence(op) >= minimum {
     self.index += 1
+    if op == "+" || op == "?" {
+      self.space()
+    }
     left = Binary(op, left, self.binary(precedence(op) + 1))
   }
   left
@@ -195,8 +225,10 @@ fn starts_atom(kind : TokenKind) -> Bool {
     | Symbol("[")
     | Symbol("<") => true
     Word(s) =>
+      !s.has_prefix("sha256:") &&
       ![
         "let", "in", "then", "else", "if", "as", "forall", "with", "assert", "using",
+        "Some", "showConstructor",
       ].contains(s)
     _ => false
   }
@@ -235,14 +267,19 @@ fn Parser::update_component(self : Parser) -> String? raise DhallError {
 fn Parser::project(self : Parser) -> Expr raise DhallError {
   let mut expr = self.atom()
   while self.accept(Symbol(".")) {
+    if expr is At(_, _, Import(_)) &&
+      self.tokens[self.index - 2].kind is Path(_) {
+      raise Syntax(
+        "Parenthesize an import before field selection",
+        self.offset(),
+      )
+    }
     if self.accept(Symbol("{")) {
+      let _ = self.accept(Symbol(","))
       let names : Array[String] = []
       if !self.accept(Symbol("}")) {
         while true {
           let name = self.name()
-          if names.contains(name) {
-            raise Syntax("Duplicate projection label", self.offset())
-          }
           names.push(name)
           if self.accept(Symbol("}")) {
             break
@@ -269,6 +306,14 @@ fn Parser::project(self : Parser) -> Expr raise DhallError {
 fn number_expr(s : String, offset : Int32) -> Expr raise DhallError {
   let signed = s.has_prefix("+") || s.has_prefix("-")
   let magnitude = if signed { s[1:].to_owned() } else { s }
+  if !magnitude.contains(".") &&
+    !magnitude.contains("e") &&
+    !magnitude.contains("E") &&
+    magnitude.length() > 1 &&
+    magnitude.has_prefix("0") &&
+    digit(magnitude.to_array()[1]) {
+    raise Syntax("Leading zero in number", offset)
+  }
   if magnitude.has_prefix("0x") || magnitude.has_prefix("0b") {
     let radix = if magnitude.has_prefix("0x") { 16 } else { 2 }
     let n = @bigint.BigInt::from_string(magnitude[2:].to_owned(), radix~)
@@ -309,6 +354,7 @@ fn Parser::import_atom(self : Parser, path : String) -> Expr raise DhallError {
   self.index += 1
   let headers = if (path.has_prefix("http://") || path.has_prefix("https://")) &&
     self.accept(Word("using")) {
+    self.space()
     if self.peek() == Word("toMap") {
       raise Syntax("Parenthesize toMap in a using clause", self.offset())
     }
@@ -337,6 +383,11 @@ fn Parser::import_atom(self : Parser, path : String) -> Expr raise DhallError {
     name
   } else {
     "Code"
+  }
+  if path.has_prefix("env:") {
+    let _ = decode_environment_name(path[4:].to_owned()) catch {
+      _ => raise Syntax("Invalid environment variable name", self.offset())
+    }
   }
   Import({ path, mode, hash, headers, })
 }
@@ -389,6 +440,22 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
       self.index += 1
       Real(1.0 / 0.0)
     }
+    Word("Some") => {
+      let end = self.tokens[self.index].end
+      self.index += 1
+      if end == self.offset() {
+        raise Syntax("Expected whitespace after Some", end)
+      }
+      Apply(Builtin("Some"), self.completion())
+    }
+    Word("showConstructor") => {
+      let end = self.tokens[self.index].end
+      self.index += 1
+      if end == self.offset() {
+        raise Syntax("Expected whitespace after showConstructor", end)
+      }
+      Apply(Builtin("showConstructor"), self.completion())
+    }
     Word("toMap") => {
       let end = self.tokens[self.index].end
       self.index += 1
@@ -399,8 +466,10 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
     }
     Word("merge") => {
       self.index += 1
-      let handlers = self.project()
-      let union = self.project()
+      self.space()
+      let handlers = self.completion()
+      self.space()
+      let union = self.completion()
       Merge(handlers, union, None)
     }
     Word("missing") => self.import_atom("missing")
@@ -450,7 +519,9 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
     }
     Symbol("{") => {
       self.index += 1
+      let _ = self.accept(Symbol(","))
       if self.accept(Symbol("=")) {
+        let _ = self.accept(Symbol(","))
         self.expect(Symbol("}"))
         Record([])
       } else if self.accept(Symbol("}")) {
@@ -463,19 +534,28 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
           while self.accept(Symbol(".")) {
             names.push(self.name())
           }
-          let t = if self.accept(Symbol(":")) {
-            true
-          } else {
-            self.expect(Symbol("="))
-            false
+          let t = self.accept(Symbol(":"))
+          if t {
+            self.space()
+          }
+          let explicit = t || self.accept(Symbol("="))
+          if !explicit && names.length() != 1 {
+            raise Syntax(
+              "Record shorthand requires a single label",
+              self.offset(),
+            )
           }
           if is_type is Some(old) && old != t {
             raise Syntax("Cannot mix record types and values", self.offset())
           }
           is_type = Some(t)
-          let value = self.expression()
+          let value = if explicit {
+            self.expression()
+          } else {
+            Variable(names[0], 0)
+          }
           if t {
-            if names.length() != 1 || fields.any(f => f.0 == names[0]) {
+            if names.length() != 1 {
               raise Syntax("Invalid record type field", start)
             }
             fields.push((names[0], value))
@@ -517,6 +597,7 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
     }
     Symbol("[") => {
       self.index += 1
+      let _ = self.accept(Symbol(","))
       let items : Array[Expr] = []
       if !self.accept(Symbol("]")) {
         while true {
@@ -530,18 +611,20 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
           }
         }
       }
+      if items.is_empty() && self.peek() != Symbol(":") {
+        raise Syntax("An empty list requires a direct type annotation", start)
+      }
       List(items)
     }
     Symbol("<") => {
       self.index += 1
+      let _ = self.accept(Symbol("|"))
       let fields : Array[(String, Expr?)] = []
       if !self.accept(Symbol(">")) {
         while true {
           let name = self.name()
-          if fields.any(f => f.0 == name) {
-            raise Syntax("Duplicate union alternative", start)
-          }
           let t = if self.accept(Symbol(":")) {
+            self.space()
             Some(self.expression())
           } else {
             None
@@ -551,6 +634,9 @@ fn Parser::atom(self : Parser) -> Expr raise DhallError {
             break
           }
           self.expect(Symbol("|"))
+          if self.accept(Symbol(">")) {
+            break
+          }
         }
       }
       UnionType(fields)
@@ -574,21 +660,32 @@ fn dedent_text(raw : String) -> String {
     raw
   }
   let lines = raw.split("\n").to_array()
-  let mut indent = 2147483647
-  for line in lines {
-    let chars = line.to_array()
-    let mut count = 0
-    while count < chars.length() &&
-          (chars[count] == ' ' || chars[count] == '\t') {
-      count += 1
+  let mut prefix : Array[Char] = []
+  let mut first = true
+  for i in 0..<lines.length() {
+    let chars = lines[i].to_array()
+    let mut width = 0
+    while width < chars.length() &&
+          (chars[width] == ' ' || chars[width] == '\t') {
+      width += 1
     }
-    if count < chars.length() || line == lines[lines.length() - 1] {
-      indent = min_int(indent, count)
+    if width == chars.length() && i != lines.length() - 1 {
+      continue
+    }
+    if first {
+      prefix = chars[:width].to_owned()
+      first = false
+    } else {
+      let mut common = 0
+      while common < width &&
+            common < prefix.length() &&
+            chars[common] == prefix[common] {
+        common += 1
+      }
+      prefix = prefix[:common].to_owned()
     }
   }
-  if indent == 2147483647 {
-    indent = 0
-  }
+  let indent = prefix.length()
   lines
   .map(line => {
     let c = line.to_array()
@@ -599,11 +696,73 @@ fn dedent_text(raw : String) -> String {
 
 ///|
 fn decode_text(raw : String, offset : Int32) -> String raise DhallError {
-  let json = @json.parse("\"" + raw + "\"") catch {
-    _ => raise Syntax("Invalid text escape or control character", offset)
+  let chars = raw.to_array()
+  let out = StringBuilder()
+  let mut i = 0
+  while i < chars.length() {
+    if chars[i] != '\\' {
+      if chars[i].to_int() < 32 {
+        raise Syntax("Invalid Text control character", offset + i)
+      }
+      out.write_char(chars[i])
+      i += 1
+      continue
+    }
+    i += 1
+    if i == chars.length() {
+      raise Syntax("Unterminated escape", offset + i)
+    }
+    if chars[i] == 'u' {
+      i += 1
+      let braced = char_at(chars, i, '{')
+      if braced {
+        i += 1
+      }
+      let start = i
+      let mut scalar = 0
+      while i < chars.length() &&
+            (braced || i - start < 4) &&
+            radix_digit(chars[i], false) {
+        let c = chars[i].to_int()
+        let value = if c <= 57 {
+          c - 48
+        } else if c <= 70 {
+          c - 55
+        } else {
+          c - 87
+        }
+        scalar = scalar * 16 + value
+        if scalar > 0x10ffff {
+          raise Syntax("Invalid Unicode scalar", offset + start)
+        }
+        i += 1
+      }
+      if (braced && (i == start || !char_at(chars, i, '}'))) ||
+        (!braced && i - start != 4) ||
+        (scalar >= 0xd800 && scalar <= 0xdfff) ||
+        (scalar >= 0xfdd0 && scalar <= 0xfdef) ||
+        (scalar & 0xffff) >= 0xfffe {
+        raise Syntax("Invalid Unicode escape", offset + start)
+      }
+      if braced {
+        i += 1
+      }
+      out.write_char(scalar.unsafe_to_char())
+    } else {
+      let c = match chars[i] {
+        '"' | '\\' | '/' | '$' => chars[i]
+        'b' => (8).unsafe_to_char()
+        'f' => (12).unsafe_to_char()
+        'n' => '\n'
+        'r' => '\r'
+        't' => '\t'
+        _ => raise Syntax("Invalid text escape", offset + i)
+      }
+      out.write_char(c)
+      i += 1
+    }
   }
-  guard json is String(text) else { raise Syntax("Invalid Text", offset) }
-  text
+  out.to_string()
 }
 
 ///|

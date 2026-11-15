@@ -8,7 +8,7 @@ Portable typed core, first-class/dependent types, normalization/equivalence, arb
 
 - Fix audited grammar, typing and normalization differences.
 - Complete the remaining display and escape rules.
-- Verify parser and normalization edge cases around imports and test the host against the upstream HTTP and HTTPS fixture server.
+- Verify the remaining parser edge cases and extend CLI transport coverage alongside the upstream HTTP and HTTPS fixture audit.
 - Extend regression coverage as previously failing cases become supported.
 
 ## Release and embedding
