@@ -2,7 +2,7 @@
 
 用 MoonBit 实现的 Dhall 配置语言：在生成 JSON 前检查类型，用函数和类型参数复用配置，用导入拆分文件，并用语义哈希固定依赖。
 
-当前为 **0.1.0 开发版**。语言核心、类型检查、规范化、CBOR 和 SHA-256 均由 MoonBit 实现；文件和 HTTP 命令行由 Node.js 适配器提供。已通过固定 Dhall 规范快照的全部 1,525 项官方审计用例。Mooncakes 包待发布。准确范围见 [兼容性说明](docs/compatibility.md)。
+当前版本为 **0.1.0**。语言核心、类型检查、规范化、CBOR 和 SHA-256 均由 MoonBit 实现；文件和 HTTP 命令行由 Node.js 适配器提供。已通过固定 Dhall 规范快照的全部 1,525 项官方审计用例。准确范围见 [兼容性说明](docs/compatibility.md)。
 
 ```dhall
 let Port = Natural
@@ -74,7 +74,13 @@ python -m http.server 8000 --bind 127.0.0.1
 
 ## 作为库使用
 
-目前从源码使用；首次注册表发布前不提供 `moon add` 安装指令。调用包声明：
+在已有的 MoonBit 项目中安装库：
+
+```sh
+moon add Charles67676767/MoonDhall@0.1.0
+```
+
+在使用该库的 `moon.pkg` 中添加：
 
 ```text
 import {

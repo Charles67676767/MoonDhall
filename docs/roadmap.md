@@ -10,7 +10,6 @@ The pinned audit passes 1,525 upstream cases, including the Prelude and the impo
 
 ## Release and embedding
 
-- Publish to Mooncakes after a versioned release review and registry authentication.
 - Add typed conversion helpers and performance/resource measurements.
 - Verify additional compiler versions.
 
