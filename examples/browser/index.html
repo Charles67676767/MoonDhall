@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MoonDhall 配置预览</title>
+<h1>MoonDhall 配置预览</h1>
+<p>在浏览器内检查不含外部导入的 Dhall 表达式，并预览 JSON。</p>
+<label for="source">Dhall 源码</label><br>
+<textarea id="source" rows="8" cols="60">let service = \(port : Natural) -> { port = port, enabled = True }
+in { api = service 8080 }</textarea><br>
+<button id="run" disabled>检查并预览</button>
+<pre id="output" role="status">正在加载 WebAssembly…</pre>
+<script type="module">
+  import { loadPreview } from './embed.mjs';
+  const source = document.getElementById('source');
+  const output = document.getElementById('output');
+  const run = document.getElementById('run');
+  try {
+    const preview = await loadPreview();
+    const update = () => {
+      const result = preview(source.value);
+      output.textContent = result.error ?? `类型：${result.type}\n\n${result.json}`;
+    };
+    run.addEventListener('click', update);
+    run.disabled = false;
+    update();
+  } catch (error) {
+    output.textContent = error.message;
+  }
+</script>
+</html>

@@ -63,6 +63,15 @@ moon run examples/services
 
 后两个示例附有预期 JSON，集成测试逐项核对。
 
+浏览器编辑器可通过 [WebAssembly 示例](examples/browser/index.html) 嵌入核心库。构建后从仓库根目录启动静态服务器：
+
+```sh
+moon build --target wasm-gc --release --deny-warn
+python -m http.server 8000 --bind 127.0.0.1
+```
+
+用支持 Wasm GC 和 JS String Builtins 的浏览器访问 [配置预览](http://127.0.0.1:8000/examples/browser/)。[加载模块](examples/browser/embed.mjs)提供 `loadPreview()`；初始化后，传入 Dhall 文本即可获得类型与 JSON 文本，或定位到源码的错误。示例处理不依赖外部导入的表达式；需要导入时由宿主应用提供 I/O。CI 直接加载构建产物，检查类型、精确数字、Unicode 和错误诊断。
+
 ## 作为库使用
 
 目前从源码使用；首次注册表发布前不提供 `moon add` 安装指令。调用包声明：

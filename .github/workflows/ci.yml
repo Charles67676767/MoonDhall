@@ -30,6 +30,10 @@ jobs:
         run: moon test --target all --deny-warn
       - name: Run service example
         run: moon run examples/services
+      - name: Test browser WebAssembly embedding
+        run: |
+          moon build --target wasm-gc --release --deny-warn
+          node scripts/check_browser.mjs
       - name: Check formatting and generated interfaces
         run: |
           moon info
